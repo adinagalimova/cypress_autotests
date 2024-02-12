@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "start": "nuxt start",
+    "config": "node ./cypress/main/utils/data/JSONParser.js",
+    "cy:run": "cypress run --headed --browser chrome",
+    "test": "npm run config && npm run cy:run",
+    "start:ci": "npm run dev",
+    "test:ci": "WAIT_ON_TIMEOUT=900000 start-server-and-test start:ci http://localhost:3000 test"
+  },
+  "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.40.0",
+    "@testing-library/cypress": "^9.0.0",
+    "allure-commandline": "^2.23.1",
+    "axios": "^0.21.1",
+    "cypress": "12.14.0",
+    "cypress-localstorage-commands": "^2.2.4",
+    "cypress-log-filter": "^1.0.4",
+    "cypress-plugin-multiple-click": "^1.0.0",
+    "cypress-xpath": "^2.0.1",
+    "dotenv": "^16.3.1",
+    "moment": "^2.29.4",
+    "mysql2": "^3.4.1",
+    "qs": "^6.11.2",
+    "start-server-and-test": "^2.0.0",
+    "xml2js": "^0.6.2"
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "auth": {
+        "login": "api/login"
+    },
+    "dictionary": {
+        "servers": "api/dictionary/settings/5",
+        "verifyBool": "api/dictionary/settings/verify_bool"
+    },
+    "kaspi": {
+        "pay": "api/kaspi/kaspi/pay"
+    }
+}
