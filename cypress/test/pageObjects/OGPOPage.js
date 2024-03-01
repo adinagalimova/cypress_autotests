@@ -4,6 +4,9 @@ const Label = require('../../main/elements/baseElementChildren/label');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Button = require('../../main/elements/baseElementChildren/button');
 const JSONLoader = require("../../main/utils/data/JSONLoader");
+const Randomizer = require("../../main/utils/random/randomizer");
+const moment = require('moment');
+require('cypress-xpath');
 
 class OGPOPage extends BaseForm {
     #purchaseButton;
@@ -43,10 +46,21 @@ class OGPOPage extends BaseForm {
     #carEngineVolumeTextbox;
     #carMarkTextbox;
     #carModelTextbox;
+    #periodSpan;
+    #beginDateCalendarSpan;
+    #endDateCalendarSpan;
+    #calendarRightArrowButton;
+    #beginDateButton;
+    #calculatePremiumButton;
+    #holderTextbox;
+    #listOfInsuredPeopleTextbox;
+    #listOfCarsTextbox;
+    #insurancePeriod;
 
-    constructor() {
+    constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
 
+        this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date');
         this.#purchaseButton = new Label(new XPATH('//a[contains(text(), "Оформить")]'), 'purchase button');
         this.#isJuridicalSwitch = new Button(new XPATH('//label[text()=\'Юр. лицо\']/following::button[1]'), 'is juridical switch (button)');
         this.#isIPSwitch = new Button(new XPATH('//label[text()=\'ИП\']/following::button[1]'), 'is IP switch (button)');
@@ -84,21 +98,61 @@ class OGPOPage extends BaseForm {
         this.#carEngineVolumeTextbox = new Textbox(new XPATH('//input[@id="form_item_engine_volume"]'), 'engine volume textbox');
         this.#carMarkTextbox = new Textbox(new XPATH('//input[@id="form_item_mark"]'), 'car mark textbox');
         this.#carModelTextbox = new Textbox(new XPATH('//input[@id="form_item_model"]'), 'car model textbox');
+        this.#periodSpan = new Textbox(new XPATH('//input[@id="form_item_period"]/following::span[1]'), 'period span');
+        this.#beginDateCalendarSpan = new Button(new XPATH('//input[@id="form_item_date_beg"]'), 'begin date calendar button');
+        this.#endDateCalendarSpan = new Button(new XPATH('//input[@id="form_item_date_end"]'), 'end date calendar button');
+        this.#calendarRightArrowButton = new Button(new XPATH('//button[contains(@class, "ant-picker-header-next-btn")]'), 'right calendar arrow button');
+        this.#calculatePremiumButton = new Button(new XPATH('//span[text()="Рассчитать премию"]/ancestor::button[@type="submit"]'), 'calculate premium button');
+        this.#holderTextbox = new Textbox(new XPATH('//label[text()="Страхователь"]//following::span[1]'), 'holder textbox');
+        this.#listOfInsuredPeopleTextbox = new Textbox(new XPATH('//label[text()="Список застрахованных"]//following::div[@class="w-fit"][1]/div'), 'list of insured people textbox');
+        this.#listOfCarsTextbox = new Textbox(new XPATH('//label[text()="Список ТС"]//following::div[@class="w-fit"][1]/div'), 'list of insured cars textbox');
+        this.#insurancePeriod = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
     }
 
-    clickIsJuridicalSwitch() {
-        this.#isJuridicalSwitch.scrollElementToView();
-        return this.#isJuridicalSwitch.click();
+    getHolderElement() {
+        return this.#holderTextbox.getElement();
     }
 
-    clickIsIPSwitch() {
-        this.#isIPSwitch.scrollElementToView();
-        return this.#isIPSwitch.click();
+    getListOfInsuredPeopleElement() {
+        return this.#listOfInsuredPeopleTextbox.getElement();
     }
 
-    clickIsResidentSwitch() {
-        this.#isResidentSwitch.scrollElementToView();
-        return this.#isResidentSwitch.click();
+    getListOfCarsElement() {
+        return this.#listOfCarsTextbox.getElement();
+    }
+
+    getInsurancePeriodElement() {
+        return this.#insurancePeriod.getElement();
+    }
+
+    clickCalculatePremiumButton() {
+        this.#calculatePremiumButton.clickElement();
+    }
+
+    inputRandomDates() {
+        const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
+        const newInstance = new OGPOPage(dates.startDate, dates.finishDate);
+        cy.logger(`[DEBUG] ▶ ${dates.startDate}, ${dates.startMonthDifference}`);
+        this.#beginDateCalendarSpan.flipCalendarIfNotContainsDate(this.#calendarRightArrowButton, dates.startMonthDifference);
+        newInstance.#beginDateButton.clickElement();
+    }
+
+    calculateEndDate() {
+        return this.getBeginDateTitle().then((value) => {
+            const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd).
+            add(1, "year").subtract(1, "day").format(JSONLoader.testData.datesFormatFrontEnd);
+            cy.logger(`[DEBUG]   begin date ${value}`);
+            cy.logger(`[DEBUG]   end date ${endDate}`);
+            return cy.wrap(endDate);
+        });
+    }
+
+    getBeginDateTitle() {
+        return this.#beginDateCalendarSpan.getAttributeValue('title');
+    }
+
+    getEndDateTitle() {
+        return this.#endDateCalendarSpan.getAttributeValue('title');
     }
 
     fillIIN() {
@@ -135,28 +189,6 @@ class OGPOPage extends BaseForm {
 
     getDocumentIssueDateElement() {
         return this.#documentIssueDateTextbox.getElement();
-    }
-
-    getAddressElement() {
-        return this.#addressTextbox.getElement();
-    }
-
-    getEmailElement() {
-        return this.#emailTextbox.getElement();
-    }
-
-    getMobilePhoneElement() {
-        return this.#phoneTextbox.getElement();
-    }
-
-    clickIsInsuredSwitch() {
-        this.#isInsuredSwitch.scrollElementToView();
-        return this.#isInsuredSwitch.click();
-    }
-
-    clickIsPDLSwitch() {
-        this.#isPDLSwitch.scrollElementToView();
-        return this.#isPDLSwitch.click();
     }
 
     fillAddressTextbox() {
@@ -238,6 +270,47 @@ class OGPOPage extends BaseForm {
 
     getCarModelElement() {
         return this.#carModelTextbox.getElement();
+    }
+
+    getPeriodText() {
+        return this.#periodSpan.getText();
+    }
+
+    clickIsJuridicalSwitch() {
+        this.#isJuridicalSwitch.scrollElementToView();
+        return this.#isJuridicalSwitch.click();
+    }
+
+    clickIsIPSwitch() {
+        this.#isIPSwitch.scrollElementToView();
+        return this.#isIPSwitch.click();
+    }
+
+    clickIsResidentSwitch() {
+        this.#isResidentSwitch.scrollElementToView();
+        return this.#isResidentSwitch.click();
+    }
+
+    getAddressElement() {
+        return this.#addressTextbox.getElement();
+    }
+
+    getEmailElement() {
+        return this.#emailTextbox.getElement();
+    }
+
+    getMobilePhoneElement() {
+        return this.#phoneTextbox.getElement();
+    }
+
+    clickIsInsuredSwitch() {
+        this.#isInsuredSwitch.scrollElementToView();
+        return this.#isInsuredSwitch.click();
+    }
+
+    clickIsPDLSwitch() {
+        this.#isPDLSwitch.scrollElementToView();
+        return this.#isPDLSwitch.click();
     }
 }
 

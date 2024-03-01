@@ -6,6 +6,7 @@ const { userPathOGPO} = require('./userPathOGPO');
 
 userPathOGPO(function login() {
     it('Login into ADP:', { scrollBehavior: false }, () => {
+        cy.clearAllCookies();
         cy.open('/');
         loginPage.pageIsDisplayed().should('be.true');
         loginPage.fillLoginAndPassword();
