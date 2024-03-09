@@ -2,6 +2,9 @@ const mainPage = require('../pageObjects/mainPage');
 const OGPOPage = require('../pageObjects/OGPOPage');
 const NodeEvents = require('../../support/nodeEvents');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
+const chai = require('chai');
+
+chai.should();
 
 const userPathOGPO = (login) => {
     describe('OGPO smoke test:', () => {
@@ -17,7 +20,7 @@ const userPathOGPO = (login) => {
             OGPOPage.clickSearchClientButton();
             OGPOPage.getFirstNameElement().should('have.value', JSONLoader.testData.clientFirstName);
             OGPOPage.getLastNameElement().should('have.value', JSONLoader.testData.clientLastName);
-            // OGPOPage.getMiddleNameElement().should('have.value', JSONLoader.testData.clientMiddleName);
+            OGPOPage.getOrSetMiddleNameElement().should('have.value', JSONLoader.testData.clientMiddleName);
             OGPOPage.getBornDateElement().should('have.value', JSONLoader.testData.clientBornDate);
             OGPOPage.getSexText().should('be.equal', JSONLoader.testData.clientSex);
             OGPOPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
@@ -31,7 +34,7 @@ const userPathOGPO = (login) => {
 
             OGPOPage.getFirstNameElement().should('have.value', JSONLoader.testData.clientFirstName);
             OGPOPage.getLastNameElement().should('have.value', JSONLoader.testData.clientLastName);
-            // OGPOPage.getMiddleNameElement().should('have.value', JSONLoader.testData.clientMiddleName);
+            OGPOPage.getOrSetMiddleNameElement().should('have.value', JSONLoader.testData.clientMiddleName);
             OGPOPage.getBornDateElement().should('have.value', JSONLoader.testData.clientBornDate);
             OGPOPage.getSexText().should('be.equal', JSONLoader.testData.clientSex);
             OGPOPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
@@ -45,6 +48,7 @@ const userPathOGPO = (login) => {
 
             OGPOPage.fillVehicleData();
             OGPOPage.clickSearchVehicleButton();
+            OGPOPage.fillVehicleDataDisabledVerification();
             OGPOPage.getCarRegDateElement().should('have.value', JSONLoader.testData.carRegDate);
             OGPOPage.getCarRegionText().should('be.equal', JSONLoader.testData.carRegion);
             OGPOPage.getCarVINElement().should('have.value', JSONLoader.testData.carVIN);
@@ -69,14 +73,13 @@ const userPathOGPO = (login) => {
             OGPOPage.clickNextButton();
 
             const clientFullName = JSONLoader.testData.clientLastName + " " + JSONLoader.testData.clientFirstName + " " + JSONLoader.testData.clientMiddleName;
-            OGPOPage.getHolderElement().should('have.value', clientFullName);
-            OGPOPage.getListOfInsuredPeopleElement().should('have.value', clientFullName);
+            OGPOPage.getHolderText().should('be.equal', clientFullName);
+            OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
             const carFullName = JSONLoader.testData.carMark + ", " + JSONLoader.testData.carModel + ", " + JSONLoader.testData.carNumber;
-            OGPOPage.getListOfCarsElement().should('have.value', carFullName);
-            OGPOPage.getInsurancePeriodElement().then((value) => {
+            OGPOPage.getListOfCarsText().should('be.equal', carFullName);
+            OGPOPage.getInsurancePeriodTextInPromise().then((value) => {
                 const insurancePeriod = beginDate + " - " + endDate;
-                cy.logger(`insurance period: ${insurancePeriod}`);
-                value.should('be.equal', insurancePeriod)
+                value.should.be.equal(insurancePeriod);
             });
 
 

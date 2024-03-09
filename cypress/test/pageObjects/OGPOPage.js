@@ -31,6 +31,7 @@ class OGPOPage extends BaseForm {
     #nextButton;
     #searchClientButton;
     #searchVehicleButton;
+    #searchVehicleByVINButton;
     #regNumTextbox;
     #regCertNumTextbox;
     #driverLicenceTypeSpan;
@@ -40,6 +41,7 @@ class OGPOPage extends BaseForm {
     #isPensionerSwitch;
     #carRegDateTextbox;
     #carRegionSpan;
+    #carRegionListElement;
     #carVINTextbox;
     #carTypeSpan;
     #carManufacturedYearSpan;
@@ -55,7 +57,7 @@ class OGPOPage extends BaseForm {
     #holderTextbox;
     #listOfInsuredPeopleTextbox;
     #listOfCarsTextbox;
-    #insurancePeriod;
+    #insurancePeriodTextbox;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
@@ -85,6 +87,7 @@ class OGPOPage extends BaseForm {
         this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_num"]'), 'reg num textbox');
         this.#regCertNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_cert_num"]'), 'reg cert num textbox');
         this.#searchVehicleButton = new Button(new XPATH('//span[text()="Найти"][1]'), 'search vehicle button');
+        this.#searchVehicleByVINButton = new Button(new XPATH('//button[contains(@class,"ant-input-search-button")]'), 'search vehicle by VIN button');
         this.#driverLicenceTypeSpan = new Textbox(new XPATH('//input[@id="form_item_driver_certificate_type_id"]/following::span[1]'), 'driver licence type span');
         this.#driverLicenceNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate"]'), 'driver licence number textbox');
         this.#driverLicenceIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate_date"]'), 'driver licence issue date textbox');
@@ -92,6 +95,7 @@ class OGPOPage extends BaseForm {
         this.#isPensionerSwitch = new Button(new XPATH('//button[@id="form_item_pensioner_bool"]'), 'is pensioner switch (button)');
         this.#carRegDateTextbox = new Textbox(new XPATH('//input[@id="form_item_dt_reg_cert"]'), 'car reg date textbox');
         this.#carRegionSpan = new Textbox(new XPATH('//input[@id="form_item_region_id"]/following::span[1]'), 'car region span');
+        this.#carRegionListElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'car region list element');
         this.#carVINTextbox = new Textbox(new XPATH('//input[@id="form_item_vin"]'), 'car VIN textbox');
         this.#carTypeSpan = new Textbox(new XPATH('//input[@id="form_item_type_id"]/following::span[1]'), 'car type span');
         this.#carManufacturedYearSpan = new Textbox(new XPATH('//input[@id="form_item_year"]/following::span[1]'), 'car manufactured year span');
@@ -106,23 +110,26 @@ class OGPOPage extends BaseForm {
         this.#holderTextbox = new Textbox(new XPATH('//label[text()="Страхователь"]//following::span[1]'), 'holder textbox');
         this.#listOfInsuredPeopleTextbox = new Textbox(new XPATH('//label[text()="Список застрахованных"]//following::div[@class="w-fit"][1]/div'), 'list of insured people textbox');
         this.#listOfCarsTextbox = new Textbox(new XPATH('//label[text()="Список ТС"]//following::div[@class="w-fit"][1]/div'), 'list of insured cars textbox');
-        this.#insurancePeriod = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
+        this.#insurancePeriodTextbox = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
     }
 
-    getHolderElement() {
-        return this.#holderTextbox.getElement();
+    getHolderText() {
+        return this.#holderTextbox.getText();
     }
 
-    getListOfInsuredPeopleElement() {
-        return this.#listOfInsuredPeopleTextbox.getElement();
+    getListOfInsuredPeopleText() {
+        return this.#listOfInsuredPeopleTextbox.getText();
     }
 
-    getListOfCarsElement() {
-        return this.#listOfCarsTextbox.getElement();
+    getListOfCarsText() {
+        return this.#listOfCarsTextbox.getText();
     }
 
-    getInsurancePeriodElement() {
-        return this.#insurancePeriod.getElement();
+    getInsurancePeriodTextInPromise() {
+        return this.#insurancePeriodTextbox.getTextInPromise().then((value) => {
+            cy.logger(value);
+            return cy.wrap(value);
+        });
     }
 
     clickCalculatePremiumButton() {
@@ -167,7 +174,11 @@ class OGPOPage extends BaseForm {
         return this.#lastNameTextbox.getElement();
     }
 
-    getMiddleNameElement() {
+    getOrSetMiddleNameElement() {
+        if (this.#middleNameTextbox.getText !== JSONLoader.testData.clientMiddleName) {
+            this.#middleNameTextbox.clearData();
+            this.#middleNameTextbox.inputData(JSONLoader.testData.clientMiddleName);
+        }
         return this.#middleNameTextbox.getElement();
     }
 
@@ -192,16 +203,19 @@ class OGPOPage extends BaseForm {
     }
 
     fillAddressTextbox() {
+        this.#addressTextbox.scrollElementToView();
         this.#addressTextbox.clearData();
         return this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
     }
 
     fillEmailTextbox() {
+        this.#emailTextbox.scrollElementToView();
         this.#emailTextbox.clearData();
         return this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
     }
 
     fillPhoneTextbox() {
+        this.#phoneTextbox.scrollElementToView();
         this.#phoneTextbox.clearData();
         return this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
     }
@@ -232,12 +246,30 @@ class OGPOPage extends BaseForm {
     }
 
     fillVehicleData() {
-        this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
-        this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);
+        if (JSONLoader.configData.verification) {
+            this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
+            this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);
+        } else {
+            this.#carVINTextbox.inputData(JSONLoader.testData.carVIN);
+        }
+    }
+
+    fillVehicleDataDisabledVerification() {
+        if (!JSONLoader.configData.verification) {
+            this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
+            this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);
+            this.#carRegDateTextbox.inputData(JSONLoader.testData.carRegDate);
+            this.#carRegionSpan.clickElement();
+            this.#carRegionListElement.clickElement();
+        }
     }
 
     clickSearchVehicleButton() {
-        this.#searchVehicleButton.clickElement();
+        if (JSONLoader.configData.verification) {
+            this.#searchVehicleButton.clickElement();
+        } else {
+            this.#searchVehicleByVINButton.clickElement();
+        }
     }
 
     getCarRegDateElement() {

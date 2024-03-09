@@ -1,6 +1,6 @@
 {
     "hiddenLogBodies": true,
-    "verification": true,
+    "verification": false,
     "allureCommandlineArgs": [
         "generate", 
         "./cypress/artifacts/allure-results", 
@@ -37,5 +37,6 @@
         "clear",
         "request",
         "invoke"
-    ]
+    ],
+    "servers": "[{\"url\":\"https://testesbd.mkb.kz:8077/IICwebservice.asmx\",\"active\":1},{\"url\":\"https://testesbd-beta.mkb.kz:8078/IICWebservice.asmx\",\"active\":0}]"
 }
