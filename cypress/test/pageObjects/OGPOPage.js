@@ -62,6 +62,7 @@ class OGPOPage extends BaseForm {
     #statusTextbox;
     #creationDateTextbox;
     #sumToPayTextbox;
+    #successAlert;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
@@ -117,13 +118,21 @@ class OGPOPage extends BaseForm {
         this.#insurancePeriodTextbox = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
         this.#issuePolicyButton = new Button(new XPATH('//button[contains(@class,"ant-btn-primary")]'), 'issue policy button');
         this.#statusTextbox = new Textbox(new XPATH('//label[text()="Статус"]//following::span[1]'));
-        this.#creationDateTextbox = new Textbox(new XPATH('//label[text()="Дата создания"]//following::span[1]'));
-        this.#sumToPayTextbox = new Textbox(new XPATH('//label[text()="Страховая премия"]//following::span[1]'));
+        this.#creationDateTextbox = new Textbox(new XPATH('//label[text()="Дата создания"]//following::span[1]'), 'creation date textbox');
+        this.#sumToPayTextbox = new Textbox(new XPATH('//label[text()="Страховая премия"]//following::span[1]'), 'sum to pay textbox');
+        this.#successAlert = new Label(new XPATH('//div[contains(@class, "ant-message-success")]//following::span'), 'success alert');
     }
 
-    getCreationDate() {
+    // getSuccessAlertText() {
+    //     this.#successAlert.elementIsDisplayed().then((value) => {
+    //         cy.logger(`[DEBUG] is alert visible: ${value}`);
+    //     })
+    //     return this.#successAlert.getText();
+    // }
+
+    getSlicedCreationDate() {
         return this.#creationDateTextbox.getText().then((text) => {
-            return text.substring(0, 10);
+            return text.slice(0, 10);
         });
     }
 
@@ -156,14 +165,12 @@ class OGPOPage extends BaseForm {
     }
 
     getSumToPay() {
-        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -1).replace(/тг| /g, ''));
+        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -1).replace(/ тг| /g, ''));
     }
-    
 
     inputRandomDates() {
         const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
         const newInstance = new OGPOPage(dates.startDate, dates.finishDate);
-        cy.logger(`[DEBUG] ▶ ${dates.startDate}, ${dates.startMonthDifference}`);
         this.#beginDateCalendarSpan.flipCalendarIfNotContainsDate(this.#calendarRightArrowButton, dates.startMonthDifference);
         newInstance.#beginDateButton.clickElement();
     }
@@ -172,8 +179,6 @@ class OGPOPage extends BaseForm {
         return this.getBeginDateTitle().then((value) => {
             const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd).
             add(1, "year").subtract(1, "day").format(JSONLoader.testData.datesFormatFrontEnd);
-            cy.logger(`[DEBUG]   begin date ${value}`);
-            cy.logger(`[DEBUG]   end date ${endDate}`);
             return cy.wrap(endDate);
         });
     }
