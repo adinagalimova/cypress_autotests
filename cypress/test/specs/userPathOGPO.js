@@ -3,6 +3,7 @@ const OGPOPage = require('../pageObjects/OGPOPage');
 const NodeEvents = require('../../support/nodeEvents');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 const chai = require('chai');
+const moment = require('moment');
 
 chai.should();
 
@@ -79,8 +80,19 @@ const userPathOGPO = (login) => {
             OGPOPage.getListOfCarsText().should('be.equal', carFullName);
             OGPOPage.getInsurancePeriodTextInPromise().then((value) => {
                 const insurancePeriod = beginDate + " - " + endDate;
-                value.should.be.equal(insurancePeriod);
+                expect(value).to.be.equal(insurancePeriod);
             });
+            OGPOPage.clickIssuePolicyButton();
+
+            OGPOPage.getStatusText().should('be.equal', JSONLoader.testData.issuedStatus);
+            OGPOPage.getCreationDate().should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
+            OGPOPage.getInsurancePeriodTextInPromise().then((value) => {
+                const insurancePeriod = beginDate + " - " + endDate;
+                expect(value).to.be.equal(insurancePeriod);
+            });
+            OGPOPage.getHolderText().should('be.equal', clientFullName);
+            OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
+            OGPOPage.getListOfCarsText().should('be.equal', carFullName);
 
 
 

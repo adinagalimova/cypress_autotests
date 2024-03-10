@@ -54,14 +54,6 @@ class BaseElement {
         return this.getElements().then(($el) => Cypress._.map($el, attrName));
     }
 
-    getTextInPromise() {
-        cy.logger(`[inf] ▶ get ${this.#elementName} text in Promise:`);
-        return this.getElement().invoke('text').then((value) => {
-            cy.logger(`[inf]   text contains: "${value}"`);
-            return cy.wrap(value);
-        });
-    }
-
     getAttributeValue(attrName) {
         cy.logger(`[inf] ▶ get ${this.#elementName} attribute "${attrName}" value:`);
         return this.getElement().invoke('attr', attrName).then((value) => {

@@ -58,6 +58,10 @@ class OGPOPage extends BaseForm {
     #listOfInsuredPeopleTextbox;
     #listOfCarsTextbox;
     #insurancePeriodTextbox;
+    #issuePolicyButton;
+    #statusTextbox;
+    #creationDateTextbox;
+    #sumToPayTextbox;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
@@ -111,6 +115,24 @@ class OGPOPage extends BaseForm {
         this.#listOfInsuredPeopleTextbox = new Textbox(new XPATH('//label[text()="Список застрахованных"]//following::div[@class="w-fit"][1]/div'), 'list of insured people textbox');
         this.#listOfCarsTextbox = new Textbox(new XPATH('//label[text()="Список ТС"]//following::div[@class="w-fit"][1]/div'), 'list of insured cars textbox');
         this.#insurancePeriodTextbox = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
+        this.#issuePolicyButton = new Button(new XPATH('//button[contains(@class,"ant-btn-primary")]'), 'issue policy button');
+        this.#statusTextbox = new Textbox(new XPATH('//label[text()="Статус"]//following::span[1]'));
+        this.#creationDateTextbox = new Textbox(new XPATH('//label[text()="Дата создания"]//following::span[1]'));
+        this.#sumToPayTextbox = new Textbox(new XPATH('//label[text()="Страховая премия"]//following::span[1]'));
+    }
+
+    getCreationDate() {
+        return this.#creationDateTextbox.getText().then((text) => {
+            return text.substring(0, 10);
+        });
+    }
+
+    clickIssuePolicyButton() {
+        this.#issuePolicyButton.clickElement();
+    }
+
+    getStatusText() {
+        return this.#statusTextbox.getText();
     }
 
     getHolderText() {
@@ -126,15 +148,17 @@ class OGPOPage extends BaseForm {
     }
 
     getInsurancePeriodTextInPromise() {
-        return this.#insurancePeriodTextbox.getTextInPromise().then((value) => {
-            cy.logger(value);
-            return cy.wrap(value);
-        });
+        return this.#insurancePeriodTextbox.getText().then((text) => cy.wrap(text));
     }
 
     clickCalculatePremiumButton() {
         this.#calculatePremiumButton.clickElement();
     }
+
+    getSumToPay() {
+        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -1).replace(/тг| /g, ''));
+    }
+    
 
     inputRandomDates() {
         const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);

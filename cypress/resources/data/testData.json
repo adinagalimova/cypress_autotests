@@ -40,5 +40,6 @@
   "carEngineCapacity": "1591",
   "carMark": "HYUNDAI",
   "carModel": "ACCENT",
-  "period": "12 месяцев"
+  "period": "12 месяцев",
+  "issuedStatus": "Выписан"
 }
