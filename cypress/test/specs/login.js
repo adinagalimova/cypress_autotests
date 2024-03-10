@@ -1,10 +1,7 @@
 const loginPage = require('../pageObjects/loginPage');
 const mainPage = require('../pageObjects/mainPage');
-const NodeEvents = require('../../support/nodeEvents');
-const JSONLoader = require('../../main/utils/data/JSONLoader');
-const { userPathOGPO} = require('./userPathOGPO');
 
-userPathOGPO(function login() {
+describe('Login', () => {
     it('Login into ADP:', { scrollBehavior: false }, () => {
         cy.clearAllCookies();
         cy.open('/');

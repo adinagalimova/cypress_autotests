@@ -62,7 +62,7 @@ class OGPOPage extends BaseForm {
     #statusTextbox;
     #creationDateTextbox;
     #sumToPayTextbox;
-    #successAlert;
+    #paymentCodeTextbox;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
@@ -117,18 +117,11 @@ class OGPOPage extends BaseForm {
         this.#listOfCarsTextbox = new Textbox(new XPATH('//label[text()="Список ТС"]//following::div[@class="w-fit"][1]/div'), 'list of insured cars textbox');
         this.#insurancePeriodTextbox = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
         this.#issuePolicyButton = new Button(new XPATH('//button[contains(@class,"ant-btn-primary")]'), 'issue policy button');
-        this.#statusTextbox = new Textbox(new XPATH('//label[text()="Статус"]//following::span[1]'));
+        this.#statusTextbox = new Textbox(new XPATH('//label[text()="Статус"]//following::span[1]'), 'status textbox');
         this.#creationDateTextbox = new Textbox(new XPATH('//label[text()="Дата создания"]//following::span[1]'), 'creation date textbox');
         this.#sumToPayTextbox = new Textbox(new XPATH('//label[text()="Страховая премия"]//following::span[1]'), 'sum to pay textbox');
-        this.#successAlert = new Label(new XPATH('//div[contains(@class, "ant-message-success")]//following::span'), 'success alert');
+        this.#paymentCodeTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]/child::span'), 'payment code textbox');
     }
-
-    // getSuccessAlertText() {
-    //     this.#successAlert.elementIsDisplayed().then((value) => {
-    //         cy.logger(`[DEBUG] is alert visible: ${value}`);
-    //     })
-    //     return this.#successAlert.getText();
-    // }
 
     getSlicedCreationDate() {
         return this.#creationDateTextbox.getText().then((text) => {
@@ -166,6 +159,10 @@ class OGPOPage extends BaseForm {
 
     getSumToPay() {
         return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -1).replace(/ тг| /g, ''));
+    }
+
+    getPaymentCodeText() {
+        return this.#paymentCodeTextbox.getText().then((code) => code);
     }
 
     inputRandomDates() {
