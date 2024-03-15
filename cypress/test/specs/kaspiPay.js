@@ -8,7 +8,10 @@ describe('Payment', () => {
         let sumToPay, paymentCode;
         cy.getLocalStorage('sumToPay').then((sum) => sumToPay = sum);
         cy.getLocalStorage('paymentCode').then((code) => paymentCode = code)
-        .then((paymentCode) => NodeEvents.payWithKaspi({ sumToPay, paymentCode }))
+        .then((paymentCode) => {
+            cy.logger(`DEBUG sumToPay: ${sumToPay}; paymentCode: ${paymentCode}`)
+            NodeEvents.payWithKaspi({ sumToPay, paymentCode })
+        })
         .then((response) => cy.wrap(response)
         .should('contain', JSONLoader.testData.responsePaid));
         MainMenu.clickHomeButton();

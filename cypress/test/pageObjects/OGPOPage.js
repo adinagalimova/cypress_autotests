@@ -87,7 +87,7 @@ class OGPOPage extends BaseForm {
         this.#isInsuredSwitch = new Button(new XPATH('//button[@id="form_item_holder_is_insured"]'), 'is insured switch (button)');
         this.#isPDLSwitch = new Button(new XPATH('//button[@id="form_item_pdl"]'), 'is PDL switch (button)');
         this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
-        this.#nextButton = new Button(new XPATH('//span[text()="Далее"]'), 'next button');
+        this.#nextButton = new Button(new XPATH('//span[text()="Далее"]/parent::button'), 'next button');
         this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search client button');
         this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_num"]'), 'reg num textbox');
         this.#regCertNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_cert_num"]'), 'reg cert num textbox');
@@ -157,8 +157,12 @@ class OGPOPage extends BaseForm {
         this.#calculatePremiumButton.clickElement();
     }
 
+    getNextButtonElement() {
+        return this.#nextButton.getElement();
+    }
+
     getSumToPay() {
-        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -1).replace(/ тг| /g, ''));
+        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -3));
     }
 
     getPaymentCodeText() {

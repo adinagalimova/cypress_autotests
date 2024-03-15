@@ -61,6 +61,7 @@ describe('OGPO smoke test:', () => {
             endDate = title;
         });
         OGPOPage.clickCalculatePremiumButton();
+        OGPOPage.getNextButtonElement().should('be.enabled');
         OGPOPage.getSumToPay().then((sum) => {
             cy.setLocalStorage('sumToPay', sum);
         });
