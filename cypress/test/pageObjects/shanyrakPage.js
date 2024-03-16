@@ -24,27 +24,27 @@ class ShanyrakPage extends BaseForm {
     #isPDLSwitch;
     #saveButton;
     #searchClientButton;
-    #isPensionerSwitch;
-    #regionSpan;
+    #regionToClickSpan;
+    #regionToGetTextSpan;
     #regionListElement;
     #periodSpan;
     #beginDateCalendarSpan;
     #endDateCalendarSpan;
     #calendarRightArrowButton;
-    #activeUseSwitch;
-    #withoutAccidentsSwitch;
     #beginDateButton;
     #holderTextbox;
     #listOfInsuredPeopleTextbox;
     #listOfCarsTextbox;
     #insurancePeriodTextbox;
-    #issuePolicyButton;
     #statusTextbox;
     #creationDateTextbox;
-    #sumToPayTextbox;
+    #activeUseSwitch;
+    #withoutAccidentsSwitch;
     #paymentCodeTextbox;
     #paymentTypeSwitch;
-    #issueButton;
+    #issuePolicyButton;
+    #declineSendKaspiPaymentButton;
+    #alertSpan;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/shanyrak"]'), 'shanyrak page');
@@ -64,69 +64,57 @@ class ShanyrakPage extends BaseForm {
         this.#juridicalAddressTextbox = new Textbox(new XPATH('//input[@id="form_item_juridical_address"]'), 'juridical address textbox');
         this.#isPDLSwitch = new Button(new XPATH('//button[@id="form_item_pdl"]'), 'is PDL switch (button)');
 
-        this.#regionSpan = new Textbox(new XPATH('//input[@id="form_item_region_id"]/following::span[1]'), 'region span');
+        this.#regionToClickSpan = new Textbox(new XPATH('//input[@id="form_item_region_id"]'), 'region span to click');
+        this.#regionToGetTextSpan = new Textbox(new XPATH('//input[@id="form_item_region_id"]/following::span[1]'), 'region span to get text');
         this.#regionListElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'region list element');
         this.#addressTextbox = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
         this.#beginDateCalendarSpan = new Button(new XPATH('//input[@placeholder="Дата начала"]'), 'begin date calendar button');
         this.#endDateCalendarSpan = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
         this.#calendarRightArrowButton = new Button(new XPATH('//button[contains(@class, "ant-picker-header-next-btn")]'), 'right calendar arrow button');
+        
         this.#activeUseSwitch = new Button(new XPATH('//button[@id="form_item_active_use"]'), 'active use switch (button)');
         this.#withoutAccidentsSwitch = new Button(new XPATH('//button[@id="form_item_without_accidents"]'), 'without accidents switch (button)');
 
-        this.#isPensionerSwitch = new Button(new XPATH('//button[@id="form_item_pensioner_bool"]'), 'is pensioner switch (button)');
-        this.#periodSpan = new Textbox(new XPATH('//input[@id="form_item_period"]/following::span[1]'), 'period span');
-
-        this.#sumToPayTextbox = new Textbox(new XPATH('//label[text()="Страховая премия"]//following::span[1]'), 'sum to pay textbox');
-        this.#paymentCodeTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]/child::span'), 'payment code textbox');
-
         this.#paymentTypeSwitch = new Button(new XPATH('//button[@id="form_item_payment_type"]'), 'payment type switch (button)');
         this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
-        this.#issueButton = new Button(new XPATH('//span[contains(text(), "Выписать полис")]'), 'issue button');
-
-        this.#premiumTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]/child::span'), 'payment code textbox');
+        this.#alertSpan = new Textbox(new XPATH('//div[contains(@class, "ant-message-success")]/span[2]'), 'alert span');
+        this.#issuePolicyButton = new Button(new XPATH('//span[contains(text(), "Выписать полис")]'), 'issue button');
+        this.#paymentCodeTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]'), 'payment code textbox');
+        this.#declineSendKaspiPaymentButton = new Button(new XPATH('//span[text()="Нет"]/ancestor::button'), 'decline send kaspi payment button');
     }
 
-    getSlicedCreationDate() {
-        return this.#creationDateTextbox.getText().then((text) => {
-            return text.slice(0, 10);
-        });
+    inputIIN() {
+        this.#IINTextbox.inputData(JSONLoader.testData.clientIIN);
+    }
+
+    clickActiveUseSwitch() {
+        this.#activeUseSwitch.clickElement();
+    }
+
+    clickWithoutAccidentsSwitch() {
+        this.#withoutAccidentsSwitch.clickElement();
+    }
+
+    clickDeclineSendKaspiPaymentButton() {
+        this.#declineSendKaspiPaymentButton.clickElement();
+    }
+
+    getAlertSpanElement() {
+        return this.#alertSpan.getElement();
     }
 
     clickIssuePolicyButton() {
+        this.#issuePolicyButton.scrollElementToView();
         this.#issuePolicyButton.clickElement();
-    }
-
-    getStatusText() {
-        return this.#statusTextbox.getText();
-    }
-
-    getHolderText() {
-        return this.#holderTextbox.getText();
-    }
-
-    getListOfInsuredPeopleText() {
-        return this.#listOfInsuredPeopleTextbox.getText();
-    }
-
-    getListOfCarsText() {
-        return this.#listOfCarsTextbox.getText();
-    }
-
-    getInsurancePeriodTextInPromise() {
-        return this.#insurancePeriodTextbox.getText().then((text) => cy.wrap(text));
-    }
-
-    getSumToPay() {
-        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -1).replace(/ тг| /g, ''));
     }
 
     getPaymentCodeText() {
         return this.#paymentCodeTextbox.getText().then((code) => code);
     }
 
-    inputRandomDates() {
+    inputRandomBeginDate() {
         const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-        const newInstance = new OGPOPage(dates.startDate, dates.finishDate);
+        const newInstance = new ShanyrakPage(dates.startDate, dates.finishDate);
         this.#beginDateCalendarSpan.flipCalendarIfNotContainsDate(this.#calendarRightArrowButton, dates.startMonthDifference);
         newInstance.#beginDateButton.clickElement();
     }
@@ -145,10 +133,6 @@ class ShanyrakPage extends BaseForm {
 
     getEndDateTitle() {
         return this.#endDateCalendarSpan.getAttributeValue('title');
-    }
-
-    fillIIN() {
-        this.#IINTextbox.inputData(JSONLoader.testData.clientIIN);
     }
 
     getFirstNameElement() {
@@ -179,39 +163,30 @@ class ShanyrakPage extends BaseForm {
         return this.#documentIssueDateTextbox.getElement();
     }
 
-    fillAddressTextbox() {
-        this.#addressTextbox.scrollElementToView();
-        this.#addressTextbox.clearData();
-        return this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
+    inputJuridicalAddress() {
+        this.#juridicalAddressTextbox.scrollElementToView();
+        this.#juridicalAddressTextbox.clearData();
+        return this.#juridicalAddressTextbox.inputData(JSONLoader.testData.clientAddress);
     }
 
-    fillEmailTextbox() {
+    inputEmail() {
         this.#emailTextbox.scrollElementToView();
         this.#emailTextbox.clearData();
         return this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
     }
 
-    fillPhoneTextbox() {
+    inputPhone() {
         this.#phoneTextbox.scrollElementToView();
         this.#phoneTextbox.clearData();
         return this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
-    }
-
-    clickSaveButton() {
-        this.#saveButton.scrollElementToView();
-        this.#saveButton.clickElement();
     }
 
     clickSearchClientButton() {
         this.#searchClientButton.clickElement();
     }
 
-    getCarRegionText() {
-        return this.#regionSpan.getText();
-    }
-
-    getPeriodText() {
-        return this.#periodSpan.getText();
+    getRegionText() {
+        return this.#regionToGetTextSpan.getText();
     }
 
     getAddressElement() {
@@ -226,19 +201,25 @@ class ShanyrakPage extends BaseForm {
         return this.#phoneTextbox.getElement();
     }
 
-    clickIsInsuredSwitch() {
-        this.#isInsuredSwitch.scrollElementToView();
-        return this.#isInsuredSwitch.click();
-    }
-
     clickIsPDLSwitch() {
         this.#isPDLSwitch.scrollElementToView();
         return this.#isPDLSwitch.click();
     }
 
     chooseRegion() {
-        this.#regionSpan.clickElement();
+        this.#regionToClickSpan.clickElement();
         this.#regionListElement.clickElement();
+    }
+
+    inputAddress() {
+        this.#addressTextbox.scrollElementToView();
+        this.#addressTextbox.clearData();
+        return this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
+    }
+
+    clickSaveButton() {
+        this.#saveButton.scrollElementToView();
+        this.#saveButton.clickElement();
     }
 }
 

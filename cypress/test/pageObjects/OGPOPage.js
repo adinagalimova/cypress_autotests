@@ -9,7 +9,6 @@ const moment = require('moment');
 require('cypress-xpath');
 
 class OGPOPage extends BaseForm {
-    #purchaseButton;
     #isJuridicalSwitch;
     #isIPSwitch;
     #isResidentSwitch;
@@ -68,7 +67,6 @@ class OGPOPage extends BaseForm {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
 
         this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date');
-        this.#purchaseButton = new Label(new XPATH('//a[contains(text(), "Оформить")]'), 'purchase button');
         this.#isJuridicalSwitch = new Button(new XPATH('//label[text()=\'Юр. лицо\']/following::button[1]'), 'is juridical switch (button)');
         this.#isIPSwitch = new Button(new XPATH('//label[text()=\'ИП\']/following::button[1]'), 'is IP switch (button)');
         this.#isResidentSwitch = new Button(new XPATH('//label[text()=\'Резидент\']/following::button[1]'), 'is resident switch (button)');
@@ -169,7 +167,7 @@ class OGPOPage extends BaseForm {
         return this.#paymentCodeTextbox.getText().then((code) => code);
     }
 
-    inputRandomDates() {
+    inputRandomBeginDate() {
         const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
         const newInstance = new OGPOPage(dates.startDate, dates.finishDate);
         this.#beginDateCalendarSpan.flipCalendarIfNotContainsDate(this.#calendarRightArrowButton, dates.startMonthDifference);
@@ -192,7 +190,7 @@ class OGPOPage extends BaseForm {
         return this.#endDateCalendarSpan.getAttributeValue('title');
     }
 
-    fillIIN() {
+    inputIIN() {
         this.#IINTextbox.inputData(JSONLoader.testData.clientIIN);
     }
 
@@ -232,19 +230,19 @@ class OGPOPage extends BaseForm {
         return this.#documentIssueDateTextbox.getElement();
     }
 
-    fillAddressTextbox() {
+    inputAddress() {
         this.#addressTextbox.scrollElementToView();
         this.#addressTextbox.clearData();
         return this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
     }
 
-    fillEmailTextbox() {
+    inputEmail() {
         this.#emailTextbox.scrollElementToView();
         this.#emailTextbox.clearData();
         return this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
     }
 
-    fillPhoneTextbox() {
+    inputPhone() {
         this.#phoneTextbox.scrollElementToView();
         this.#phoneTextbox.clearData();
         return this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
@@ -275,7 +273,7 @@ class OGPOPage extends BaseForm {
         return this.#driverLicenceIssueDateTextbox.getElement();
     }
 
-    fillVehicleData() {
+    inputVehicleData() {
         if (JSONLoader.configData.verification) {
             this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
             this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);
@@ -284,7 +282,7 @@ class OGPOPage extends BaseForm {
         }
     }
 
-    fillVehicleDataDisabledVerification() {
+    inputVehicleDataWithDisabledVerification() {
         if (!JSONLoader.configData.verification) {
             this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
             this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);

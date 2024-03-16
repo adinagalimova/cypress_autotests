@@ -40,7 +40,7 @@
   "carEngineCapacity": "1591",
   "carMark": "HYUNDAI",
   "carModel": "ACCENT",
-  "period": "12 месяцев",
+  "OGPOperiod": "12 месяцев",
   "issuedStatus": "Выписан",
   "clientFoundAlert": "Информация по клиенту успешно получена.",
   "clientSavedAlert": "Проверка и сохранения карточки клиента в ЕСБД успешно пройдена.",
@@ -48,5 +48,6 @@
   "requestSuccessfulAlert": "Запрос успешно выполнен.",
   "carSavedAlert": "Проверка и сохранения данных ТС в ЕСБД успешно были завершены.",
   "draftSavedAlert": "Черновик успешно создан.",
-  "policyIssuedAlert": "Выписка по полису успешно получена."
+  "policyIssuedAlert": "Выписка по полису успешно получена.",
+  "shanyrakSumToPay": 35000
 }

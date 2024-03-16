@@ -1,7 +1,7 @@
 const mainPage = require('../pageObjects/mainPage');
 const NodeEvents = require('../../support/nodeEvents');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
-const MainMenu = require('../pageObjects/mainMenu');
+const mainMenu = require('../pageObjects/mainMenu');
 
 describe('Payment', () => {
     it('Pay with Kaspi:', { scrollBehavior: false }, () => {
@@ -14,7 +14,7 @@ describe('Payment', () => {
         })
         .then((response) => cy.wrap(response)
         .should('contain', JSONLoader.testData.responsePaid));
-        MainMenu.clickHomeButton();
+        mainMenu.clickHomeButton();
         mainPage.pageIsDisplayed().should('be.true');
     });
 });

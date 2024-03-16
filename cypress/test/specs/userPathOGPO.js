@@ -8,7 +8,7 @@ describe('OGPO smoke test:', () => {
         mainPage.clickOGPOLink();
 
         OGPOPage.pageIsDisplayed();
-        OGPOPage.fillIIN();
+        OGPOPage.inputIIN();
         OGPOPage.clickSearchClientButton();
         OGPOPage.getFirstNameElement().should('have.value', JSONLoader.testData.clientFirstName);
         OGPOPage.getLastNameElement().should('have.value', JSONLoader.testData.clientLastName);
@@ -18,9 +18,9 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
         OGPOPage.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
         OGPOPage.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
-        OGPOPage.fillAddressTextbox();
-        OGPOPage.fillEmailTextbox();
-        OGPOPage.fillPhoneTextbox();
+        OGPOPage.inputAddress();
+        OGPOPage.inputEmail();
+        OGPOPage.inputPhone();
         OGPOPage.clickSaveButton();
         OGPOPage.clickNextButton();
 
@@ -38,9 +38,9 @@ describe('OGPO smoke test:', () => {
         OGPOPage.clickSaveButton();
         OGPOPage.clickNextButton();
 
-        OGPOPage.fillVehicleData();
+        OGPOPage.inputVehicleData();
         OGPOPage.clickSearchVehicleButton();
-        OGPOPage.fillVehicleDataDisabledVerification();
+        OGPOPage.inputVehicleDataWithDisabledVerification();
         OGPOPage.getCarRegDateElement().should('have.value', JSONLoader.testData.carRegDate);
         OGPOPage.getCarRegionText().should('be.equal', JSONLoader.testData.carRegion);
         OGPOPage.getCarVINElement().should('have.value', JSONLoader.testData.carVIN);
@@ -52,8 +52,8 @@ describe('OGPO smoke test:', () => {
         OGPOPage.clickSaveButton();
         OGPOPage.clickNextButton();
 
-        OGPOPage.getPeriodText().should('be.equal', JSONLoader.testData.period);
-        OGPOPage.inputRandomDates();
+        OGPOPage.getPeriodText().should('be.equal', JSONLoader.testData.OGPOperiod);
+        OGPOPage.inputRandomBeginDate();
         let beginDate, endDate;
         OGPOPage.getBeginDateTitle().then((title) => beginDate = title);
         OGPOPage.getEndDateTitle().then((title) => {

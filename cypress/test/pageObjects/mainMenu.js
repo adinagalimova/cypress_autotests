@@ -12,6 +12,7 @@ class MainMenu extends BaseForm {
     }
 
     clickHomeButton() {
+        this.#homeButton.scrollElementToView();
         this.#homeButton.clickElement();
     }
 }
