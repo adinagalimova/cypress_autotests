@@ -1,25 +1,23 @@
-# UI tests:
-#   image: swtracker/cypress-java:latest
-#   stage: test
-#   except:
-#     - staging
-#     - prod
-#   cache:
-#     paths:
-#       - node_modules/
-#   before_script:
-#     - cp .env.dev .env
-#     - echo "${AMANAT24_TEST}" | tr -d '\r' > ./.env.test
-#   tags:
-#     - k8s
-#   script:
-#     - npm ci
-#     - npm run test:ci
-#   when: always
-#   artifacts:
-#     when: always
-#     paths:
-#       - cypress/artifacts
-#       - cypress/screenshots
-#       - cypress/videos
-#     expire_in: 1 month
+e2e-tests:
+  # image: swtracker/cypress-java:latest
+  # stage: e2e-tests
+  # only:
+    # - dev
+  # before_script:
+    # - echo "${ADP_NUXT_TEST}" | tr -d '\r' > ./.env.test
+    # - npm ci
+  # tags:
+    # - k8s
+  # script:
+    # - npm run test:ci
+    # - npm run test:ci:parallel
+    # - npm run test:ci:split
+  # parallel: 3
+  # when: always
+  # artifacts:
+    # when: always
+    # paths:
+      # - cypress/artifacts
+      # - cypress/screenshots
+      # - cypress/videos
+    # expire_in: 1 month

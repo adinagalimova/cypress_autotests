@@ -11,13 +11,13 @@ class LoginPage extends BaseForm {
     constructor() {
         super(new XPATH('//input[@id="form_item_login"]'), 'login page');
         this.#submitButton = new Button(new XPATH('//button[@type="submit"]'), 'submit button');
-        this.#loginTextbox = new Textbox(new XPATH('//input[@id="form_item_login"]'), 'login textbox');
-        this.#passwordTextbox = new Textbox(new XPATH('//input[@id="form_item_password"]'), 'password textbox');
+        this.#loginTextbox = new Textbox(new XPATH('//input[@id="form_item_login"]'), 'login');
+        this.#passwordTextbox = new Textbox(new XPATH('//input[@id="form_item_password"]'), 'password');
     }
 
     fillLoginAndPassword() {
-        this.#loginTextbox.inputData("b.tugelbassov");
-        this.#passwordTextbox.inputData("Qwerty12345!");
+        this.#loginTextbox.inputData(Cypress.env('login'));
+        this.#passwordTextbox.inputData(Cypress.env('password'));
     }
 
     clickSubmitButton() {

@@ -1,24 +1,18 @@
-const kaspiAPI = require('../test/API/kaspiAPI');
-const notificationDB = require('../test/DB/notificationDB');
+const kaspiAPI = require('../tests/API/kaspiAPI');
 const allureWriter = require('@shelex/cypress-allure-plugin/writer');
 const BaseTest = require('../main/baseTest');
 const Logger = require('../main/utils/log/logger');
+const cypressSplit = require('cypress-split')
 const localStorage = require("cypress-localstorage-commands/plugin");
 
 exports.setupNodeEvents = {
     setupNodeEvents(on, config) {
+        cypressSplit(on, config);
         on('before:run', BaseTest.beforeAll);
         on('after:run', BaseTest.afterAll);
         on('task', {
-            log(step) {
-                return Logger.log(step);
-            },
-            async getLastCodeFromDB() {
-                return [
-                    await notificationDB.createConnection(), 
-                    await notificationDB.getLastCode(), 
-                    await notificationDB.closeConnection()
-                ];
+            log({ step, title }) {
+                return Logger.log(step, title);
             },
             async payWithKaspi(paymentInfo) {
                 return [

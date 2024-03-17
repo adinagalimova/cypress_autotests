@@ -4,7 +4,7 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 describe('Shanyrak smoke test:', () => {    
     it('Shanyrak client path:', { scrollBehavior: false }, () => {
-        mainPage.clickShanyrakLink();
+        mainPage.clickShanyrakButton();
 
         shanyrakPage.pageIsDisplayed().should('be.true');
         shanyrakPage.inputIIN();

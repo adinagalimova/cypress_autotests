@@ -1,11 +1,12 @@
 {
+    "parallel": false,
     "hiddenLogBodies": true,
     "verification": true,
     "allureCommandlineArgs": [
-        "generate", 
-        "./cypress/artifacts/allure-results", 
-        "--clean", 
-        "-o", 
+        "generate",
+        "./cypress/artifacts/allure-results",
+        "--clean",
+        "-o",
         "./cypress/artifacts/allure-report"
     ],
     "logTimeStampFormat": "YYYY-MM-DD HH:mm:ss",
@@ -20,17 +21,17 @@
         "wrap",
         "logger",
         "task",
-        "open", 
-        "type", 
-        "visit", 
-        "find", 
-        "xpath", 
-        "first", 
+        "open",
+        "type",
+        "visit",
+        "find",
+        "xpath",
+        "first",
         "isVisible",
         "isExisting",
-        "isEnabled", 
-        "click", 
-        "request", 
+        "isEnabled",
+        "click",
+        "request",
         "contains",
         "scrollTo",
         "document",
@@ -38,5 +39,7 @@
         "request",
         "invoke"
     ],
-    "servers": "[{\"url\":\"https://testesbd.mkb.kz:8077/IICwebservice.asmx\",\"active\":1},{\"url\":\"https://testesbd-beta.mkb.kz:8078/IICWebservice.asmx\",\"active\":0}]"
+    "servers": "[{\"url\":\"https://testesbd.mkb.kz:8077/IICwebservice.asmx\",\"active\":1},{\"url\":\"https://testesbd-beta.mkb.kz:8078/IICWebservice.asmx\",\"active\":0}]",
+    "passed": "----------------------------PASSED----------------------------",
+    "failed": "----------------------------FAILED----------------------------"
 }

@@ -12,7 +12,7 @@ class Randomizer {
         do {
             finishDateUnix = moment.unix(this.getRandomFloat(startDateUnix, unixTwo)).unix();
         } while ((finishDateUnix - startDateUnix) < 86400 * 2);
-
+        
         const startDateObject = moment.unix(startDateUnix).startOf('day');
         const finishDateObject = moment.unix(finishDateUnix).startOf('day');
         const startDate = startDateObject.format(JSONLoader.testData.datesFormat);
@@ -27,7 +27,7 @@ class Randomizer {
         }
 
         const currentMonth = getAbsoluteMonth(moment.unix(unixOne)
-            .format(JSONLoader.testData.datesFormat));
+        .format(JSONLoader.testData.datesFormat));
         const startMonth = getAbsoluteMonth(startDate);
         const finishMonth = getAbsoluteMonth(finishDate);
         let startMonthDifference = startMonth - currentMonth;
@@ -36,15 +36,15 @@ class Randomizer {
         if (nextDayObject.date() === 1) startMonthDifference++;
         if (nextDayObject.date() === 1) finishMonthDifference++;
 
-        return {
-            startDate,
-            finishDate,
-            startMonthDifference,
+        return { 
+            startDate, 
+            finishDate, 
+            startMonthDifference, 
             finishMonthDifference,
             daysDifferenceIncluded
         }
     }
-
+    
     static getRandomElementByText(baseElements, exceptionsList) {
         const baseElementsList = baseElements.slice(0, baseElements.length);
         let element;
@@ -53,36 +53,36 @@ class Randomizer {
                 element = baseElementsList[Math.floor(Math.random() * baseElementsList.length)];
                 if (!exceptionsList.includes(element) && (element !== '')) break;
             }
-
+            
         } else {
             while (true) {
                 element = baseElementsList[Math.floor(Math.random() * baseElementsList.length)];
                 if (element !== '') break;
             }
         }
-
+        
         return element;
     }
 
     static getRandomString(
-        hasLowerCase=false,
-        hasUpperCase=false,
-        hasNumber=false,
-        hasCyrillic=false,
-        chosenLetter=false,
-        minLength=1,
+        hasLowerCase=false, 
+        hasUpperCase=false, 
+        hasNumber=false, 
+        hasCyrillic=false, 
+        chosenLetter=false, 
+        minLength=1, 
         maxLength=10
-    ) {
+        ) {
         const upperCaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const lowerCaseLetters = 'abcdefghijklmnopqrstuvwxyz';
         const numbers = '0123456789';
         const cyrillicLetters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
-
+      
         let length = this.getRandomInteger(maxLength, minLength);
-
+      
         let randomString = '';
         if (chosenLetter) randomString += chosenLetter;
-
+      
         let requiredCharacters = '';
         if (hasLowerCase) requiredCharacters += lowerCaseLetters.charAt(Math.floor(Math.random() * lowerCaseLetters.length));
         if (hasUpperCase) requiredCharacters += upperCaseLetters.charAt(Math.floor(Math.random() * upperCaseLetters.length));
@@ -90,11 +90,11 @@ class Randomizer {
         if (hasCyrillic) requiredCharacters += cyrillicLetters.charAt(Math.floor(Math.random() * cyrillicLetters.length));
 
         randomString += requiredCharacters;
-
-        const characters = (hasLowerCase ? lowerCaseLetters : '')
-            + (hasUpperCase ? upperCaseLetters : '')
-            + (hasNumber ? numbers : '')
-            + (hasCyrillic ? cyrillicLetters : '');
+      
+        const characters = (hasLowerCase ? lowerCaseLetters : '') 
+        + (hasUpperCase ? upperCaseLetters : '') 
+        + (hasNumber ? numbers : '') 
+        + (hasCyrillic ? cyrillicLetters : '');
         const charactersLength = characters.length;
         const randomLength = length - randomString.length;
 

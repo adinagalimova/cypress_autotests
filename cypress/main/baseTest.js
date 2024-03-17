@@ -1,7 +1,7 @@
-const allureCommandline = require('allure-commandline');
-const dictionaryAPI = require('../test/API/dictionaryAPI');
 const Logger = require('../main/utils/log/logger');
 const JSONLoader = require('../main/utils/data/JSONLoader');
+const allureCommandline = require('allure-commandline');
+const dictionaryAPI = require('../tests/API/dictionaryAPI');
 
 class BaseTest {
     static async beforeAll() {
@@ -10,14 +10,21 @@ class BaseTest {
         await dictionaryAPI.toggleVerification();
     }
 
-    static async afterAll() {
+    static async afterAll(results) {
+        results.totalFailed 
+        ? Logger.log(JSONLoader.configData.failed) 
+        : Logger.log(JSONLoader.configData.passed);
+        
+        if (JSONLoader.configData.parallel) { 
+            Logger.logParallel();
+            Logger.logToFileParallel();
+        }
+        
         try {
             await BaseTest.generateAllureReport();
         } catch (error) {
             Logger.log(error.message);
         }
-        
-        Logger.logToFile();
     }
 
     static async generateAllureReport() {

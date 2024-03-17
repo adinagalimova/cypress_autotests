@@ -1,4 +1,3 @@
-.env.test
 .idea
 node_modules/
 cypress/main/utils/data/JSONLoader.js
@@ -6,3 +5,5 @@ cypress/screenshots/
 cypress/videos/
 cypress/downloads/
 cypress/fixtures/
+multi-reporter-config.json
+runner-results/

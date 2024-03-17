@@ -1,6 +1,12 @@
 require('@testing-library/cypress/add-commands');
+const JSONLoader = require('../main/utils/data/JSONLoader');
 
 Cypress.Commands.add('open', (url, options) => {
+    if (JSONLoader.configData.parallel) {
+        const title = Cypress.spec.name.replace(/\.js$/, '');
+        cy.logger(`${title} test log:`, title);
+    }
+    
     cy.logger(`[inf] ▶ open base URL: ${Cypress.config('baseUrl')}`);
     cy.visit(url, options);
 });
@@ -34,8 +40,10 @@ Cypress.Commands.add('isEnabled', { prevSubject: true }, (subject) => {
     return !subject.prop('disabled');
 });
 
-Cypress.Commands.add('logger', (step) => {
-    cy.task('log', step).then((timeStamp) => cy.log(`${timeStamp} ${step}`));
+Cypress.Commands.add('logger', (step, title) => {
+    cy.task('log', { step, title }).then((timeStamp) => {
+        if (!title) cy.log(`${timeStamp} ${step}`);
+    });
 });
 
 Cypress.on('uncaught:exception', (err) => {

@@ -1,12 +1,11 @@
+const moment = require('moment');
 const BaseForm = require('../../main/baseForm');
-const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
-const Label = require('../../main/elements/baseElementChildren/label');
-const Textbox = require('../../main/elements/baseElementChildren/textbox');
-const Button = require('../../main/elements/baseElementChildren/button');
 const JSONLoader = require("../../main/utils/data/JSONLoader");
 const Randomizer = require("../../main/utils/random/randomizer");
-const moment = require('moment');
-require('cypress-xpath');
+const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
+const Label = require('../../main/elements/baseElementChildren/label');
+const Button = require('../../main/elements/baseElementChildren/button');
+const Textbox = require('../../main/elements/baseElementChildren/textbox');
 
 class ShanyrakPage extends BaseForm {
     #withoutAgentCheckbox;
@@ -14,25 +13,22 @@ class ShanyrakPage extends BaseForm {
     #firstNameTextbox;
     #lastNameTextbox;
     #middleNameTextbox;
-    #documentTypeSpan;
+    #documentTypeDropdownButton;
     #documentNumberTextbox;
-    #documentIssueDateTextbox;
+    #documentGivedDateTextbox;
     #addressTextbox;
     #emailTextbox;
     #phoneTextbox;
     #juridicalAddressTextbox;
-    #isPDLSwitch;
+    #PDLSwitch;
     #saveButton;
     #searchClientButton;
-    #regionToClickSpan;
-    #regionToGetTextSpan;
-    #regionListElement;
+    #regionDropdownButton;
+    #regionLabel;
+    #regionDropdownElement;
     #periodSpan;
-    #beginDateCalendarSpan;
-    #endDateCalendarSpan;
-    #calendarRightArrowButton;
-    #beginDateButton;
-    #holderTextbox;
+    #beginDateCalendarButton;
+    #endDateCalendarButton
     #listOfInsuredPeopleTextbox;
     #listOfCarsTextbox;
     #insurancePeriodTextbox;
@@ -44,43 +40,39 @@ class ShanyrakPage extends BaseForm {
     #paymentTypeSwitch;
     #issuePolicyButton;
     #declineSendKaspiPaymentButton;
-    #alertSpan;
+    #alert;
 
     constructor(beginDate) {
-        super(new XPATH('//a[@href="/shanyrak"]'), 'shanyrak page');
+        super(new XPATH('//a[@href="/shanyrak"]'), 'Shanyrak page');
         this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date');
-
         this.#withoutAgentCheckbox = new Button(new XPATH('//input[@id="form_item_withoutAgentCheck"]'), 'without agent checkbox');
-        this.#IINTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
+        this.#IINTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN');
         this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search client button');
-        this.#firstNameTextbox = new Textbox(new XPATH('//input[@id="form_item_first_name"]'), 'first name textbox');
-        this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name textbox');
-        this.#middleNameTextbox = new Textbox(new XPATH('//input[@id="form_item_middle_name"]'), 'middle name textbox');
-        this.#documentTypeSpan = new Textbox(new XPATH('//input[@id="form_item_document_type_id"]/following::span[1]'), 'document type span');
-        this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number textbox');
-        this.#documentIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document issue date textbox');
-        this.#phoneTextbox = new Textbox(new XPATH('//input[@id="form_item_phone"]'), 'phone textbox');
-        this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
-        this.#juridicalAddressTextbox = new Textbox(new XPATH('//input[@id="form_item_juridical_address"]'), 'juridical address textbox');
-        this.#isPDLSwitch = new Button(new XPATH('//button[@id="form_item_pdl"]'), 'is PDL switch (button)');
-
-        this.#regionToClickSpan = new Textbox(new XPATH('//input[@id="form_item_region_id"]'), 'region span to click');
-        this.#regionToGetTextSpan = new Textbox(new XPATH('//input[@id="form_item_region_id"]/following::span[1]'), 'region span to get text');
-        this.#regionListElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'region list element');
-        this.#addressTextbox = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
-        this.#beginDateCalendarSpan = new Button(new XPATH('//input[@placeholder="Дата начала"]'), 'begin date calendar button');
-        this.#endDateCalendarSpan = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
+        this.#firstNameTextbox = new Textbox(new XPATH('//input[@id="form_item_first_name"]'), 'first name');
+        this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name');
+        this.#middleNameTextbox = new Textbox(new XPATH('//input[@id="form_item_middle_name"]'), 'middle name');
+        this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]//following::span[1]'), 'document type dropdown button');
+        this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number');
+        this.#documentGivedDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document gived date');
+        this.#phoneTextbox = new Textbox(new XPATH('//input[@id="form_item_phone"]'), 'phone');
+        this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email');
+        this.#juridicalAddressTextbox = new Textbox(new XPATH('//input[@id="form_item_juridical_address"]'), 'juridical address');
+        this.#PDLSwitch = new Button(new XPATH('//button[@id="form_item_pdl"]'), 'PDL switch (button)');
+        this.#regionDropdownButton = new Button(new XPATH('//input[@id="form_item_region_id"]'), 'region dropdown button');
+        this.#regionLabel = new Label(new XPATH('//input[@id="form_item_region_id"]//following::span[1]'), 'region label');
+        this.#regionDropdownElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'region dropdown element');
+        this.#addressTextbox = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address');
+        this.#beginDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата начала"]'), 'begin date calendar button');
+        this.#endDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
         this.#calendarRightArrowButton = new Button(new XPATH('//button[contains(@class, "ant-picker-header-next-btn")]'), 'right calendar arrow button');
-        
         this.#activeUseSwitch = new Button(new XPATH('//button[@id="form_item_active_use"]'), 'active use switch (button)');
         this.#withoutAccidentsSwitch = new Button(new XPATH('//button[@id="form_item_without_accidents"]'), 'without accidents switch (button)');
-
         this.#paymentTypeSwitch = new Button(new XPATH('//button[@id="form_item_payment_type"]'), 'payment type switch (button)');
         this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
-        this.#alertSpan = new Textbox(new XPATH('//div[contains(@class, "ant-message-success")]/span[2]'), 'alert span');
-        this.#issuePolicyButton = new Button(new XPATH('//span[contains(text(), "Выписать полис")]'), 'issue button');
-        this.#paymentCodeTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]'), 'payment code textbox');
-        this.#declineSendKaspiPaymentButton = new Button(new XPATH('//span[text()="Нет"]/ancestor::button'), 'decline send kaspi payment button');
+        this.#alert = new Label(new XPATH('//div[contains(@class, "ant-message-success")]/span[2]'), 'alert');
+        this.#issuePolicyButton = new Button(new XPATH('//span[contains(text(), "Выписать полис")]'), 'issue policy button');
+        this.#paymentCodeTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]'), 'payment code');
+        this.#declineSendKaspiPaymentButton = new Button(new XPATH('//span[text()="Нет"]//ancestor::button'), 'decline send kaspi payment button');
     }
 
     inputIIN() {
@@ -99,8 +91,8 @@ class ShanyrakPage extends BaseForm {
         this.#declineSendKaspiPaymentButton.clickElement();
     }
 
-    getAlertSpanElement() {
-        return this.#alertSpan.getElement();
+    getAlertElement() {
+        return this.#alert.getElement();
     }
 
     clickIssuePolicyButton() {
@@ -115,7 +107,7 @@ class ShanyrakPage extends BaseForm {
     inputRandomBeginDate() {
         const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
         const newInstance = new ShanyrakPage(dates.startDate, dates.finishDate);
-        this.#beginDateCalendarSpan.flipCalendarIfNotContainsDate(this.#calendarRightArrowButton, dates.startMonthDifference);
+        this.#beginDateCalendarButton.flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
         newInstance.#beginDateButton.clickElement();
     }
 
@@ -128,11 +120,11 @@ class ShanyrakPage extends BaseForm {
     }
 
     getBeginDateTitle() {
-        return this.#beginDateCalendarSpan.getAttributeValue('title');
+        return this.#beginDateCalendarButton.getAttributeValue('title');
     }
 
     getEndDateTitle() {
-        return this.#endDateCalendarSpan.getAttributeValue('title');
+        return this.#endDateCalendarButton.getAttributeValue('title');
     }
 
     getFirstNameElement() {
@@ -148,19 +140,20 @@ class ShanyrakPage extends BaseForm {
             this.#middleNameTextbox.clearData();
             this.#middleNameTextbox.inputData(JSONLoader.testData.clientMiddleName);
         }
+        
         return this.#middleNameTextbox.getElement();
     }
 
     getDocumentTypeText() {
-        return this.#documentTypeSpan.getText();
+        return this.#documentTypeDropdownButton.getText();
     }
 
     getDocumentNumberElement() {
         return this.#documentNumberTextbox.getElement();
     }
 
-    getDocumentIssueDateElement() {
-        return this.#documentIssueDateTextbox.getElement();
+    getDocumentGivedDateElement() {
+        return this.#documentGivedDateTextbox.getElement();
     }
 
     inputJuridicalAddress() {
@@ -186,7 +179,7 @@ class ShanyrakPage extends BaseForm {
     }
 
     getRegionText() {
-        return this.#regionToGetTextSpan.getText();
+        return this.#regionLabel.getText();
     }
 
     getAddressElement() {
@@ -201,14 +194,14 @@ class ShanyrakPage extends BaseForm {
         return this.#phoneTextbox.getElement();
     }
 
-    clickIsPDLSwitch() {
-        this.#isPDLSwitch.scrollElementToView();
-        return this.#isPDLSwitch.click();
+    clickPDLSwitch() {
+        this.#PDLSwitch.scrollElementToView();
+        return this.#PDLSwitch.click();
     }
 
     chooseRegion() {
-        this.#regionToClickSpan.clickElement();
-        this.#regionListElement.clickElement();
+        this.#regionDropdownButton.clickElement();
+        this.#regionDropdownElement.clickElement();
     }
 
     inputAddress() {

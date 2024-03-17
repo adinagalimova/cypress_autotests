@@ -14,11 +14,13 @@ module.exports = defineConfig({
         allureResultsPath: "./cypress/artifacts/allure-results",
         allureLogCypress: true,
         allureAvoidLoggingCommands: JSONLoader.configData.allureAvoidLoggingCommands,
-        logLevel: "INFO"
+        logLevel: "INFO",
+        login: process.env.AUTH_LOGIN,
+        password: process.env.AUTH_PASSWORD
     },
     e2e: {
         baseUrl: '' || process.env.BASE_URL,
-        specPattern: "./cypress/test/specs/shanyrakSuite.js",
+        specPattern: "./cypress/tests/specs/*Suite.js",
         supportFile: "./cypress/support/e2e.js",
         testIsolation: false,
         viewportHeight: 1080,

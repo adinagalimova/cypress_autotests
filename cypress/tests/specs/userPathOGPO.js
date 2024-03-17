@@ -5,7 +5,7 @@ const moment = require('moment');
 
 describe('OGPO smoke test:', () => {
     it('OGPO user path:', { scrollBehavior: false }, () => {
-        mainPage.clickOGPOLink();
+        mainPage.clickOGPOButton();
 
         OGPOPage.pageIsDisplayed();
         OGPOPage.inputIIN();
@@ -17,7 +17,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getSexText().should('be.equal', JSONLoader.testData.clientSex);
         OGPOPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
         OGPOPage.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
-        OGPOPage.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
+        OGPOPage.getDocumentGivedDateElement().should('have.value', JSONLoader.testData.clientDocumentGivedDate);
         OGPOPage.inputAddress();
         OGPOPage.inputEmail();
         OGPOPage.inputPhone();
@@ -31,7 +31,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getSexText().should('be.equal', JSONLoader.testData.clientSex);
         OGPOPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
         OGPOPage.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
-        OGPOPage.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
+        OGPOPage.getDocumentGivedDateElement().should('have.value', JSONLoader.testData.clientDocumentGivedDate);
         OGPOPage.getDriverLicenceTypeText().should('be.equal', JSONLoader.testData.clientDriverLicenceType);
         OGPOPage.getDriverLicenceNumberElement().should('have.value', JSONLoader.testData.clientDriverLicenceNumber);
         OGPOPage.getDriverLicenceIssueDateElement().should('have.value', JSONLoader.testData.clientDriverLicenceIssueDate);
