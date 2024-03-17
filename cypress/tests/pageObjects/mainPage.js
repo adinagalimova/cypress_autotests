@@ -13,11 +13,11 @@ class MainPage extends BaseForm {
     }
 
     clickOGPOButton() {
-        return this.#OGPOButton.clickElement();
+        this.#OGPOButton.clickElement();
     }
 
     clickShanyrakButton() {
-        return this.#shanyrakButton.clickElement();
+        this.#shanyrakButton.clickElement();
     }
 }
 

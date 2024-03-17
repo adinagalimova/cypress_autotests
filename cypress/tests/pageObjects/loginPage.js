@@ -21,7 +21,7 @@ class LoginPage extends BaseForm {
     }
 
     clickSubmitButton() {
-        return this.#submitButton.clickElement();
+        this.#submitButton.clickElement();
     }
 }
 

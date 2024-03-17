@@ -1,4 +1,4 @@
-e2e-tests:
+# e2e-tests:
   # image: swtracker/cypress-java:latest
   # stage: e2e-tests
   # only:

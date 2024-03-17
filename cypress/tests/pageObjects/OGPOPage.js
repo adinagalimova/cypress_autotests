@@ -229,19 +229,19 @@ class OGPOPage extends BaseForm {
     inputAddress() {
         this.#addressTextbox.scrollElementToView();
         this.#addressTextbox.clearData();
-        return this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
+        this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
     }
 
     inputEmail() {
         this.#emailTextbox.scrollElementToView();
         this.#emailTextbox.clearData();
-        return this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
+        this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
     }
 
     inputPhone() {
         this.#phoneTextbox.scrollElementToView();
         this.#phoneTextbox.clearData();
-        return this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
+        this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
     }
 
     clickSaveButton() {
@@ -334,17 +334,17 @@ class OGPOPage extends BaseForm {
 
     clickJuridicalSwitch() {
         this.#juridicalSwitch.scrollElementToView();
-        return this.#juridicalSwitch.click();
+        this.#juridicalSwitch.clickElement();
     }
 
     clickIPSwitch() {
         this.#IPSwitch.scrollElementToView();
-        return this.#IPSwitch.click();
+        this.#IPSwitch.clickElement();
     }
 
     clickResidentSwitch() {
         this.#residentSwitch.scrollElementToView();
-        return this.#residentSwitch.click();
+        this.#residentSwitch.clickElement();
     }
 
     getAddressElement() {
@@ -361,12 +361,12 @@ class OGPOPage extends BaseForm {
 
     clickInsuredSwitch() {
         this.#insuredSwitch.scrollElementToView();
-        return this.#insuredSwitch.click();
+        this.#insuredSwitch.clickElement();
     }
 
     clickPDLSwitch() {
         this.#PDLSwitch.scrollElementToView();
-        return this.#PDLSwitch.click();
+        this.#PDLSwitch.clickElement();
     }
 }
 

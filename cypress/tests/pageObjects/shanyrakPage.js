@@ -159,19 +159,19 @@ class ShanyrakPage extends BaseForm {
     inputJuridicalAddress() {
         this.#juridicalAddressTextbox.scrollElementToView();
         this.#juridicalAddressTextbox.clearData();
-        return this.#juridicalAddressTextbox.inputData(JSONLoader.testData.clientAddress);
+        this.#juridicalAddressTextbox.inputData(JSONLoader.testData.clientAddress);
     }
 
     inputEmail() {
         this.#emailTextbox.scrollElementToView();
         this.#emailTextbox.clearData();
-        return this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
+        this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
     }
 
     inputPhone() {
         this.#phoneTextbox.scrollElementToView();
         this.#phoneTextbox.clearData();
-        return this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
+        this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
     }
 
     clickSearchClientButton() {
@@ -196,7 +196,7 @@ class ShanyrakPage extends BaseForm {
 
     clickPDLSwitch() {
         this.#PDLSwitch.scrollElementToView();
-        return this.#PDLSwitch.click();
+        this.#PDLSwitch.clickElement();
     }
 
     chooseRegion() {
@@ -207,7 +207,7 @@ class ShanyrakPage extends BaseForm {
     inputAddress() {
         this.#addressTextbox.scrollElementToView();
         this.#addressTextbox.clearData();
-        return this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
+        this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
     }
 
     clickSaveButton() {
