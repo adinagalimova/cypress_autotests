@@ -1,5 +1,5 @@
-const loginPage = require('../pageObjects/loginPage');
 const mainPage = require('../pageObjects/mainPage');
+const loginPage = require('../pageObjects/loginPage');
 
 describe('Login', () => {
     it('Login into ADP:', { scrollBehavior: false }, () => {

@@ -4,17 +4,24 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 describe('Shanyrak smoke test:', () => {    
     it('Shanyrak client path:', { scrollBehavior: false }, () => {
+        let beginDate, endDate;
         mainPage.clickShanyrakButton();
 
         shanyrakPage.pageIsDisplayed().should('be.true');
         shanyrakPage.inputIIN();
         shanyrakPage.clickSearchClientButton();
-        shanyrakPage.getFirstNameElement().should('have.value', JSONLoader.testData.clientFirstName);
-        shanyrakPage.getLastNameElement().should('have.value', JSONLoader.testData.clientLastName);
-        shanyrakPage.getOrSetMiddleNameElement().should('have.value', JSONLoader.testData.clientMiddleName);
-        shanyrakPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
-        shanyrakPage.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
-        shanyrakPage.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
+        shanyrakPage.getFirstNameElement()
+        .should('have.value', JSONLoader.testData.clientFirstName);
+        shanyrakPage.getLastNameElement()
+        .should('have.value', JSONLoader.testData.clientLastName);
+        shanyrakPage.getOrSetMiddleNameElement()
+        .should('have.value', JSONLoader.testData.clientMiddleName);
+        shanyrakPage.getDocumentTypeText()
+        .should('be.equal', JSONLoader.testData.clientDocumentType);
+        shanyrakPage.getDocumentNumberElement()
+        .should('have.value', JSONLoader.testData.clientDocumentNumber);
+        shanyrakPage.getDocumentIssueDateElement()
+        .should('have.value', JSONLoader.testData.clientDocumentIssueDate);
         shanyrakPage.inputPhone();
         shanyrakPage.inputEmail();
         shanyrakPage.inputJuridicalAddress();
@@ -22,11 +29,10 @@ describe('Shanyrak smoke test:', () => {
         shanyrakPage.chooseRegion();
         shanyrakPage.inputAddress();
         shanyrakPage.inputRandomBeginDate();
-        let beginDate, endDate;
         shanyrakPage.getBeginDateTitle().then((title) => beginDate = title);
         shanyrakPage.getEndDateTitle().then((title) => {
-            shanyrakPage.calculateEndDate().should('be.equal', title);
             endDate = title;
+            shanyrakPage.calculateEndDate().should('be.equal', endDate);
         });
 
         shanyrakPage.clickActiveUseSwitch();
@@ -37,8 +43,8 @@ describe('Shanyrak smoke test:', () => {
         shanyrakPage.clickIssuePolicyButton();
         shanyrakPage.clickDeclineSendKaspiPaymentButton();
         shanyrakPage.getPaymentCodeText().then((code) => {
-            cy.setLocalStorage('sumToPay', JSONLoader.testData.shanyrakSumToPay);
             cy.setLocalStorage('paymentCode', code);
+            cy.setLocalStorage('sumToPay', JSONLoader.testData.shanyrakSumToPay);
         });
     });
 });

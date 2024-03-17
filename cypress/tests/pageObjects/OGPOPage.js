@@ -142,8 +142,8 @@ class OGPOPage extends BaseForm {
         return this.#listOfCarsTextbox.getText();
     }
 
-    getInsurancePeriodTextInPromise() {
-        return this.#insurancePeriodTextbox.getText().then((text) => cy.wrap(text));
+    getInsurancePeriodText() {
+        return this.#insurancePeriodTextbox.getText();
     }
 
     clickCalculatePremiumButton() {
