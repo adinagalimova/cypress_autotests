@@ -158,8 +158,8 @@ class OGPOPage extends BaseForm {
         return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -3));
     }
 
-    getPaymentCodeText() {
-        return this.#paymentCodeTextbox.getText().then((code) => code);
+    getPaymentCode() {
+        return this.#paymentCodeTextbox.getText();
     }
 
     inputRandomBeginDate() {

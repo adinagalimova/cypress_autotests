@@ -116,7 +116,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getHolderText().should('be.equal', clientFullName);
         OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
         OGPOPage.getListOfCarsText().should('be.equal', carFullName);
-        OGPOPage.getPaymentCodeText()
+        OGPOPage.getPaymentCode()
         .then((code) => cy.setLocalStorage('paymentCode', code));
     });
 });
