@@ -102,17 +102,15 @@ describe('OGPO smoke test:', () => {
         + ", " + JSONLoader.testData.carModel 
         + ", " + JSONLoader.testData.carNumber;
         OGPOPage.getListOfCarsText().should('be.equal', carFullName);
-        OGPOPage.getInsurancePeriodText().then((text) => {
-            cy.wrap(beginDate + " - " + endDate).should('be.equal', text);
-        });
+        OGPOPage.getInsurancePeriodText()
+        .then((text) => cy.wrap(beginDate + " - " + endDate).should('be.equal', text));
         OGPOPage.clickIssuePolicyButton();
 
         OGPOPage.getStatusText().should('be.equal', JSONLoader.testData.issuedStatus);
         OGPOPage.getSlicedCreationDate()
         .should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
-        OGPOPage.getInsurancePeriodText().then((text) => {
-            cy.wrap(beginDate + " - " + endDate).should('be.equal', text);
-        });
+        OGPOPage.getInsurancePeriodText()
+        .then((text) => cy.wrap(beginDate + " - " + endDate).should('be.equal', text));
         OGPOPage.getHolderText().should('be.equal', clientFullName);
         OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
         OGPOPage.getListOfCarsText().should('be.equal', carFullName);
