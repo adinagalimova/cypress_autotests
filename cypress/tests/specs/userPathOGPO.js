@@ -105,7 +105,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getInsurancePeriodBeforeIssuingText().then((text) => {
             cy.wrap(beginDate + " - " + endDate).should('be.equal', text);
         });
-        OGPOPage.getInsurancePeriodText()
+        OGPOPage.getInsurancePeriodBeforeIssuingText()
         .then((text) => cy.wrap(beginDate + " - " + endDate).should('be.equal', text));
         OGPOPage.clickIssuePolicyButton();
 
@@ -115,7 +115,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getInsurancePeriodAfterIssuingText().then((text) => {
             cy.wrap(beginDate + " - " + endDate).should('be.equal', text);
         });
-        OGPOPage.getInsurancePeriodText()
+        OGPOPage.getInsurancePeriodAfterIssuingText()
         .then((text) => cy.wrap(beginDate + " - " + endDate).should('be.equal', text));
         OGPOPage.getHolderText().should('be.equal', clientFullName);
         OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
