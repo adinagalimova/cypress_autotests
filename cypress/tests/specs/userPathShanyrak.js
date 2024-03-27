@@ -42,7 +42,7 @@ describe('Shanyrak smoke test:', () => {
         shanyrakPage.getAlertSpanElement().should('be.visible');
         shanyrakPage.clickIssuePolicyButton();
         shanyrakPage.clickDeclineSendKaspiPaymentButton();
-        shanyrakPage.getPaymentCodeText().then((code) => {
+        shanyrakPage.getPaymentCode().then((code) => {
             cy.setLocalStorage('paymentCode', code);
             cy.setLocalStorage('sumToPay', JSONLoader.testData.shanyrakSumToPay);
         });

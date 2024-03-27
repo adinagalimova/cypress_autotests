@@ -153,8 +153,8 @@ class OGPOPage extends BaseForm {
         return this.#sumToPayLabel.getText().then((text) => text.slice(0, -3));
     }
 
-    getPaymentCodeText() {
-        return this.#paymentCodeLabel.getText().then((code) => code);
+    getPaymentCode() {
+        return this.#paymentCodeLabel.getText();
     }
 
     inputRandomBeginDate() {

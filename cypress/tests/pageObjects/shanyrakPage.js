@@ -100,8 +100,8 @@ class ShanyrakPage extends BaseForm {
         this.#issuePolicyButton.clickElement();
     }
 
-    getPaymentCodeText() {
-        return this.#paymentCodeTextbox.getText().then((code) => code);
+    getPaymentCode() {
+        return this.#paymentCodeTextbox.getText();
     }
 
     inputRandomBeginDate() {

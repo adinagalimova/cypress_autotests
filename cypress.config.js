@@ -20,7 +20,7 @@ module.exports = defineConfig({
     },
     e2e: {
         baseUrl: '' || process.env.BASE_URL,
-        specPattern: "./cypress/tests/specs/OGPOSuite.js",
+        specPattern: "./cypress/tests/specs/*Suite.js",
         supportFile: "./cypress/support/e2e.js",
         testIsolation: false,
         viewportHeight: 1080,

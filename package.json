@@ -1,11 +1,11 @@
 {
   "scripts": {
-    "config": "node ./cypress/main/utils/data/JSONParser.js",
-    "config:parallel": "node ./cypress/main/utils/data/JSONParser.js --parallel",
+    "config": "node ./cypress/main/utils/data/filesParser.js",
+    "config:parallel": "node ./cypress/main/utils/data/filesParser.js --parallel",
     "load:parallel": "npm run config:parallel && cypress run --browser chrome",
     "test": "npm run config && cypress run --headed --browser chrome",
     "test:split": "npm run config && cypress run --browser chrome --env split=true && allure generate ./cypress/artifacts/allure-results --clean -o ./cypress/artifacts/allure-report",
-    "test:parallel": "cypress-parallel -s load:parallel -w './cypress/artifacts/parallel-weights.json' -t 3 -d './cypress/tests/specs/*Suite.js' -b"
+    "test:parallel": "cypress-parallel -s load:parallel -w './cypress/artifacts/parallel-weights.json' -t 2 -d './cypress/tests/specs/*Suite.js' -b"
   },
   "devDependencies": {
     "@shelex/cypress-allure-plugin": "^2.40.0",
