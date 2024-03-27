@@ -5,11 +5,9 @@ const Randomizer = require("../../main/utils/random/randomizer");
 const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
+const Label = require('../../main/elements/baseElementChildren/label');
 
 class OGPOPage extends BaseForm {
-    #juridicalSwitch;
-    #IPSwitch;
-    #residentSwitch;
     #IINTextbox;
     #firstNameTextbox;
     #lastNameTextbox;
@@ -23,7 +21,6 @@ class OGPOPage extends BaseForm {
     #emailTextbox;
     #phoneTextbox;
     #insuredSwitch;
-    #PDLSwitch;
     #saveButton;
     #nextButton;
     #searchClientButton;
@@ -34,8 +31,6 @@ class OGPOPage extends BaseForm {
     #driverLicenceTypeDropdownButton;
     #driverLicenceNumberTextbox;
     #driverLicenceIssueDateTextbox;
-    #experienceLessThanTwoYearsSwitch;
-    #pensionerSwitch;
     #carRegDateTextbox;
     #carRegionDropdownButton;
     #carRegionDropdownElement;
@@ -51,75 +46,71 @@ class OGPOPage extends BaseForm {
     #calendarRightArrowButton;
     #beginDateButton;
     #calculatePremiumButton;
-    #holderTextbox;
-    #listOfInsuredPeopleTextbox;
-    #listOfCarsTextbox;
-    #insurancePeriodTextbox;
+    #holderLabel;
+    #listOfInsuredPeopleLabel;
+    #listOfCarsLabel;
+    #insurancePeriodBeforeIssuingLabel;
+    #insurancePeriodAfterIssuingLabel;
     #issuePolicyButton;
-    #statusTextbox;
-    #creationDateTextbox;
-    #sumToPayTextbox;
-    #paymentCodeTextbox;
+    #statusLabel;
+    #creationDateLabel;
+    #sumToPayLabel;
+    #paymentCodeLabel;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
         this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date');
-        this.#juridicalSwitch = new Button(new XPATH("//label[text()='Юр. лицо']//following::button[1]"), 'juridical switch (button)');
-        this.#IPSwitch = new Button(new XPATH("//label[text()='ИП']//following::button[1]"), 'IP switch (button)');
-        this.#residentSwitch = new Button(new XPATH("//label[text()='Резидент']//following::button[1]"), 'resident switch (button)');
         this.#IINTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN');
         this.#firstNameTextbox = new Textbox(new XPATH('//input[@id="form_item_first_name"]'), 'first name');
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name');
         this.#middleNameTextbox = new Textbox(new XPATH('//input[@id="form_item_middle_name"]'), 'middle name');
         this.#bornDateTextbox = new Textbox(new XPATH('//input[@id="form_item_born"]'), 'born date');
-        this.#sexDropdownButton = new Button(new XPATH('//input[@id="form_item_sex_id"]//following::span[1]'), 'sex dropdown button');
-        this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]//following::span[1]'), 'document type dropdown button');
+        this.#sexDropdownButton = new Button(new XPATH('//input[@id="form_item_sex_id"]/following::span[@class="ant-select-selection-item"]'), 'sex dropdown button');
+        this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]/following::span[@class="ant-select-selection-item"]'), 'document type dropdown button');
         this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number');
         this.#documentGivedDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document gived date');
         this.#addressTextbox = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address');
         this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email');
         this.#phoneTextbox = new Textbox(new XPATH('//input[@id="form_item_mobile_phone"]'), 'phone');
         this.#insuredSwitch = new Button(new XPATH('//button[@id="form_item_holder_is_insured"]'), 'insured switch (button)');
-        this.#PDLSwitch = new Button(new XPATH('//button[@id="form_item_pdl"]'), 'PDL switch (button)');
         this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
         this.#nextButton = new Button(new XPATH('//span[text()="Далее"]//parent::button'), 'next button');
         this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search client button');
         this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_num"]'), 'reg num');
         this.#regCertNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_cert_num"]'), 'reg cert num');
-        this.#searchVehicleButton = new Button(new XPATH('//span[text()="Найти"][1]'), 'search vehicle button');
-        this.#searchVehicleByVINButton = new Button(new XPATH('//button[contains(@class,"ant-input-search-button")]'), 'search vehicle by VIN button');
-        this.#driverLicenceTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_driver_certificate_type_id"]//following::span[1]'), 'driver licence type dropdown button');
+        this.#searchVehicleButton = new Button(new XPATH('//label[@for="form_item_vin"]/preceding::span[text()="Найти"]/parent::button'), 'search vehicle button');
+        this.#searchVehicleByVINButton = new Button(new XPATH('//label[@for="form_item_vin"]/following::span[text()="Найти"]/parent::button'), 'search vehicle by VIN button');
+        this.#driverLicenceTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_driver_certificate_type_id"]/following::span[@class="ant-select-selection-item"]'), 'driver licence type dropdown button');
         this.#driverLicenceNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate"]'), 'driver licence number');
         this.#driverLicenceIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate_date"]'), 'driver licence issue date');
-        this.#experienceLessThanTwoYearsSwitch = new Button(new XPATH('//button[@id="form_item_experience_less"]'), 'experience less than two years switch (button)');
-        this.#pensionerSwitch = new Button(new XPATH('//button[@id="form_item_pensioner_bool"]'), 'pensioner switch (button)');
         this.#carRegDateTextbox = new Textbox(new XPATH('//input[@id="form_item_dt_reg_cert"]'), 'car reg date');
-        this.#carRegionDropdownButton = new Button(new XPATH('//input[@id="form_item_region_id"]//following::span[1]'), 'car region dropdown button');
+        this.#carRegionDropdownButton = new Button(new XPATH('//input[@id="form_item_region_id"]/following::span[@class="ant-select-selection-item"]'), 'car region dropdown button');
         this.#carRegionDropdownElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'car region dropdown element');
         this.#carVINTextbox = new Textbox(new XPATH('//input[@id="form_item_vin"]'), 'car VIN');
-        this.#carTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_type_id"]//following::span[1]'), 'car type dropdown button');
-        this.#carManufacturedYearDropdownButton = new Textbox(new XPATH('//input[@id="form_item_year"]//following::span[1]'), 'car manufactured year dropdown button');
+        this.#carTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_type_id"]/following::span[@class="ant-select-selection-item"]'), 'car type dropdown button');
+        this.#carManufacturedYearDropdownButton = new Textbox(new XPATH('//input[@id="form_item_year"]/following::span[@class="ant-select-selection-item"]'), 'car manufactured year dropdown button');
         this.#carEngineVolumeTextbox = new Textbox(new XPATH('//input[@id="form_item_engine_volume"]'), 'engine volume');
         this.#carMarkTextbox = new Textbox(new XPATH('//input[@id="form_item_mark"]'), 'car mark');
         this.#carModelTextbox = new Textbox(new XPATH('//input[@id="form_item_model"]'), 'car model');
-        this.#periodDropdownButton = new Button(new XPATH('//input[@id="form_item_period"]//following::span[1]'), 'period dropdown button');
+        this.#periodDropdownButton = new Button(new XPATH('//input[@id="form_item_period"]//following::span[@class="ant-select-selection-item"]'), 'period dropdown button');
         this.#beginDateCalendarButton = new Button(new XPATH('//input[@id="form_item_date_beg"]'), 'begin date calendar button');
         this.#endDateCalendarButton = new Button(new XPATH('//input[@id="form_item_date_end"]'), 'end date calendar button');
         this.#calendarRightArrowButton = new Button(new XPATH('//button[contains(@class, "ant-picker-header-next-btn")]'), 'right calendar arrow button');
         this.#calculatePremiumButton = new Button(new XPATH('//span[text()="Рассчитать премию"]//ancestor::button[@type="submit"]'), 'calculate premium button');
-        this.#holderTextbox = new Textbox(new XPATH('//label[text()="Страхователь"]//following::span[1]'), 'holder');
-        this.#listOfInsuredPeopleTextbox = new Textbox(new XPATH('//label[text()="Список застрахованных"]//following::div[@class="w-fit"][1]//div'), 'list of insured people');
-        this.#listOfCarsTextbox = new Textbox(new XPATH('//label[text()="Список ТС"]//following::div[@class="w-fit"][1]//div'), 'list of insured cars');
-        this.#insurancePeriodTextbox = new Textbox(new XPATH('//label[text()="Период страхования"]//following::span[1]'), 'insurance period');
+        this.#holderLabel = new Label(new XPATH('//label[@title="Страхователь"]/following::div[@class="ant-form-item-control-input-content"]/span'), 'holder label');
+        this.#listOfInsuredPeopleLabel = new Label(new XPATH('//label[@title="Список застрахованных"]/following::div[@class="w-fit"]/div'), 'list of insured people label');
+        this.#listOfCarsLabel = new Label(new XPATH('//label[@title="Список ТС"]/following::div[@class="w-fit"]/div'), 'list of insured cars label');
+        this.#insurancePeriodBeforeIssuingLabel = new Label(new XPATH('//label[@title="Период страхования"]/following::span[@class="ant-form-text"]'), 'insurance period before issuing label');
+        this.#sumToPayLabel = new Label(new XPATH('//label[@title="Страховая премия"]//parent::div[contains(@class, "ant-col")]/parent::div[contains(@class, "ant-row")]/descendant::span[@class="ant-form-text"]'), 'sum to pay label');
         this.#issuePolicyButton = new Button(new XPATH('//button[contains(@class,"ant-btn-primary")]'), 'issue policy button');
-        this.#statusTextbox = new Textbox(new XPATH('//label[text()="Статус"]//following::span[1]'), 'status');
-        this.#creationDateTextbox = new Textbox(new XPATH('//label[text()="Дата создания"]//following::span[1]'), 'creation date');
-        this.#sumToPayTextbox = new Textbox(new XPATH('//label[text()="Страховая премия"]//following::span[1]'), 'sum to pay');
-        this.#paymentCodeTextbox = new Textbox(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code[1]//child::span'), 'payment code');
+        this.#statusLabel = new Label(new XPATH('//label[@title="Статус"]//parent::div[contains(@class, "ant-col")]/parent::div[contains(@class, "ant-row")]/descendant::span[@class="font-bold"]'), 'status label');
+        this.#creationDateLabel = new Label(new XPATH('//label[@title="Дата создания"]//parent::div[contains(@class, "ant-col")]/parent::div[contains(@class, "ant-row")]/descendant::span[@class="font-bold"]'), 'creation date label');
+        this.#insurancePeriodAfterIssuingLabel = new Label(new XPATH('//label[@title="Период страхования"]/following::span[@class="font-bold"]'), 'insurance period after issuing label');
+        this.#paymentCodeLabel = new Label(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code//child::span'), 'payment code label');
     }
 
     getSlicedCreationDate() {
-        return this.#creationDateTextbox.getText().then((text) => text.slice(0, 10));
+        return this.#creationDateLabel.getText().then((text) => text.slice(0, 10));
     }
 
     clickIssuePolicyButton() {
@@ -127,23 +118,27 @@ class OGPOPage extends BaseForm {
     }
 
     getStatusText() {
-        return this.#statusTextbox.getText();
+        return this.#statusLabel.getText();
     }
 
     getHolderText() {
-        return this.#holderTextbox.getText();
+        return this.#holderLabel.getText();
     }
 
     getListOfInsuredPeopleText() {
-        return this.#listOfInsuredPeopleTextbox.getText();
+        return this.#listOfInsuredPeopleLabel.getText();
     }
 
     getListOfCarsText() {
-        return this.#listOfCarsTextbox.getText();
+        return this.#listOfCarsLabel.getText();
     }
 
-    getInsurancePeriodText() {
-        return this.#insurancePeriodTextbox.getText();
+    getInsurancePeriodBeforeIssuingText() {
+        return this.#insurancePeriodBeforeIssuingLabel.getText();
+    }
+
+    getInsurancePeriodAfterIssuingText() {
+        return this.#insurancePeriodAfterIssuingLabel.getText();
     }
 
     clickCalculatePremiumButton() {
@@ -155,11 +150,11 @@ class OGPOPage extends BaseForm {
     }
 
     getSumToPay() {
-        return this.#sumToPayTextbox.getText().then((text) => text.slice(0, -3));
+        return this.#sumToPayLabel.getText().then((text) => text.slice(0, -3));
     }
 
     getPaymentCodeText() {
-        return this.#paymentCodeTextbox.getText().then((code) => code);
+        return this.#paymentCodeLabel.getText().then((code) => code);
     }
 
     inputRandomBeginDate() {
@@ -330,43 +325,6 @@ class OGPOPage extends BaseForm {
 
     getPeriodText() {
         return this.#periodDropdownButton.getText();
-    }
-
-    clickJuridicalSwitch() {
-        this.#juridicalSwitch.scrollElementToView();
-        this.#juridicalSwitch.clickElement();
-    }
-
-    clickIPSwitch() {
-        this.#IPSwitch.scrollElementToView();
-        this.#IPSwitch.clickElement();
-    }
-
-    clickResidentSwitch() {
-        this.#residentSwitch.scrollElementToView();
-        this.#residentSwitch.clickElement();
-    }
-
-    getAddressElement() {
-        return this.#addressTextbox.getElement();
-    }
-
-    getEmailElement() {
-        return this.#emailTextbox.getElement();
-    }
-
-    getMobilePhoneElement() {
-        return this.#phoneTextbox.getElement();
-    }
-
-    clickInsuredSwitch() {
-        this.#insuredSwitch.scrollElementToView();
-        this.#insuredSwitch.clickElement();
-    }
-
-    clickPDLSwitch() {
-        this.#PDLSwitch.scrollElementToView();
-        this.#PDLSwitch.clickElement();
     }
 }
 
