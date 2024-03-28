@@ -4,7 +4,6 @@
 #   only:
 #     - dev
 #   before_script:
-#     - sleep 30
 #     - echo "${ADP_NUXT_TEST}" | tr -d '\r' > ./.env.test
 #     - echo "{}" > ./tsconfig.json
 #     - npm ci --prefix ./cypress
