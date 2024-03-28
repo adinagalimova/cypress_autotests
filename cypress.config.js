@@ -9,6 +9,9 @@ module.exports = defineConfig({
     morgan: false, 
     screenshotOnRunFailure: true,
     video: false,
+    downloadsFolder: JSONLoader.APIConfigData.product === "ADP" ? "./downloads" : "./cypress/downloads",
+    screenshotsFolder: JSONLoader.APIConfigData.product === "ADP" ? "./screenshots" : "./cypress/screenshots",
+    videosFolder: JSONLoader.APIConfigData.product === "ADP" ? "./videos" : "./cypress/videos",
     env: {
         allure: true,
         allureResultsPath: "./cypress/artifacts/allure-results",
