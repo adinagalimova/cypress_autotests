@@ -1,23 +1,23 @@
 # e2e-tests:
-  # image: swtracker/cypress-java:latest
-  # stage: e2e-tests
-  # only:
-    # - dev
-  # before_script:
-    # - echo "${ADP_NUXT_TEST}" | tr -d '\r' > ./.env.test
-    # - npm ci
-  # tags:
-    # - k8s
-  # script:
-    # - npm run test:ci
-    # - npm run test:ci:parallel
-    # - npm run test:ci:split
-  # parallel: 3
-  # when: always
-  # artifacts:
-    # when: always
-    # paths:
-      # - cypress/artifacts
-      # - cypress/screenshots
-      # - cypress/videos
-    # expire_in: 1 month
+#   image: swtracker/cypress-java:latest
+#   stage: e2e-tests
+#   only:
+#     - dev
+#   before_script:
+#     - sleep 30
+#     - echo "${ADP_NUXT_TEST}" | tr -d '\r' > ./.env.test
+#     - echo "{}" > ./tsconfig.json
+#     - npm ci --prefix ./cypress
+#   tags:
+#     - k8s
+#   script:
+#     - npm run test:split --prefix ./cypress
+#   parallel: 1
+#   when: always
+#   artifacts:
+#     when: always
+#     paths:
+#       - cypress/artifacts
+#       - cypress/screenshots
+#       - cypress/videos
+#     expire_in: 1 month
