@@ -13,7 +13,7 @@ class OGPOPage extends BaseForm {
     #lastNameTextbox;
     #middleNameTextbox;
     #bornDateTextbox;
-    #sexDropdownButton;
+    #sexRadioButton;
     #documentTypeDropdownButton;
     #documentNumberTextbox;
     #documentGivedDateTextbox;
@@ -65,7 +65,7 @@ class OGPOPage extends BaseForm {
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name');
         this.#middleNameTextbox = new Textbox(new XPATH('//input[@id="form_item_middle_name"]'), 'middle name');
         this.#bornDateTextbox = new Textbox(new XPATH('//input[@id="form_item_born"]'), 'born date');
-        this.#sexDropdownButton = new Button(new XPATH('//input[@id="form_item_sex_id"]/following::span[@class="ant-select-selection-item"]'), 'sex dropdown button');
+        this.#sexRadioButton = new Button(new XPATH('//span[contains(@class, "ant-radio-checked")]/following::span'), 'sex radio button');
         this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]/following::span[@class="ant-select-selection-item"]'), 'document type dropdown button');
         this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number');
         this.#documentGivedDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document gived date');
@@ -206,7 +206,7 @@ class OGPOPage extends BaseForm {
     }
 
     getSexText() {
-        return this.#sexDropdownButton.getText();
+        return this.#sexRadioButton.getText();
     }
 
     getDocumentTypeText() {
