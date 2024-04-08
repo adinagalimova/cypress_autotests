@@ -6,6 +6,7 @@ const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
+const RadioButton = require('../../main/elements/baseElementChildren/radioButton');
 
 class OGPOPage extends BaseForm {
     #IINTextbox;
@@ -65,7 +66,7 @@ class OGPOPage extends BaseForm {
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name');
         this.#middleNameTextbox = new Textbox(new XPATH('//input[@id="form_item_middle_name"]'), 'middle name');
         this.#bornDateTextbox = new Textbox(new XPATH('//input[@id="form_item_born"]'), 'born date');
-        this.#sexRadioButton = new Button(new XPATH('//span[contains(@class, "ant-radio-checked")]/following::span'), 'sex radio button');
+        this.#sexRadioButton = new RadioButton(new XPATH('//span[contains(@class, "ant-radio-checked")]/following::span'), 'sex radio button');
         this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]/following::span[@class="ant-select-selection-item"]'), 'document type dropdown button');
         this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number');
         this.#documentGivedDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document gived date');
