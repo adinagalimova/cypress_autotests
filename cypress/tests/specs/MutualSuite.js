@@ -1,5 +1,5 @@
 describe('OGPO test suite', () => {
     require('./login');
-    require('./userPathOGPO');
+    require('./userPathMutual');
     require('./kaspiPay');
 });

@@ -5,11 +5,13 @@ const Button = require('../../main/elements/baseElementChildren/button');
 class MainPage extends BaseForm {
     #OGPOButton;
     #shanyrakButton;
+    #mutualButton;
 
     constructor() {
         super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
         this.#OGPOButton = new Button(new XPATH('//a[@href="/ogpo/create"]'), 'OGPO button');
         this.#shanyrakButton = new Button(new XPATH('//a[@href="/shanyrak/create"]'), 'Shanyrak button');
+        this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'mutual button');
     }
 
     clickOGPOButton() {
@@ -18,6 +20,11 @@ class MainPage extends BaseForm {
 
     clickShanyrakButton() {
         this.#shanyrakButton.clickElement();
+    }
+
+    clickMutualButton() {
+        this.#mutualButton.clickElement();
+        cy.wait(1000);
     }
 }
 

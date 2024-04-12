@@ -15,7 +15,7 @@ class ShanyrakPage extends BaseForm {
     #middleNameTextbox;
     #documentTypeDropdownButton;
     #documentNumberTextbox;
-    #documentGivedDateTextbox;
+    #documentGivenDateTextbox;
     #addressTextbox;
     #emailTextbox;
     #phoneTextbox;
@@ -53,7 +53,7 @@ class ShanyrakPage extends BaseForm {
         this.#middleNameTextbox = new Textbox(new XPATH('//input[@id="form_item_middle_name"]'), 'middle name');
         this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]//following::span[1]'), 'document type dropdown button');
         this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number');
-        this.#documentGivedDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document gived date');
+        this.#documentGivenDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document given date');
         this.#phoneTextbox = new Textbox(new XPATH('//input[@id="form_item_phone"]'), 'phone');
         this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email');
         this.#juridicalAddressTextbox = new Textbox(new XPATH('//input[@id="form_item_juridical_address"]'), 'juridical address');
@@ -152,8 +152,8 @@ class ShanyrakPage extends BaseForm {
         return this.#documentNumberTextbox.getElement();
     }
 
-    getDocumentGivedDateElement() {
-        return this.#documentGivedDateTextbox.getElement();
+    getDocumentGivenDateElement() {
+        return this.#documentGivenDateTextbox.getElement();
     }
 
     inputJuridicalAddress() {

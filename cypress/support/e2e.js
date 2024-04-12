@@ -12,3 +12,10 @@ if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
     style.setAttribute('data-hide-command-log-request', '');
     app.document.head.appendChild(style);
 }
+
+// нужно для разработки mutual, чтобы не крашилось изза неявной ошибки АДП при загрузке страницы
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+})

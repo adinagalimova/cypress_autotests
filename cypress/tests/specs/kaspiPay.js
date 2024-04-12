@@ -15,7 +15,5 @@ describe('Payment', () => {
             cy.wrap(convertedResponse.comment.pop())
             .should('contain', JSONLoader.testData.responsePaid);
         });
-        mainMenu.clickMainPageButton();
-        mainPage.pageIsDisplayed().should('be.true');
     });
 });

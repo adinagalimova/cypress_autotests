@@ -17,16 +17,16 @@ describe('OGPO smoke test:', () => {
         .should('have.value', JSONLoader.testData.clientLastName);
         OGPOPage.getOrSetMiddleNameElement()
         .should('have.value', JSONLoader.testData.clientMiddleName);
-        OGPOPage.getBornDateElement()
-        .should('have.value', JSONLoader.testData.clientBornDate);
+        OGPOPage.getDateOfBirthElement()
+        .should('have.value', JSONLoader.testData.clientDateOfBirth);
         OGPOPage.getSexText()
         .should('be.equal', JSONLoader.testData.clientSex);
         OGPOPage.getDocumentTypeText()
         .should('be.equal', JSONLoader.testData.clientDocumentType);
         OGPOPage.getDocumentNumberElement()
         .should('have.value', JSONLoader.testData.clientDocumentNumber);
-        OGPOPage.getDocumentGivedDateElement()
-        .should('have.value', JSONLoader.testData.clientDocumentGivedDate);
+        OGPOPage.getDocumentGivenDateElement()
+        .should('have.value', JSONLoader.testData.clientDocumentGivenDate);
         OGPOPage.inputAddress();
         OGPOPage.inputEmail();
         OGPOPage.inputPhone();
@@ -39,16 +39,16 @@ describe('OGPO smoke test:', () => {
         .should('have.value', JSONLoader.testData.clientLastName);
         OGPOPage.getOrSetMiddleNameElement()
         .should('have.value', JSONLoader.testData.clientMiddleName);
-        OGPOPage.getBornDateElement()
-        .should('have.value', JSONLoader.testData.clientBornDate);
+        OGPOPage.getDateOfBirthElement()
+        .should('have.value', JSONLoader.testData.clientDateOfBirth);
         OGPOPage.getSexText()
         .should('be.equal', JSONLoader.testData.clientSex);
         OGPOPage.getDocumentTypeText()
         .should('be.equal', JSONLoader.testData.clientDocumentType);
         OGPOPage.getDocumentNumberElement()
         .should('have.value', JSONLoader.testData.clientDocumentNumber);
-        OGPOPage.getDocumentGivedDateElement()
-        .should('have.value', JSONLoader.testData.clientDocumentGivedDate);
+        OGPOPage.getDocumentGivenDateElement()
+        .should('have.value', JSONLoader.testData.clientDocumentGivenDate);
         OGPOPage.getDriverLicenceTypeText()
         .should('be.equal', JSONLoader.testData.clientDriverLicenceType);
         OGPOPage.getDriverLicenceNumberElement()
@@ -72,7 +72,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getCarManufacturedYearText()
         .should('be.equal', JSONLoader.testData.carManufacturedYear);
         OGPOPage.getCarEngineVolumeElement()
-        .should('have.value', JSONLoader.testData.carEngineCapacity);
+        .should('have.value', JSONLoader.testData.carEngineVolume);
         OGPOPage.getCarMarkElement()
         .should('have.value', JSONLoader.testData.carMark);
         OGPOPage.getCarModelElement()
