@@ -2,6 +2,7 @@ const moment = require('moment');
 const mainPage = require('../pageObjects/mainPage');
 const OGPOPage = require('../pageObjects/OGPOPage');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
+const mutualPage = require("../pageObjects/MutualPage");
 
 describe('OGPO smoke test:', () => {
     it('OGPO user path:', { scrollBehavior: false }, () => {
@@ -109,6 +110,7 @@ describe('OGPO smoke test:', () => {
         .then((text) => cy.wrap(beginDate + " - " + endDate).should('be.equal', text));
         OGPOPage.clickIssuePolicyButton();
 
+        OGPOPage.getPolicyNumberText().should('contain', '901-');
         OGPOPage.getStatusText().should('be.equal', JSONLoader.testData.issuedStatus);
         OGPOPage.getSlicedCreationDate()
         .should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
@@ -122,5 +124,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getListOfCarsText().should('be.equal', carFullName);
         OGPOPage.getPaymentCode()
         .then((code) => cy.setLocalStorage('paymentCode', code));
+        OGPOPage.getPolicyNumberText().then((value) => cy.setLocalStorage('OGPOPolicyNumber', value));
+        OGPOPage.getInsurancePeriodAfterIssuingText().then((value) => cy.setLocalStorage('OGPOPolicyInsurancePeriod', value));
     });
 });

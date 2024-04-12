@@ -10,6 +10,8 @@ class MutualPage extends BaseForm {
     #insuredStepButton;
     #carStepButton;
     #OGPOPolicyStepButton;
+    #issueMutualPolicyStepButton;
+
     #juridicalSwitch;
     #IPSwitch;
     #residentSwitch;
@@ -27,6 +29,7 @@ class MutualPage extends BaseForm {
     #emailLabel;
     #mobileNumberLabel;
     #isPDLLabel;
+
     #insuredFullNameTabLabel;
     #classIDLabel;
     #driverLicenceTypeLabel;
@@ -35,6 +38,7 @@ class MutualPage extends BaseForm {
     #experienceLessThan2YearsSwitch;
     #isPensionerLabel;
     #isInvalidLabel;
+
     #carTabLabel;
     #regNumLabel;
     #regCertNumLabel;
@@ -47,12 +51,30 @@ class MutualPage extends BaseForm {
     #carMarkLabel;
     #carModelLabel;
 
+    #OGPOPolicyNumberLabel;
+    #OGPOPolicyStatusLabel;
+    #OGPOPolicyIssueDateLabel;
+    #OGPOInsurancePeriodLabel;
+    #OGPOHolderLabel;
+    #OGPOListOfInsuredPeopleLabel;
+    #OGPOListOfCarsLabel;
+
+    #statusLabel;
+    #insurancePeriodLabel;
+    #unifiedCombinedLimitLabel;
+    #premiumLabel;
+    #issuePolicyButton;
+    #policyNumberLabel;
+    #paymentCodeLabel;
+
     constructor() {
         super(new XPATH('//a[@href="/mutual"]'), 'Mutual page');
-        this.#holderStepButton = new Textbox(new XPATH('//div[text()="Страхователь"]'), 'holder step button');
-        this.#insuredStepButton = new Textbox(new XPATH('//div[text()="Список застрахованных"]'), 'insured step button');
-        this.#carStepButton = new Textbox(new XPATH('//div[text()="Список ТС"]'), 'car step button');
-        this.#OGPOPolicyStepButton = new Textbox(new XPATH('//div[text()="Полис ОС ГПО ВТС"]'), 'OGPO policy step button');
+        this.#holderStepButton = new Button(new XPATH('//div[text()="Страхователь"]'), 'holder step button');
+        this.#insuredStepButton = new Button(new XPATH('//div[text()="Список застрахованных"]'), 'insured step button');
+        this.#carStepButton = new Button(new XPATH('//div[text()="Список ТС"]'), 'car step button');
+        this.#OGPOPolicyStepButton = new Button(new XPATH('//div[text()="Полис ОС ГПО ВТС"]'), 'OGPO policy step button');
+        this.#issueMutualPolicyStepButton = new Button(new XPATH('//div[text()=\'Оформление \"ОБВ\"\']'), 'issue mutual policy step button');
+
         this.#juridicalSwitch = new Button(new XPATH('//label[@title=\'Юр. лицо\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-disabled\')]'), 'juridical switch');
         this.#IPSwitch = new Button(new XPATH('//label[@title=\'ИП\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-disabled\')]'), 'IP switch');
         this.#residentSwitch = new Button(new XPATH('//label[@title=\'Резидент\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-checked\')]'), 'resident switch');
@@ -91,9 +113,26 @@ class MutualPage extends BaseForm {
         this.#carEngineVolumeLabel = new Label(new XPATH('//label[@title=\'Объем двигателя (куб.см)\']/following::span[@class=\'font-bold\']'), 'engine volume label');
         this.#carMarkLabel = new Label(new XPATH('//label[@title=\'Марка\']/following::span[@class=\'font-bold\']'), 'car mark label');
         this.#carModelLabel = new Label(new XPATH('//label[@title=\'Модель\']/following::span[@class=\'font-bold\']'), 'car model label');
+
+        this.#OGPOPolicyNumberLabel = new Label(new XPATH('//label[@title=\'Номер полиса\']/following::span[@class=\'font-bold\']'), 'OGPO policy number label');
+        this.#OGPOPolicyStatusLabel = new Label(new XPATH('//label[@title=\'Статус\']/following::span[@class=\'font-bold\']'), 'OGPO policy status label');
+        this.#OGPOPolicyIssueDateLabel = new Label(new XPATH('//label[@title=\'Дата создания\']/following::span[@class=\'font-bold\']'), 'OGPO policy issue date label');
+        this.#OGPOInsurancePeriodLabel = new Label(new XPATH('//label[@title=\'Период страхования\']/following::span[@class=\'font-bold\']'), 'OGPO insurance period label');
+        this.#OGPOHolderLabel = new Label(new XPATH('//label[@title=\'Страхователь\']/following::span[@class=\'font-bold\']'), 'OGPO holder label');
+        this.#OGPOListOfInsuredPeopleLabel = new Label(new XPATH('//label[@title=\'Список застрахованных\']/following::div[@class=\'font-bold\']'), 'OGPO list of insured people label');
+        this.#OGPOListOfCarsLabel = new Label(new XPATH('//label[@title=\'Список ТС\']/following::div[@class=\'font-bold\']'), 'OGPO list of insured cars label');
+
+        this.#statusLabel = new Label(new XPATH('//label[@title=\'Статус\']/following::span[@class=\'font-bold\']'), 'status label');
+        this.#insurancePeriodLabel = new Label(new XPATH('//label[@title=\'Период страхования\']/following::span[@class=\'font-bold\']'), 'insurance period label');
+        this.#unifiedCombinedLimitLabel = new Label(new XPATH('//label[@title=\'Единый комбинированный лимит\']/following::div[@class=\'font-bold\']'), 'unified combined limit label');
+        this.#premiumLabel = new Label(new XPATH('//label[@title=\'Страховая премия\']/following::div[@class=\'font-bold\']'), 'premium label');
+        this.#issuePolicyButton = new Button(new XPATH('//span[text()=\'Выписать полис\']'), 'issue policy button');
+        this.#policyNumberLabel = new Label(new XPATH('//label[@title=\'Номер полиса\']/following::span[@class=\'font-bold\']'), 'policy number label');
+        this.#paymentCodeLabel = new Label(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code'), 'payment code label');
     }
 
     clickHolderStepButton() {
+        this.#holderStepButton.elementIsVisible();
         this.#holderStepButton.clickElement();
     }
 
@@ -203,7 +242,7 @@ class MutualPage extends BaseForm {
     }
 
     clickCarStepButton() {
-        this.#carStepButton.scrollElementToView();
+        this.#holderStepButton.scrollElementToView();
         this.#carStepButton.clickElement();
     }
 
@@ -254,6 +293,66 @@ class MutualPage extends BaseForm {
     clickOGPOPolicyStepButton() {
         this.#OGPOPolicyStepButton.scrollElementToView();
         this.#OGPOPolicyStepButton.clickElement();
+    }
+
+    getOGPOPolicyNumberText() {
+        return this.#OGPOPolicyNumberLabel.getText();
+    }
+
+    getOGPOPolicyStatusText() {
+        return this.#OGPOPolicyStatusLabel.getText();
+    }
+
+    getSlicedOGPOPolicyIssueDateText() {
+        return this.#OGPOPolicyIssueDateLabel.getText().then((text) => text.slice(0, 10));
+    }
+
+    getOGPOInsurancePeriodText() {
+        return this.#OGPOInsurancePeriodLabel.getText();
+    }
+
+    getOGPOHolderText() {
+        return this.#OGPOHolderLabel.getText();
+    }
+
+    getOGPOListOfInsuredPeopleText() {
+        return this.#OGPOListOfInsuredPeopleLabel.getText();
+    }
+
+    getOGPOListOfCarsText() {
+        return this.#OGPOListOfCarsLabel.getText();
+    }
+
+    clickIssueMutualPolicyStepButton() {
+        this.#issueMutualPolicyStepButton.clickElement();
+    }
+
+    getStatusText() {
+        return this.#statusLabel.getText();
+    }
+
+    getInsurancePeriodText() {
+        return this.#insurancePeriodLabel.getText();
+    }
+
+    getUnifiedCombinedLimitText() {
+        return this.#unifiedCombinedLimitLabel.getText();
+    }
+
+    getPremiumText() {
+        return this.#premiumLabel.getText().then((text) => text.slice(0, -3));
+    }
+
+    clickIssuePolicyButton() {
+        this.#issuePolicyButton.clickElement();
+    }
+
+    getPolicyNumberText() {
+        return this.#policyNumberLabel.getText();
+    }
+
+    getPaymentCode() {
+        return this.#paymentCodeLabel.getText();
     }
 }
 

@@ -25,13 +25,15 @@ class OGPOPage extends BaseForm {
     #saveButton;
     #nextButton;
     #searchClientButton;
+
+    #driverLicenceTypeDropdownButton;
+    #driverLicenceNumberTextbox;
+    #driverLicenceIssueDateTextbox;
+
     #searchVehicleButton;
     #searchVehicleByVINButton;
     #regNumTextbox;
     #regCertNumTextbox;
-    #driverLicenceTypeDropdownButton;
-    #driverLicenceNumberTextbox;
-    #driverLicenceIssueDateTextbox;
     #carRegDateTextbox;
     #carRegionDropdownButton;
     #carRegionDropdownElement;
@@ -41,6 +43,7 @@ class OGPOPage extends BaseForm {
     #carEngineVolumeTextbox;
     #carMarkTextbox;
     #carModelTextbox;
+
     #periodDropdownButton;
     #beginDateCalendarButton;
     #endDateCalendarButton;
@@ -50,18 +53,22 @@ class OGPOPage extends BaseForm {
     #holderLabel;
     #listOfInsuredPeopleLabel;
     #listOfCarsLabel;
+
     #insurancePeriodBeforeIssuingLabel;
     #insurancePeriodAfterIssuingLabel;
     #issuePolicyButton;
     #statusLabel;
     #creationDateLabel;
+    #policyNumberLabel;
     #sumToPayLabel;
     #paymentCodeLabel;
+
     #mutualButton;
     #confirmIssueMutualButton;
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
+
         this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date button');
         this.#IINTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
         this.#firstNameTextbox = new Textbox(new XPATH('//input[@id="form_item_first_name"]'), 'first name textbox');
@@ -79,13 +86,15 @@ class OGPOPage extends BaseForm {
         this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
         this.#nextButton = new Button(new XPATH('//span[text()="Далее"]//parent::button'), 'next button');
         this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search client button');
+
+        this.#driverLicenceTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_driver_certificate_type_id"]/following::span[@class="ant-select-selection-item"]'), 'driver licence type dropdown button');
+        this.#driverLicenceNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate"]'), 'driver licence number textbox');
+        this.#driverLicenceIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate_date"]'), 'driver licence issue date textbox');
+
         this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_num"]'), 'reg num textbox');
         this.#regCertNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_cert_num"]'), 'reg cert num textbox');
         this.#searchVehicleButton = new Button(new XPATH('//label[@for="form_item_vin"]/preceding::span[text()="Найти"]/parent::button'), 'search vehicle button');
         this.#searchVehicleByVINButton = new Button(new XPATH('//label[@for="form_item_vin"]/following::span[text()="Найти"]/parent::button'), 'search vehicle by VIN button');
-        this.#driverLicenceTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_driver_certificate_type_id"]/following::span[@class="ant-select-selection-item"]'), 'driver licence type dropdown button');
-        this.#driverLicenceNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate"]'), 'driver licence number textbox');
-        this.#driverLicenceIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate_date"]'), 'driver licence issue date textbox');
         this.#carRegDateTextbox = new Textbox(new XPATH('//input[@id="form_item_dt_reg_cert"]'), 'car reg date textbox');
         this.#carRegionDropdownButton = new Button(new XPATH('//input[@id="form_item_region_id"]/following::span[@class="ant-select-selection-item"]'), 'car region dropdown button');
         this.#carRegionDropdownElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'car region dropdown element');
@@ -95,6 +104,7 @@ class OGPOPage extends BaseForm {
         this.#carEngineVolumeTextbox = new Textbox(new XPATH('//input[@id="form_item_engine_volume"]'), 'engine volume textbox');
         this.#carMarkTextbox = new Textbox(new XPATH('//input[@id="form_item_mark"]'), 'car mark textbox');
         this.#carModelTextbox = new Textbox(new XPATH('//input[@id="form_item_model"]'), 'car model textbox');
+
         this.#periodDropdownButton = new Button(new XPATH('//input[@id="form_item_period"]//following::span[@class="ant-select-selection-item"]'), 'period dropdown button');
         this.#beginDateCalendarButton = new Button(new XPATH('//input[@id="form_item_date_beg"]'), 'begin date calendar button');
         this.#endDateCalendarButton = new Button(new XPATH('//input[@id="form_item_date_end"]'), 'end date calendar button');
@@ -105,13 +115,20 @@ class OGPOPage extends BaseForm {
         this.#listOfCarsLabel = new Label(new XPATH('//label[@title="Список ТС"]/following::div[@class="w-fit"]/div'), 'list of insured cars label');
         this.#insurancePeriodBeforeIssuingLabel = new Label(new XPATH('//label[@title="Период страхования"]/following::span[@class="ant-form-text"]'), 'insurance period before issuing label');
         this.#sumToPayLabel = new Label(new XPATH('//label[@title="Страховая премия"]//parent::div[contains(@class, "ant-col")]/parent::div[contains(@class, "ant-row")]/descendant::span[@class="ant-form-text"]'), 'sum to pay label');
+
         this.#issuePolicyButton = new Button(new XPATH('//button[contains(@class,"ant-btn-primary")]'), 'issue policy button');
+        this.#policyNumberLabel = new Label(new XPATH('//label[@title=\'Номер полиса\']/following::span[@class=\'font-bold\']'), 'policy number label');
         this.#statusLabel = new Label(new XPATH('//label[@title="Статус"]//parent::div[contains(@class, "ant-col")]/parent::div[contains(@class, "ant-row")]/descendant::span[@class="font-bold"]'), 'status label');
         this.#creationDateLabel = new Label(new XPATH('//label[@title="Дата создания"]//parent::div[contains(@class, "ant-col")]/parent::div[contains(@class, "ant-row")]/descendant::span[@class="font-bold"]'), 'creation date label');
         this.#insurancePeriodAfterIssuingLabel = new Label(new XPATH('//label[@title="Период страхования"]/following::span[@class="font-bold"]'), 'insurance period after issuing label');
         this.#paymentCodeLabel = new Label(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code//child::span'), 'payment code label');
+
         this.#mutualButton = new Button(new XPATH('//span[text()=\'Создать "обоюдку"\']/parent::button'), 'mutual button');
         this.#confirmIssueMutualButton = new Button(new XPATH('//span[text()=\'Да\']/parent::button'), 'confirm issue mutual button');
+    }
+
+    getPolicyNumberText() {
+        return this.#policyNumberLabel.getText();
     }
 
     clickConfirmIssueMutualButton() {

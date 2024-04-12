@@ -1,7 +1,4 @@
-describe('OGPO test suite', () => {
-    require('./login');
-    require('./userPathOGPO');
-    require('./kaspiPay');
-    require('./userPathMutual');
-    require('./kaspiPay');
+describe('OGPO + Mutual test suite', () => {
+    require('./OGPOSuite');
+    require('./MutualSuite');
 });
