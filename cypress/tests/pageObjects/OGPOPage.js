@@ -7,8 +7,12 @@ const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
 const RadioButton = require('../../main/elements/baseElementChildren/radioButton');
+const Switch = require('../../main/elements/baseElementChildren/switch');
 
 class OGPOPage extends BaseForm {
+    #juridicalSwitch;
+    #IPSwitch;
+    #residentSwitch;
     #IINTextbox;
     #firstNameTextbox;
     #lastNameTextbox;
@@ -17,11 +21,12 @@ class OGPOPage extends BaseForm {
     #sexRadioButton;
     #documentTypeDropdownButton;
     #documentNumberTextbox;
-    #documentGivenDateTextbox;
+    #documentIssueDateTextbox;
     #addressTextbox;
     #emailTextbox;
     #phoneTextbox;
     #insuredSwitch;
+    #PDLSwitch;
     #saveButton;
     #nextButton;
     #searchClientButton;
@@ -29,6 +34,9 @@ class OGPOPage extends BaseForm {
     #driverLicenceTypeDropdownButton;
     #driverLicenceNumberTextbox;
     #driverLicenceIssueDateTextbox;
+    #experienceLessThan2Years;
+    #pensionerSwitch;
+    #invalidSwitch;
 
     #searchVehicleButton;
     #searchVehicleByVINButton;
@@ -68,8 +76,11 @@ class OGPOPage extends BaseForm {
 
     constructor(beginDate) {
         super(new XPATH('//a[@href="/ogpo"]'), 'OGPO page');
-
         this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date button');
+
+        this.#juridicalSwitch = new Switch(new XPATH('//label[@title=\'Юр. лицо\']/following::button[@role=\'switch\']'), 'juridical switch');
+        this.#IPSwitch = new Switch(new XPATH('//label[@title=\'ИП\']/following::button[@role=\'switch\']'), 'IP switch');
+        this.#residentSwitch = new Switch(new XPATH('//label[@title=\'Резидент\']/following::button[@role=\'switch\']'), 'resident switch');
         this.#IINTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
         this.#firstNameTextbox = new Textbox(new XPATH('//input[@id="form_item_first_name"]'), 'first name textbox');
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name textbox');
@@ -78,11 +89,12 @@ class OGPOPage extends BaseForm {
         this.#sexRadioButton = new RadioButton(new XPATH('//span[contains(@class, "ant-radio-checked")]/following::span'), 'sex radio button');
         this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]/following::span[@class="ant-select-selection-item"]'), 'document type dropdown button');
         this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number textbox');
-        this.#documentGivenDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document given date textbox');
+        this.#documentIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document issue date textbox');
         this.#addressTextbox = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
         this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
         this.#phoneTextbox = new Textbox(new XPATH('//input[@id="form_item_mobile_phone"]'), 'phone textbox');
-        this.#insuredSwitch = new Button(new XPATH('//button[@id="form_item_holder_is_insured"]'), 'insured switch (button)');
+        this.#insuredSwitch = new Switch(new XPATH('//button[@id="form_item_holder_is_insured"]'), 'insured switch');
+        this.#PDLSwitch = new Switch(new XPATH('//label[@title=\'ПДЛ\']/following::button[@role=\'switch\']'), 'PDL switch');
         this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
         this.#nextButton = new Button(new XPATH('//span[text()="Далее"]//parent::button'), 'next button');
         this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search client button');
@@ -90,6 +102,9 @@ class OGPOPage extends BaseForm {
         this.#driverLicenceTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_driver_certificate_type_id"]/following::span[@class="ant-select-selection-item"]'), 'driver licence type dropdown button');
         this.#driverLicenceNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate"]'), 'driver licence number textbox');
         this.#driverLicenceIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_driver_certificate_date"]'), 'driver licence issue date textbox');
+        this.#experienceLessThan2Years = new Switch(new XPATH('//label[@title=\'Стаж менее 2-х лет\']/following::button[@role=\'switch\']'), 'experience less than 2 years switch');
+        this.#pensionerSwitch = new Switch(new XPATH('//label[@title=\'Является пенсионером\']/following::button[@role=\'switch\']'), 'pensioner switch');
+        this.#invalidSwitch = new Switch(new XPATH('//label[@title=\'Является инвалидом\']/following::button[@role=\'switch\']'), 'invalid switch');
 
         this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_num"]'), 'reg num textbox');
         this.#regCertNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_cert_num"]'), 'reg cert num textbox');
@@ -125,6 +140,38 @@ class OGPOPage extends BaseForm {
 
         this.#mutualButton = new Button(new XPATH('//span[text()=\'Создать "обоюдку"\']/parent::button'), 'mutual button');
         this.#confirmIssueMutualButton = new Button(new XPATH('//span[text()=\'Да\']/parent::button'), 'confirm issue mutual button');
+    }
+
+    juridicalSwitchIsChecked() {
+        return this.#juridicalSwitch.isChecked();
+    }
+
+    IPSwitchIsChecked() {
+        return this.#IPSwitch.isChecked();
+    }
+
+    residentSwitchIsChecked() {
+        return this.#residentSwitch.isChecked();
+    }
+
+    insuredSwitchIsChecked() {
+        return this.#insuredSwitch.isChecked();
+    }
+
+    PDLSwitchIsChecked() {
+        return this.#PDLSwitch.isChecked();
+    }
+
+    experienceLessThan2YearsSwitchIsChecked() {
+        return this.#juridicalSwitch.isChecked();
+    }
+
+    pensionerSwitchIsChecked() {
+        return this.#juridicalSwitch.isChecked();
+    }
+
+    invalidSwitchIsChecked() {
+        return this.#juridicalSwitch.isChecked();
     }
 
     getPolicyNumberText() {
@@ -210,8 +257,9 @@ class OGPOPage extends BaseForm {
         return this.#endDateCalendarButton.getAttributeValue('title');
     }
 
-    inputIIN() {
-        this.#IINTextbox.inputData(JSONLoader.testData.clientIIN);
+    inputIIN(IIN) {
+        this.#juridicalSwitch.scrollElementToView();
+        this.#IINTextbox.inputData(IIN);
     }
 
     getFirstNameElement() {
@@ -222,10 +270,10 @@ class OGPOPage extends BaseForm {
         return this.#lastNameTextbox.getElement();
     }
 
-    getOrSetMiddleNameElement() {
-        if (this.#middleNameTextbox.getText !== JSONLoader.testData.clientMiddleName) {
+    getOrSetMiddleNameElement(middleName) {
+        if (this.#middleNameTextbox.getText !== middleName) {
             this.#middleNameTextbox.clearData();
-            this.#middleNameTextbox.inputData(JSONLoader.testData.clientMiddleName);
+            this.#middleNameTextbox.inputData(middleName);
         }
         
         return this.#middleNameTextbox.getElement();
@@ -247,8 +295,8 @@ class OGPOPage extends BaseForm {
         return this.#documentNumberTextbox.getElement();
     }
 
-    getDocumentGivenDateElement() {
-        return this.#documentGivenDateTextbox.getElement();
+    getDocumentIssueDateElement() {
+        return this.#documentIssueDateTextbox.getElement();
     }
 
     inputAddress() {
@@ -280,6 +328,10 @@ class OGPOPage extends BaseForm {
 
     clickSearchClientButton() {
         this.#searchClientButton.clickElement();
+    }
+
+    clickInsuredSwitch() {
+        this.#insuredSwitch.clickElement();
     }
 
     getDriverLicenceTypeText() {

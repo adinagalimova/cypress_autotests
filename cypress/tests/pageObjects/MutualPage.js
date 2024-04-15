@@ -2,8 +2,8 @@ const BaseForm = require('../../main/baseForm');
 const JSONLoader = require("../../main/utils/data/JSONLoader");
 const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
-const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
+const Switch = require('../../main/elements/baseElementChildren/switch');
 
 class MutualPage extends BaseForm {
     #policiesButton;
@@ -77,9 +77,9 @@ class MutualPage extends BaseForm {
         this.#OGPOPolicyStepButton = new Button(new XPATH('//div[text()="Полис ОС ГПО ВТС"]'), 'OGPO policy step button');
         this.#issueMutualPolicyStepButton = new Button(new XPATH('//div[text()=\'Оформление \"ОБВ\"\']'), 'issue mutual policy step button');
 
-        this.#juridicalSwitch = new Button(new XPATH('//label[@title=\'Юр. лицо\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-disabled\')]'), 'juridical switch');
-        this.#IPSwitch = new Button(new XPATH('//label[@title=\'ИП\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-disabled\')]'), 'IP switch');
-        this.#residentSwitch = new Button(new XPATH('//label[@title=\'Резидент\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-checked\')]'), 'resident switch');
+        this.#juridicalSwitch = new Switch(new XPATH('//label[@title=\'Юр. лицо\']/following::button[@role=\'switch\']'), 'juridical switch');
+        this.#IPSwitch = new Switch(new XPATH('//label[@title=\'ИП\']/following::button[@role=\'switch\']'), 'IP switch');
+        this.#residentSwitch = new Switch(new XPATH('//label[@title=\'Резидент\']/following::button[@role=\'switch\']'), 'resident switch');
         this.#policyForDevelopmentButton = new Button(new XPATH('//a[@href=\'/mutual/783/show\']'), 'policy for development button')
         this.#IINLabel = new Label(new XPATH('//label[@title=\'ИИН\']/following::span[@class=\'font-bold\']'), 'iin label');
         this.#lastNameLabel = new Label(new XPATH('//label[@title=\'Фамилия\']/following::span[@class=\'font-bold\']'), 'last name label');
@@ -100,7 +100,7 @@ class MutualPage extends BaseForm {
         this.#driverLicenceTypeLabel = new Label(new XPATH('//label[@title=\'Тип вод. уд\']/following::span[@class=\'font-bold\']'), 'driver licence type label');
         this.#driverLicenceNumberLabel = new Label(new XPATH('//label[@title=\'Номер вод. уд.\']/following::span[@class=\'font-bold\']'), 'driver licence number label');
         this.#driverLicenceIssueDateLabel = new Label(new XPATH('//label[@title=\'Дата выдачи вод. уд.\']/following::span[@class=\'font-bold\']'), 'driver licence issue date label');
-        this.#experienceLessThan2YearsSwitch = new Button(new XPATH('//label[@title=\'Стаж вождения менее 2-х лет\']/following::button[@role=\'switch\' and contains(@class, \'ant-switch-disabled\')]'), 'experience less than 2 years switch');
+        this.#experienceLessThan2YearsSwitch = new Switch(new XPATH('//label[@title=\'Стаж вождения менее 2-х лет\']/following::button[@role=\'switch\''), 'experience less than 2 years switch');
         this.#isPensionerLabel = new Label(new XPATH('//label[@title=\'Является пенсионером\']/following::span[@class=\'font-bold\']'), 'is pensioner label');
         this.#isInvalidLabel = new Label(new XPATH('//label[@title=\'Является инвалидом\']/following::span[@class=\'font-bold\']'), 'is invalid label');
 
@@ -138,16 +138,16 @@ class MutualPage extends BaseForm {
         this.#holderStepButton.clickElement();
     }
 
-    isJuridicalSwitchOff() {
-        return this.#juridicalSwitch.elementIsDisplayed();
+    juridicalSwitchIsChecked() {
+        return this.#juridicalSwitch.isChecked();
     }
 
-    isIPSwitchOff() {
-        return this.#IPSwitch.elementIsDisplayed();
+    IPSwitchIsChecked() {
+        return this.#IPSwitch.isChecked();
     }
 
-    isResidentSwitchON() {
-        return this.#residentSwitch.elementIsDisplayed();
+    residentSwitchIsChecked() {
+        return this.#residentSwitch.isChecked();
     }
 
     clickPolicyForDevelopmentButton() {
@@ -231,8 +231,8 @@ class MutualPage extends BaseForm {
         return this.#driverLicenceIssueDateLabel.getText();
     }
 
-    isExperienceLessThan2YearsSwitchOFF() {
-        return this.#experienceLessThan2YearsSwitch.elementIsDisplayed();
+    experienceLessThan2YearsSwitchIsChecked() {
+        return this.#experienceLessThan2YearsSwitch.isChecked();
     }
 
     getIsPensionerText() {

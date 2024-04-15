@@ -37,7 +37,10 @@ class DictionaryAPI extends BaseAPI {
         const params = { 
             value: Number(JSONLoader.configData.verification)
         }
-
+        const response = await this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
+        console.log('toggleVerification params: ', params.data);
+        console.log('toggleVerification route: ', JSONLoader.APIEndpoints.dictionary.verifyBool);
+        console.log('toggleVerification response: ', response.data);
         return await this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
     }
 }

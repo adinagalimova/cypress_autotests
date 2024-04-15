@@ -10,13 +10,16 @@ describe('OGPO smoke test:', () => {
         mainPage.clickOGPOButton();
 
         OGPOPage.pageIsDisplayed();
-        OGPOPage.inputIIN();
+        OGPOPage.juridicalSwitchIsChecked().should('be.false');
+        OGPOPage.IPSwitchIsChecked().should('be.false');
+        OGPOPage.residentSwitchIsChecked().should('be.true');
+        OGPOPage.inputIIN(JSONLoader.testData.clientIIN);
         OGPOPage.clickSearchClientButton();
-        OGPOPage.getFirstNameElement()
-        .should('have.value', JSONLoader.testData.clientFirstName);
         OGPOPage.getLastNameElement()
         .should('have.value', JSONLoader.testData.clientLastName);
-        OGPOPage.getOrSetMiddleNameElement()
+        OGPOPage.getFirstNameElement()
+        .should('have.value', JSONLoader.testData.clientFirstName);
+        OGPOPage.getOrSetMiddleNameElement(JSONLoader.testData.clientMiddleName)
         .should('have.value', JSONLoader.testData.clientMiddleName);
         OGPOPage.getDateOfBirthElement()
         .should('have.value', JSONLoader.testData.clientDateOfBirth);
@@ -26,36 +29,48 @@ describe('OGPO smoke test:', () => {
         .should('be.equal', JSONLoader.testData.clientDocumentType);
         OGPOPage.getDocumentNumberElement()
         .should('have.value', JSONLoader.testData.clientDocumentNumber);
-        OGPOPage.getDocumentGivenDateElement()
-        .should('have.value', JSONLoader.testData.clientDocumentGivenDate);
+        OGPOPage.getDocumentIssueDateElement()
+        .should('have.value', JSONLoader.testData.clientDocumentIssueDate);
         OGPOPage.inputAddress();
         OGPOPage.inputEmail();
         OGPOPage.inputPhone();
+        OGPOPage.insuredSwitchIsChecked().should('be.true');
+        OGPOPage.clickInsuredSwitch();
+        OGPOPage.PDLSwitchIsChecked().should('be.false');
         OGPOPage.clickSaveButton();
         OGPOPage.clickNextButton();
 
-        OGPOPage.getFirstNameElement()
-        .should('have.value', JSONLoader.testData.clientFirstName);
+        OGPOPage.juridicalSwitchIsChecked().should('be.false');
+        OGPOPage.IPSwitchIsChecked().should('be.false');
+        OGPOPage.residentSwitchIsChecked().should('be.true');
+        OGPOPage.inputIIN(JSONLoader.testData.insuredClientIIN);
+        OGPOPage.clickSearchClientButton();
         OGPOPage.getLastNameElement()
-        .should('have.value', JSONLoader.testData.clientLastName);
-        OGPOPage.getOrSetMiddleNameElement()
-        .should('have.value', JSONLoader.testData.clientMiddleName);
+        .should('have.value', JSONLoader.testData.insuredClientLastName);
+        OGPOPage.getFirstNameElement()
+        .should('have.value', JSONLoader.testData.insuredClientFirstName);
+        OGPOPage.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName)
+        .should('have.value', JSONLoader.testData.insuredClientMiddleName);
         OGPOPage.getDateOfBirthElement()
-        .should('have.value', JSONLoader.testData.clientDateOfBirth);
+        .should('have.value', JSONLoader.testData.insuredClientDateOfBirth);
         OGPOPage.getSexText()
-        .should('be.equal', JSONLoader.testData.clientSex);
+        .should('be.equal', JSONLoader.testData.insuredClientSex);
         OGPOPage.getDocumentTypeText()
-        .should('be.equal', JSONLoader.testData.clientDocumentType);
+        .should('be.equal', JSONLoader.testData.insuredClientDocumentType);
         OGPOPage.getDocumentNumberElement()
-        .should('have.value', JSONLoader.testData.clientDocumentNumber);
-        OGPOPage.getDocumentGivenDateElement()
-        .should('have.value', JSONLoader.testData.clientDocumentGivenDate);
+        .should('have.value', JSONLoader.testData.insuredClientDocumentNumber);
+        OGPOPage.getDocumentIssueDateElement()
+        .should('have.value', JSONLoader.testData.insuredClientDocumentIssueDate);
         OGPOPage.getDriverLicenceTypeText()
-        .should('be.equal', JSONLoader.testData.clientDriverLicenceType);
+        .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceType);
         OGPOPage.getDriverLicenceNumberElement()
-        .should('have.value', JSONLoader.testData.clientDriverLicenceNumber);
+        .should('have.value', JSONLoader.testData.insuredClientDriverLicenceNumber);
         OGPOPage.getDriverLicenceIssueDateElement()
-        .should('have.value', JSONLoader.testData.clientDriverLicenceIssueDate);
+        .should('have.value', JSONLoader.testData.insuredClientDriverLicenceIssueDate);
+        OGPOPage.experienceLessThan2YearsSwitchIsChecked().should('be.false');
+        OGPOPage.pensionerSwitchIsChecked().should('be.false');
+        OGPOPage.invalidSwitchIsChecked().should('be.false');
+        OGPOPage.PDLSwitchIsChecked().should('be.false');
         OGPOPage.clickSaveButton();
         OGPOPage.clickNextButton();
 
@@ -98,7 +113,10 @@ describe('OGPO smoke test:', () => {
         + " " + JSONLoader.testData.clientFirstName 
         + " " + JSONLoader.testData.clientMiddleName;
         OGPOPage.getHolderText().should('be.equal', clientFullName);
-        OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
+        const insuredClientFullName = JSONLoader.testData.insuredClientLastName
+            + " " + JSONLoader.testData.insuredClientFirstName
+            + " " + JSONLoader.testData.insuredClientMiddleName;
+        OGPOPage.getListOfInsuredPeopleText().should('be.equal', insuredClientFullName);
         const carFullName = JSONLoader.testData.carMark 
         + ", " + JSONLoader.testData.carModel 
         + ", " + JSONLoader.testData.carNumber;
@@ -120,7 +138,7 @@ describe('OGPO smoke test:', () => {
         OGPOPage.getInsurancePeriodAfterIssuingText()
         .then((text) => cy.wrap(beginDate + " - " + endDate).should('be.equal', text));
         OGPOPage.getHolderText().should('be.equal', clientFullName);
-        OGPOPage.getListOfInsuredPeopleText().should('be.equal', clientFullName);
+        OGPOPage.getListOfInsuredPeopleText().should('be.equal', insuredClientFullName);
         OGPOPage.getListOfCarsText().should('be.equal', carFullName);
         OGPOPage.getPaymentCode()
         .then((code) => cy.setLocalStorage('paymentCode', code));
