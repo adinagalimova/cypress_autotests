@@ -5,33 +5,33 @@ const { setupNodeEvents } = require('./cypress/support/setupNodeEvents');
 require('dotenv').config({ path: path.join(__dirname, '.env.test'), override: true });
 
 module.exports = defineConfig({
-    chromeWebSecurity: false,
-    morgan: false, 
-    screenshotOnRunFailure: true,
-    video: false,
-    downloadsFolder: JSONLoader.APIConfigData.product === "ADP" ? "./downloads" : "./cypress/downloads",
-    screenshotsFolder: JSONLoader.APIConfigData.product === "ADP" ? "./screenshots" : "./cypress/screenshots",
-    videosFolder: JSONLoader.APIConfigData.product === "ADP" ? "./videos" : "./cypress/videos",
-    env: {
-        allure: true,
-        allureResultsPath: "./cypress/artifacts/allure-results",
-        allureLogCypress: true,
-        allureAvoidLoggingCommands: JSONLoader.configData.allureAvoidLoggingCommands,
-        logLevel: "INFO",
-        login: process.env.AUTH_LOGIN,
-        password: process.env.AUTH_PASSWORD
-    },
-    e2e: {
-        baseUrl: '' || process.env.BASE_URL,
-        specPattern: "./cypress/tests/specs/OGPOMutualSuite.js",
-        supportFile: "./cypress/support/e2e.js",
-        testIsolation: false,
-        viewportHeight: 1080,
-        viewportWidth: 1920,
-        defaultCommandTimeout: 60000,
-        requestTimeout: 30000,
-        responseTimeout: 50000,
-        pageLoadTimeout: 80000,
-        ...setupNodeEvents
-    }
+  chromeWebSecurity: false,
+  morgan: false,
+  screenshotOnRunFailure: true,
+  video: false,
+  downloadsFolder: JSONLoader.APIConfigData.product === 'ADP' ? './downloads' : './cypress/downloads',
+  screenshotsFolder: JSONLoader.APIConfigData.product === 'ADP' ? './screenshots' : './cypress/screenshots',
+  videosFolder: JSONLoader.APIConfigData.product === 'ADP' ? './videos' : './cypress/videos',
+  env: {
+    allure: true,
+    allureResultsPath: './cypress/artifacts/allure-results',
+    allureLogCypress: true,
+    allureAvoidLoggingCommands: JSONLoader.configData.allureAvoidLoggingCommands,
+    logLevel: 'INFO',
+    login: process.env.AUTH_LOGIN,
+    password: process.env.AUTH_PASSWORD,
+  },
+  e2e: {
+    baseUrl: '' || process.env.BASE_URL,
+    specPattern: './cypress/tests/specs/*Suite.js',
+    supportFile: './cypress/support/e2e.js',
+    testIsolation: false,
+    viewportHeight: 1080,
+    viewportWidth: 1920,
+    defaultCommandTimeout: 60000,
+    requestTimeout: 30000,
+    responseTimeout: 50000,
+    pageLoadTimeout: 80000,
+    ...setupNodeEvents,
+  },
 });

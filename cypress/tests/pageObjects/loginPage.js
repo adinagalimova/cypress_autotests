@@ -4,25 +4,25 @@ const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 
 class LoginPage extends BaseForm {
-    #loginTextbox;
-    #passwordTextbox;
-    #submitButton;
+  #loginTextbox;
+  #passwordTextbox;
+  #submitButton;
 
-    constructor() {
-        super(new XPATH('//input[@id="form_item_login"]'), 'login page');
-        this.#submitButton = new Button(new XPATH('//button[@type="submit"]'), 'submit button');
-        this.#loginTextbox = new Textbox(new XPATH('//input[@id="form_item_login"]'), 'login');
-        this.#passwordTextbox = new Textbox(new XPATH('//input[@id="form_item_password"]'), 'password');
-    }
+  constructor() {
+    super(new XPATH('//input[@id="form_item_login"]'), 'login page');
+    this.#submitButton = new Button(new XPATH('//button[@type="submit"]'), 'submit button');
+    this.#loginTextbox = new Textbox(new XPATH('//input[@id="form_item_login"]'), 'login');
+    this.#passwordTextbox = new Textbox(new XPATH('//input[@id="form_item_password"]'), 'password');
+  }
 
-    fillLoginAndPassword() {
-        this.#loginTextbox.inputData(Cypress.env('login'));
-        this.#passwordTextbox.inputData(Cypress.env('password'));
-    }
+  fillLoginAndPassword() {
+    this.#loginTextbox.inputData(Cypress.env('login'));
+    this.#passwordTextbox.inputData(Cypress.env('password'));
+  }
 
-    clickSubmitButton() {
-        this.#submitButton.clickElement();
-    }
+  clickSubmitButton() {
+    this.#submitButton.clickElement();
+  }
 }
 
 module.exports = new LoginPage();

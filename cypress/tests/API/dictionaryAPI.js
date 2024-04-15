@@ -5,44 +5,41 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'), override: true });
 
 class DictionaryAPI extends BaseAPI {
-    #API;
+  #API;
 
-    constructor(options = {}) {
-        super(
-            options.baseURL || process.env.GATEWAY_URL,
-            options.logString,
-            options.timeout, 
-            options.headers
-        );
-    }
+  constructor(options = {}) {
+    super(
+      options.baseURL || process.env.GATEWAY_URL,
+      options.logString,
+      options.timeout,
+      options.headers,
+    );
+  }
 
-    async setToken() {
-        const response = await authAPI.auth({ APIName: 'Dictionary API' });
-        this.#API = new DictionaryAPI({ 
-            headers: { 
-                Authorization: `Bearer ${response.data.data.access_token}` 
-            } 
-        });
-    }
+  async setToken() {
+    const response = await authAPI.auth({ APIName: 'Dictionary API' });
+    this.#API = new DictionaryAPI({
+      headers: {
+        Authorization: `Bearer ${response.data.data.access_token}`,
+      },
+    });
+  }
 
-    async toggleServer() {
-        const params = { 
-            setting: JSONLoader.configData.servers
-        }
+  async toggleServer() {
+    const params = {
+      setting: JSONLoader.configData.servers,
+    };
 
-        return await this.#API.post(JSONLoader.APIEndpoints.dictionary.servers, params);
-    }
+    return await this.#API.post(JSONLoader.APIEndpoints.dictionary.servers, params);
+  }
 
-    async toggleVerification() {
-        const params = { 
-            value: Number(JSONLoader.configData.verification)
-        }
-        const response = await this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
-        console.log('toggleVerification params: ', params.data);
-        console.log('toggleVerification route: ', JSONLoader.APIEndpoints.dictionary.verifyBool);
-        console.log('toggleVerification response: ', response.data);
-        return await this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
-    }
+  async toggleVerification() {
+    const params = {
+      value: Number(JSONLoader.configData.verification),
+    };
+
+    return await this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
+  }
 }
 
 module.exports = new DictionaryAPI();
