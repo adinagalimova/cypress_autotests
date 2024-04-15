@@ -5,7 +5,6 @@ require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'),
 
 class AuthAPI extends BaseAPI {
   #login;
-
   #password;
 
   constructor(options = {}) {
