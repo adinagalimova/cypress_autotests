@@ -6,6 +6,7 @@ const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
 
 class MutualPage extends BaseForm {
+    #policiesButton;
     #holderStepButton;
     #insuredStepButton;
     #carStepButton;
@@ -69,6 +70,7 @@ class MutualPage extends BaseForm {
 
     constructor() {
         super(new XPATH('//a[@href="/mutual"]'), 'Mutual page');
+        this.#policiesButton = new Button(new XPATH('//a[@href="/mutual"]'), 'policies button');
         this.#holderStepButton = new Button(new XPATH('//div[text()="Страхователь"]'), 'holder step button');
         this.#insuredStepButton = new Button(new XPATH('//div[text()="Список застрахованных"]'), 'insured step button');
         this.#carStepButton = new Button(new XPATH('//div[text()="Список ТС"]'), 'car step button');
@@ -242,7 +244,7 @@ class MutualPage extends BaseForm {
     }
 
     clickCarStepButton() {
-        this.#holderStepButton.scrollElementToView();
+        this.#policiesButton.scrollElementToView();
         this.#carStepButton.clickElement();
     }
 

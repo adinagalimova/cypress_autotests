@@ -1,7 +1,7 @@
 {
     "parallel": false,
     "hiddenLogBodies": true,
-    "verification": true,
+    "verification": false,
     "allureCommandlineArgs": [
         "generate",
         "./cypress/artifacts/allure-results",
