@@ -6,23 +6,20 @@ require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'),
 
 class DictionaryAPI extends BaseAPI {
   #API;
+  #options;
 
-  constructor(options = {}) {
-    super(
-      options.baseURL || process.env.GATEWAY_URL,
-      options.logString,
-      options.timeout,
-      options.headers,
-    );
+  constructor(options = {
+    baseURL: '' || process.env.GATEWAY_URL
+  }) {
+    super(options);
+    this.#options = options;
   }
 
   async setToken() {
     const response = await authAPI.auth({ APIName: 'Dictionary API' });
-    this.#API = new DictionaryAPI({
-      headers: {
-        Authorization: `Bearer ${response.data.data.access_token}`,
-      },
-    });
+    this.#options.headers = {};
+    this.#options.headers.Authorization = `Bearer ${response.data.data.access_token}`;
+    this.#API = new DictionaryAPI(this.#options);
   }
 
   async toggleServer() {

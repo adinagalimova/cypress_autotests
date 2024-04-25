@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../../../../', '.env.test'), override: true });
 
 const envDirectory = path.join(__dirname, '../../../../');
 const fileLocation = path.join(__dirname, 'JSONLoader.js');
@@ -42,14 +43,37 @@ const setConfigData = (directory, extension) => {
   const configFile = files.filter((file) => file.includes('config')).pop();
   if (configFile) {
     const filePath = `${directory}/${configFile}`;
-    // eslint-disable-next-line import/no-dynamic-require, global-require
-    const data = JSON.parse(JSON.stringify(require(filePath)));
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     data.parallel = process.argv.includes('--parallel');
     data.setPolicyWaitingTWB = process.argv.includes('--setPolicyWaitingTWB');
     try {
       data.verification = Boolean(JSON.parse(process.env.VERIFICATION ?? data.verification));
     } catch (error) { // eslint-disable-next-line no-console
       console.log('  [err]   incorrect value of "VERIFICATION" .env variable!');
+    }
+
+    try {
+      const value = JSON.parse(process.env.SET_POLICY_WAITING_TWB ?? data.setPolicyWaitingTWB);
+      data.setPolicyWaitingTWB = Boolean(value);
+    } catch (error) { // eslint-disable-next-line no-console
+      console.log('  [err]   incorrect value of "SET_POLICY_WAITING_TWB" .env variable!');
+    }
+
+    try {
+      data.getPolicyTWB = Boolean(JSON.parse(process.env.GET_POLICY_TWB ?? data.getPolicyTWB));
+    } catch (error) { // eslint-disable-next-line no-console
+      console.log('  [err]   incorrect value of "GET_POLICY_TWB" .env variable!');
+    }
+
+    if (process.env.GATEWAY_URL) {
+      const value = process.env.GATEWAY_URL.match(/\b(?:localhost|dev|staging)\b/g);
+      if (value) {
+        data.environment = value.pop();
+      } else { // eslint-disable-next-line no-console
+        console.log('  [err]   incorrect value of "GATEWAY_URL" .env variable!');
+      }
+    } else { // eslint-disable-next-line no-console
+      console.log('  [err]   "GATEWAY_URL" .env variable not exists!');
     }
 
     fs.writeFileSync(filePath, JSON.stringify(data, null, 4), 'utf8');

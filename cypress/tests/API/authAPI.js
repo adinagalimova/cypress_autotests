@@ -7,15 +7,13 @@ class AuthAPI extends BaseAPI {
   #login;
   #password;
 
-  constructor(options = {}) {
-    super(
-      options.baseURL || process.env.GATEWAY_URL,
-      options.logString ?? '[inf] ▶ set base API URL:',
-      options.timeout,
-      options.headers,
-    );
-    this.#login = process.env.AUTH_LOGIN;
-    this.#password = process.env.AUTH_PASSWORD;
+  constructor(options = {
+    baseURL: '' || process.env.GATEWAY_URL,
+    logString: '[inf] ▶ set base API URL:'
+  }) {
+    super(options);
+    this.#login = '' || process.env.AUTH_LOGIN;
+    this.#password = '' || process.env.AUTH_PASSWORD;
   }
 
   async auth({ user, APIName }) {
