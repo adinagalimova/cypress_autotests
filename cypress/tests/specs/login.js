@@ -1,10 +1,10 @@
 const mainPage = require('../pageObjects/mainPage');
 const loginPage = require('../pageObjects/loginPage');
 
-describe('Login', () => {
+describe('Login:', () => {
   it('Login into ADP:', { scrollBehavior: false }, () => {
     cy.clearAllCookies();
-    cy.visit('/');
+    cy.open('/');
     loginPage.pageIsDisplayed().should('be.true');
     loginPage.fillLoginAndPassword();
     loginPage.clickSubmitButton();

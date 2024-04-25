@@ -11,7 +11,7 @@ class MainPage extends BaseForm {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
     this.#OGPOButton = new Button(new XPATH('//a[@href="/ogpo/create"]'), 'OGPO button');
     this.#shanyrakButton = new Button(new XPATH('//a[@href="/shanyrak/create"]'), 'Shanyrak button');
-    this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'mutual button');
+    this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'Mutual button');
   }
 
   clickOGPOButton() {

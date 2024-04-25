@@ -1,13 +1,11 @@
 {
   "scripts": {
-    "eslint": "eslint --ext .js .",
-    "eslint:fix": "eslint --fix --ext .js .",
     "config": "node ./cypress/main/utils/data/filesParser.js",
     "config:parallel": "node ./cypress/main/utils/data/filesParser.js --parallel",
-    "load:parallel": "npm run config:parallel && cypress run --browser chrome",
+    "load:parallel": "npm run config:parallel && cypress run --headed --browser chrome",
     "test": "npm run config && cypress run --headed --browser chrome",
-    "test:split": "npm run config && cypress run --browser chrome --env split=true && allure generate ./cypress/artifacts/allure-results --clean -o ./cypress/artifacts/allure-report",
-    "test:parallel": "cypress-parallel -s load:parallel -w './cypress/artifacts/parallel-weights.json' -t 2 -d './cypress/tests/specs/*Suite.js' -b"
+    "test:split": "npm run config && cypress run --browser chrome --env split=true",
+    "test:parallel": "cypress-parallel -s load:parallel -w './cypress/artifacts/parallel-weights.json' -t 1 -d './cypress/tests/specs/*Suite.js' -b"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.0.2",

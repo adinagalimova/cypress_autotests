@@ -135,8 +135,8 @@ class OGPOPage extends BaseForm {
     this.#insurancePeriodAfterIssuingLabel = new Label(new XPATH('//label[@title="Период страхования"]/following::span[@class="font-bold"]'), 'insurance period after issuing label');
     this.#paymentCodeLabel = new Label(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code//child::span'), 'payment code label');
 
-    this.#mutualButton = new Button(new XPATH('//span[text()=\'Создать "обоюдку"\']/parent::button'), 'mutual button');
-    this.#confirmIssueMutualButton = new Button(new XPATH('//span[text()=\'Да\']/parent::button'), 'confirm issue mutual button');
+    this.#mutualButton = new Button(new XPATH('//span[text()=\'Создать "обоюдку"\']/parent::button'), 'Mutual button');
+    this.#confirmIssueMutualButton = new Button(new XPATH('//span[text()=\'Да\']/parent::button'), 'confirm issue Mutual button');
   }
 
   juridicalSwitchIsChecked() {

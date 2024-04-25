@@ -69,7 +69,7 @@ class MutualPage extends BaseForm {
     this.#insuredStepButton = new Button(new XPATH('//div[text()="Список застрахованных"]'), 'insured step button');
     this.#carStepButton = new Button(new XPATH('//div[text()="Список ТС"]'), 'car step button');
     this.#OGPOPolicyStepButton = new Button(new XPATH('//div[text()="Полис ОС ГПО ВТС"]'), 'OGPO policy step button');
-    this.#issueMutualPolicyStepButton = new Button(new XPATH('//div[text()=\'Оформление "ОБВ"\']'), 'issue mutual policy step button');
+    this.#issueMutualPolicyStepButton = new Button(new XPATH('//div[text()=\'Оформление "ОБВ"\']'), 'issue Mutual policy step button');
 
     this.#juridicalSwitch = new Switch(new XPATH('//label[@title=\'Юр. лицо\']/following::button[@role=\'switch\']'), 'juridical switch');
     this.#IPSwitch = new Switch(new XPATH('//label[@title=\'ИП\']/following::button[@role=\'switch\']'), 'IP switch');
