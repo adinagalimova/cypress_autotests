@@ -1,24 +1,32 @@
 # e2e-tests:
-#   image: swtracker/cypress-java:latest
+#   image: lines14/cypress-java-dind:latest
 #   stage: e2e-tests
 #   only:
 #     - dev
+#   services:
+#   - docker:dind
+#   variables:
+#     DOCKER_HOST: tcp://docker:2375
+#     DOCKER_TLS_CERTDIR: ""
+#     DOCKER_DRIVER: overlay2
 #   before_script:
 #     - echo "${ADP_NUXT_TEST}" | tr -d '\r' > ./.env.test
-#     - echo "{}" > ./tsconfig.json
+#     - docker login --username $USER --password $PASS registry.gitlab.com
+#     - service docker start
 #     - npm ci --prefix ./cypress
+#     - npm run start:ci --prefix ./cypress
 #   tags:
 #     - k8s
 #   script:
 #     - npm run test:split --prefix ./cypress
 #   parallel: 1
-#   when: always
 #   artifacts:
 #     when: always
 #     paths:
 #       - cypress/artifacts
 #       - cypress/screenshots
 #       - cypress/videos
+#       - cypress/resources/data/configData.json
 #     expire_in: 1 month
 
 # check:
