@@ -1,15 +1,13 @@
 {
   "scripts": {
-    "config": "node ./cypress/main/utils/data/filesParser.js",
-    "config:parallel": "node ./cypress/main/utils/data/filesParser.js --parallel",
+    "config": "node ./main/utils/data/filesParser.js",
+    "config:parallel": "node ./main/utils/data/filesParser.js --parallel",
     "load:parallel": "npm run config:parallel && cypress run --headed --browser chrome",
     "test": "npm run config && cypress run --headed --browser chrome",
     "test:split": "npm run config && cypress run --browser chrome --env split=true",
-    "test:parallel": "cypress-parallel -s load:parallel -w './cypress/artifacts/parallel-weights.json' -t 1 -d './cypress/tests/specs/*Suite.js' -b"
+    "test:parallel": "cypress-parallel -s load:parallel -w './artifacts/parallel-weights.json' -t 1 -d './tests/specs/*Suite.js' -b"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.0.2",
-    "@eslint/js": "^9.0.0",
     "@shelex/cypress-allure-plugin": "^2.40.0",
     "@testing-library/cypress": "^9.0.0",
     "allure-commandline": "^2.23.1",
@@ -22,9 +20,6 @@
     "cypress-split": "^1.18.5",
     "cypress-xpath": "^2.0.1",
     "dotenv": "^16.3.1",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1",
     "globals": "^15.0.0",
     "moment": "^2.29.4",
     "mysql2": "^3.4.1",

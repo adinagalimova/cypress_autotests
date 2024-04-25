@@ -1,7 +1,7 @@
 const path = require('path');
 const { defineConfig } = require('cypress');
-const JSONLoader = require('./cypress/main/utils/data/JSONLoader');
-const { setupNodeEvents } = require('./cypress/support/setupNodeEvents');
+const JSONLoader = require('./main/utils/data/JSONLoader');
+const { setupNodeEvents } = require('./support/setupNodeEvents');
 require('dotenv').config({ path: path.join(__dirname, '.env.test'), override: true });
 
 module.exports = defineConfig({
@@ -9,12 +9,12 @@ module.exports = defineConfig({
   morgan: false,
   screenshotOnRunFailure: true,
   video: false,
-  downloadsFolder: JSONLoader.APIConfigData.product === 'ADP' ? './downloads' : './cypress/downloads',
-  screenshotsFolder: JSONLoader.APIConfigData.product === 'ADP' ? './screenshots' : './cypress/screenshots',
-  videosFolder: JSONLoader.APIConfigData.product === 'ADP' ? './videos' : './cypress/videos',
+  downloadsFolder: './downloads',
+  screenshotsFolder: './screenshots',
+  videosFolder: './videos',
   env: {
     allure: true,
-    allureResultsPath: './cypress/artifacts/allure-results',
+    allureResultsPath: './artifacts/allure-results',
     allureLogCypress: true,
     allureAvoidLoggingCommands: JSONLoader.configData.allureAvoidLoggingCommands,
     logLevel: 'INFO',
@@ -23,8 +23,8 @@ module.exports = defineConfig({
   },
   e2e: {
     baseUrl: '' || process.env.BASE_URL,
-    specPattern: './cypress/tests/specs/*Suite.js',
-    supportFile: './cypress/support/e2e.js',
+    specPattern: './tests/specs/*Suite.js',
+    supportFile: './support/e2e.js',
     testIsolation: false,
     viewportHeight: 1080,
     viewportWidth: 1920,
