@@ -113,30 +113,18 @@ exports.userPathOGPO = () => {
       .then((sum) => cy.setLocalStorage('sumToPay', sum));
     OGPOPage.clickNextButton();
 
-    const clientFullName = ''.concat(
-      JSONLoader.testData.clientLastName,
-      ' ',
-      JSONLoader.testData.clientFirstName,
-      ' ',
-      JSONLoader.testData.clientMiddleName,
-    );
+    const clientFullName = `${JSONLoader.testData.clientLastName} ${
+      JSONLoader.testData.clientFirstName} ${
+      JSONLoader.testData.clientMiddleName}`;
     OGPOPage.getHolderText().should('be.equal', clientFullName);
-    const insuredClientFullName = ''.concat(
-      JSONLoader.testData.insuredClientLastName,
-      ' ',
-      JSONLoader.testData.insuredClientFirstName,
-      ' ',
-      JSONLoader.testData.insuredClientMiddleName,
-    );
+    const insuredClientFullName = `${JSONLoader.testData.insuredClientLastName} ${
+      JSONLoader.testData.insuredClientFirstName} ${
+      JSONLoader.testData.insuredClientMiddleName}`;
     OGPOPage.getListOfInsuredPeopleText()
       .should('be.equal', insuredClientFullName);
-    const carFullName = ''.concat(
-      JSONLoader.testData.carMark,
-      ', ',
-      JSONLoader.testData.carModel,
-      ', ',
-      JSONLoader.testData.carNumber,
-    );
+    const carFullName = `${JSONLoader.testData.carMark}, ${
+      JSONLoader.testData.carModel}, ${
+      JSONLoader.testData.carNumber}`;
     OGPOPage.getListOfCarsText().should('be.equal', carFullName);
     OGPOPage.getInsurancePeriodBeforeIssuingText().then((text) => {
       cy.wrap(`${beginDate} - ${endDate}`).should('be.equal', text);

@@ -8,4 +8,5 @@ describe('OGPO & Mutual test suite:', () => {
   userPathOGPO();
   kaspiPay();
   userPathMutual();
+  kaspiPay();
 });

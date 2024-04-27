@@ -124,7 +124,7 @@ class MutualPage extends BaseForm {
     this.#insuredStepButton = new Button(new XPATH('//div[text()="Список застрахованных"]'), 'insured step button');
     this.#carStepButton = new Button(new XPATH('//div[text()="Список ТС"]'), 'car step button');
     this.#OGPOPolicyStepButton = new Button(new XPATH('//div[text()="Полис ОС ГПО ВТС"]'), 'OGPO policy step button');
-    this.#issueMutualPolicyStepButton = new Button(new XPATH('//div[text()="Оформление "ОБВ""]'), 'issue Mutual policy step button');
+    this.#issueMutualPolicyStepButton = new Button(new XPATH('//div[text()=\'Оформление "ОБВ"\']'), 'issue Mutual policy step button');
     this.#juridicalSwitch = new Switch(new XPATH('//label[@title="Юр. лицо"]/following::button[@role="switch"]'), 'juridical switch');
     this.#IPSwitch = new Switch(new XPATH('//label[@title="ИП"]/following::button[@role="switch"]'), 'IP switch');
     this.#residentSwitch = new Switch(new XPATH('//label[@title="Резидент"]/following::button[@role="switch"]'), 'resident switch');
@@ -143,7 +143,7 @@ class MutualPage extends BaseForm {
     this.#mobileNumberLabel = new Label(new XPATH('//label[@title="Мобильный телефон"]/following::span[@class="font-bold"]'), 'mobile number label');
     this.#isPDLLabel = new Label(new XPATH('//label[@title="ПДЛ"]/following::span[@class="font-bold"]'), 'is PDL label');
     this.#insuredLastnameTabLabel = new Label(new XPATH('//div[@role="tab" and @tabindex=0]'), 'insured lastname tab label');
-    this.#classIDLabel = new Label(new XPATH('//label[@title="Класс "бонус-малус""]/following::span[@class="font-bold"]'), 'class ID label');
+    this.#classIDLabel = new Label(new XPATH('//label[@title=\'Класс "бонус-малус"\']/following::span[@class="font-bold"]'), 'class ID label');
     this.#driverLicenceTypeLabel = new Label(new XPATH('//label[@title="Тип вод. уд"]/following::span[@class="font-bold"]'), 'driver licence type label');
     this.#driverLicenceNumberLabel = new Label(new XPATH('//label[@title="Номер вод. уд."]/following::span[@class="font-bold"]'), 'driver licence number label');
     this.#driverLicenceIssueDateLabel = new Label(new XPATH('//label[@title="Дата выдачи вод. уд."]/following::span[@class="font-bold"]'), 'driver licence issue date label');

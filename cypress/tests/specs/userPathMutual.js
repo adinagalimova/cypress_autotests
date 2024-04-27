@@ -62,13 +62,9 @@ exports.userPathMutual = () => {
       .should('be.equal', JSONLoader.testData.insuredClientDocumentNumber);
     mutualPage.getDocumentGivenDateText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentIssueDate);
-    const insuredFullName = ''.concat(
-      JSONLoader.testData.insuredClientLastName,
-      ' ',
-      JSONLoader.testData.insuredClientFirstName,
-      ' ',
-      JSONLoader.testData.insuredClientMiddleName,
-    );
+    const insuredFullName = `${JSONLoader.testData.insuredClientLastName} ${
+      JSONLoader.testData.insuredClientFirstName} ${
+      JSONLoader.testData.insuredClientMiddleName}`;
     mutualPage.getInsuredLastnameTabText()
       .should('be.equal', JSONLoader.testData.insuredClientLastName);
     mutualPage.getClassIDText()
@@ -125,24 +121,16 @@ exports.userPathMutual = () => {
       .then((currentValue) => cy.getLocalStorage('OGPOPolicyInsurancePeriod')
         .then((storedValue) => cy.wrap(storedValue)
           .should('be.equal', currentValue)));
-    const holderFullName = ''.concat(
-      JSONLoader.testData.clientLastName,
-      ' ',
-      JSONLoader.testData.clientFirstName,
-      ' ',
-      JSONLoader.testData.clientMiddleName,
-    );
+    const holderFullName = `${JSONLoader.testData.clientLastName} ${
+      JSONLoader.testData.clientFirstName} ${
+      JSONLoader.testData.clientMiddleName}`;
     mutualPage.getOGPOHolderText()
       .should('be.equal', holderFullName);
     mutualPage.getOGPOListOfInsuredPeopleText()
       .should('be.equal', insuredFullName);
-    const listOfCars = ''.concat(
-      JSONLoader.testData.carMark,
-      ', ',
-      JSONLoader.testData.carModel,
-      ', ',
-      JSONLoader.testData.carNumber,
-    );
+    const listOfCars = `${JSONLoader.testData.carMark}, ${
+      JSONLoader.testData.carModel}, ${
+      JSONLoader.testData.carNumber}`;
     mutualPage.getOGPOListOfCarsText()
       .should('be.equal', listOfCars);
 
