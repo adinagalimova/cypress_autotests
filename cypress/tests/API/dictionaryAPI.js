@@ -6,10 +6,11 @@ require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'),
 
 class DictionaryAPI extends BaseAPI {
   #API;
+
   #options;
 
   constructor(options = {
-    baseURL: '' || process.env.GATEWAY_URL
+    baseURL: '' || process.env.GATEWAY_URL,
   }) {
     super(options);
     this.#options = options;
@@ -27,7 +28,7 @@ class DictionaryAPI extends BaseAPI {
       setting: JSONLoader.configData.servers,
     };
 
-    return await this.#API.post(JSONLoader.APIEndpoints.dictionary.servers, params);
+    return this.#API.post(JSONLoader.APIEndpoints.dictionary.servers, params);
   }
 
   async toggleVerification() {
@@ -35,7 +36,7 @@ class DictionaryAPI extends BaseAPI {
       value: Number(JSONLoader.configData.verification),
     };
 
-    return await this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
+    return this.#API.patch(JSONLoader.APIEndpoints.dictionary.verifyBool, params);
   }
 }
 

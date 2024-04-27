@@ -13,8 +13,8 @@ class BaseForm {
 
   getUniqueElement() {
     return this.#pageLocator instanceof XPATH
-      ? cy.xpath(this.#pageLocator.locator).first()
-      : cy.get(this.#pageLocator.locator).first();
+      ? cy.xpath(this.#pageLocator.value).first()
+      : cy.get(this.#pageLocator.value).first();
   }
 
   pageIsDisplayed() {

@@ -4,7 +4,9 @@ const Button = require('../../main/elements/baseElementChildren/button');
 
 class MainPage extends BaseForm {
   #OGPOButton;
+
   #shanyrakButton;
+
   #mutualButton;
 
   constructor() {
@@ -24,7 +26,6 @@ class MainPage extends BaseForm {
 
   clickMutualButton() {
     this.#mutualButton.clickElement();
-    cy.wait(1000);
   }
 }
 

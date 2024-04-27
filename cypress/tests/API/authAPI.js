@@ -5,11 +5,12 @@ require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'),
 
 class AuthAPI extends BaseAPI {
   #login;
+
   #password;
 
   constructor(options = {
     baseURL: '' || process.env.GATEWAY_URL,
-    logString: '[inf] ▶ set base API URL:'
+    logString: '[inf] ▶ set base API URL:',
   }) {
     super(options);
     this.#login = '' || process.env.AUTH_LOGIN;

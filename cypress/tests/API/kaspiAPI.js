@@ -8,10 +8,11 @@ require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'),
 
 class KaspiAPI extends BaseAPI {
   #API;
+
   #options;
 
   constructor(options = {
-    baseURL: '' || process.env.GATEWAY_URL
+    baseURL: '' || process.env.GATEWAY_URL,
   }) {
     super(options);
     this.#options = options;
@@ -34,7 +35,7 @@ class KaspiAPI extends BaseAPI {
       sum: paymentInfo.sumToPay,
     };
 
-    return await this.#API.get(JSONLoader.APIEndpoints.kaspi.pay, params);
+    return this.#API.get(JSONLoader.APIEndpoints.kaspi.pay, params);
   }
 }
 

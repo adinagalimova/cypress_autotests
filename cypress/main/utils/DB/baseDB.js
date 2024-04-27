@@ -49,7 +49,7 @@ class BaseDB {
     target = '*',
     conditions = '',
     values = [],
-    options = { hasLogger: true }
+    options = { hasLogger: true },
   ) {
     const logs = [];
     if (options.hasLogger) logs.push(`[inf] ▶ select ${target} from ${tableName} table`);
