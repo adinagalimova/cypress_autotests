@@ -125,7 +125,9 @@ class BaseElement {
     });
   }
 
-  // args contain required count of returning random elements and exceptions elements array:
+  // requires one mandatory argument: dropdownElement.
+  // args contain optional count of returning random elements
+  // or/and optional exceptions elements sequence:
   clickRandomElementsFromDropdownByText(dropdownElement, ...args) {
     let count = args[0];
     let exceptionsElements = args.slice(1, args.length);
@@ -158,10 +160,9 @@ class BaseElement {
     }
   }
 
-  // checkboxParent is an element on the upper node that contains label text,
-  // args contain exceptions elements array:
-  clickCheckboxesByText(checkboxParent, randomCount = true, ...args) {
-    const exceptionsElements = args;
+  // requires one mandatory argument:
+  // checkboxParent - is an element on the upper node that nesting checkbox title text
+  clickCheckboxesByText({ checkboxParent, randomCount = true }, ...exceptionsElements) {
     this.getElementsListText('innerText').then((elementsTextList) => {
       let count = elementsTextList.length;
       if (randomCount) count = Randomizer.getRandomInteger(elementsTextList.length);
