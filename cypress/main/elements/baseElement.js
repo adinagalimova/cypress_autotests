@@ -153,7 +153,7 @@ class BaseElement {
         );
         exceptionsTextList.push(randomElementText);
         cy.logger(`[inf] ▶ click ${randomElementText}`);
-        cy.contains('span', randomElementText).click({ force: true });
+        cy.contains(randomElementText).click({ force: true });
       });
     }
   }
