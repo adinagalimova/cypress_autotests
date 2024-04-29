@@ -161,7 +161,7 @@ class BaseElement {
   }
 
   // requires one mandatory argument:
-  // checkboxParent - is an element on the upper node that nesting checkbox title text
+  // checkboxParent - is a tagname of an element on the upper node that nesting checkbox title text
   clickCheckboxesByText({ checkboxParent, randomCount = true }, ...exceptionsElements) {
     this.getElementsListText('innerText').then((elementsTextList) => {
       let count = elementsTextList.length;
