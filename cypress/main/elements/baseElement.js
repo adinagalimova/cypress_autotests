@@ -199,9 +199,15 @@ class BaseElement {
     const elementTextSet = new Set();
     let breakCondition;
 
-    for (let i = 0; i < 20; i += 1) {
+    for (let i = 0; i < 500; i += 1) {
       cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
-      this.getElement(dropdownElement.#elementLocator).click();
+      this.getElement(dropdownElement.#elementLocator).click()
+        // .then((element) => {
+        //   elements.push(element)
+        //   elementTextSet.add(element.text())
+        // })
+        // .type(`{downArrow}`)
+
       cy.logger(`[inf] ▶ get element from ${this.#elementName}`);
       this.getElement(dropdownElement.#elementLocator).then((element) => {
         elements.push(element);
@@ -214,6 +220,7 @@ class BaseElement {
       this.getElement(dropdownElement.#elementLocator).type(`{downArrow}`)
 
       breakCondition = this.getText().then((elementText) => {
+        cy.logger(`[inf] ▶ break condition is  ${elementTextSet.has(elementText)}`);
         return elementTextSet.has(elementText)
       });
 
