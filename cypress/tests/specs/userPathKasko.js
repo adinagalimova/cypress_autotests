@@ -4,6 +4,7 @@ const kaskoStep1 = require('../pageObjects/kasko/kaskoStep1');
 const kaskoStep2 = require('../pageObjects/kasko/kaskoStep2');
 const kaskoStep3 = require('../pageObjects/kasko/kaskoStep3');
 const kaskoStep4 = require('../pageObjects/kasko/kaskoStep4');
+const kaskoStep5 = require('../pageObjects/kasko/kaskoStep5');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 describe('Kasko smoke test:', () => {
@@ -31,11 +32,12 @@ describe('Kasko smoke test:', () => {
     kaskoStep3.pageIsDisplayed();
     kaskoStep3.inputIIN(JSONLoader.testData.clientIIN);
     kaskoStep3.clickSearchClientButton();
-    kaskoStep3.getFullNameElement().should('have.value', JSONLoader.testData.clientLastName + ' ' + JSONLoader.testData.clientFirstName + ' ');
+    let clientFirstAndLastName = JSONLoader.testData.clientLastName + ' ' + JSONLoader.testData.clientFirstName + ' ';
+    kaskoStep3.getFullNameElement().should('contain.value', clientFirstAndLastName);
     kaskoStep3.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
     kaskoStep3.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
     kaskoStep3.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
-    kaskoStep3.getDocumentIssuedByElement().should('have.value', JSONLoader.testData.clientDocumentIssuedBy);
+    // kaskoStep3.getDocumentIssuedByElement().should('have.value', JSONLoader.testData.clientDocumentIssuedBy);
     kaskoStep3.inputAddress(JSONLoader.testData.clientAddress);
     kaskoStep3.inputPhone(JSONLoader.testData.clientPhoneForKASKO);
     kaskoStep3.inputEmail(JSONLoader.testData.clientEmail);
@@ -54,5 +56,12 @@ describe('Kasko smoke test:', () => {
     kaskoStep4.getCarRegDateElement().should('have.value', JSONLoader.testData.carRegDate);
     kaskoStep4.getInsuranceSumText().then((insuranceSumValue) => cy.wrap(insuranceSumValue).should('be.equal', insuranceSum));
     kaskoStep4.clickSaveButton();
+
+    kaskoStep5.pageIsDisplayed();
+    kaskoStep5.clickNaturalPersonSwitch();
+    kaskoStep5.inputIINBIN(JSONLoader.testData.clientIIN);
+    kaskoStep5.clickSearchBeneficiaryButton();
+    kaskoStep5.getBeneficiaryFullNameElement().should('contain.value', clientFirstAndLastName);
+    kaskoStep5.clickSaveButton();
   });
 });

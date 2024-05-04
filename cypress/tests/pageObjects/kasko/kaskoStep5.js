@@ -3,7 +3,6 @@ const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
-const Label = require("../../../main/elements/baseElementChildren/label");
 const Switch = require("../../../main/elements/baseElementChildren/switch");
 
 class KaskoStep5 extends BaseForm {
@@ -14,52 +13,29 @@ class KaskoStep5 extends BaseForm {
   #saveButton;
 
   constructor() {
-    super(new XPATH('//input[@id="form_item_number"]'), 'Kasko step 4 page');
+    super(new XPATH('//button[@id="form_item_natural_person_bool"]'), 'Kasko step 5 page');
 
-    this.#naturalPersonSwitch = new Switch(new XPATH('//label[@title=\'Юр. лицо\']/following::button[@role=\'switch\']'), 'natural person switch');
-    this.#IINTextbox = new Label(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
-    this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]/parent::button'), 'search client button');
+    this.#naturalPersonSwitch = new Switch(new XPATH('//button[@id="form_item_natural_person_bool"]'), 'natural person switch');
+    this.#IINBINTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
+    this.#searchBeneficiaryButton = new Button(new XPATH('//span[text()="Поиск"]/parent::button'), 'search beneficiary button');
+    this.#beneficiaryFullNameTextbox = new Textbox(new XPATH('//input[@id="form_item_name"]'), 'beneficiary full name textbox');
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]/parent::button'), 'save button');
   }
 
-  inputCarRegNum(regNum) {
-    this.#regNumTextbox.inputData(regNum);
+  clickNaturalPersonSwitch() {
+    this.#naturalPersonSwitch.clickElement();
   }
 
-  inputCarRegCertNum(regCertNum) {
-    this.#regCertNumTextbox.inputData(regCertNum);
+  inputIINBIN(IINBIN) {
+    this.#IINBINTextbox.inputData(IINBIN);
   }
 
-  clickSearchCarButton() {
-    this.#searchCarButton.clickElement();
+  clickSearchBeneficiaryButton() {
+    this.#searchBeneficiaryButton.clickElement();
   }
 
-  getCarMarkElement() {
-    return this.#carMarkTextbox.getElement();
-  }
-
-  getCarModelElement() {
-    return this.#carModelTextbox.getElement();
-  }
-
-  getCarManufacturedYearElement() {
-    return this.#carManufacturedYearTextbox.getElement();
-  }
-
-  getCarVINElement() {
-    return this.#carVINTextbox.getElement();
-  }
-
-  getCarRegionText() {
-    return this.#carRegionDropdownButton.getText();
-  }
-
-  getCarRegDateElement() {
-    return this.#carRegDateTextbox.getElement();
-  }
-
-  getInsuranceSumText() {
-    return this.#insuranceSumTextbox.getText();
+  getBeneficiaryFullNameElement() {
+    return this.#beneficiaryFullNameTextbox.getElement();
   }
 
   clickSaveButton() {
