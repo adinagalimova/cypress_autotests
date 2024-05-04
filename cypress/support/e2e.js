@@ -3,6 +3,7 @@ require('cypress-log-filter');
 require('cypress-plugin-multiple-click');
 require('@shelex/cypress-allure-plugin');
 require('cypress-localstorage-commands');
+require('cypress-fill-command');
 
 // Hide fetch/XHR requests
 const app = window.top;

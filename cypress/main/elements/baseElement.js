@@ -30,6 +30,16 @@ class BaseElement {
     return this.getElement().click();
   }
 
+  focusOnElement() {
+    cy.logger(`[inf] ▶ focus on ${this.#elementName}`);
+    return this.getElement().focus();
+  }
+
+  forceClickElement() {
+    cy.logger(`[inf] ▶ force click ${this.#elementName}`);
+    return this.getElement().click({ force: true });
+  }
+
   doubleClickElement() {
     cy.logger(`[inf] ▶ double click ${this.#elementName}`);
     this.getElement().dblclick();
@@ -65,7 +75,7 @@ class BaseElement {
 
   scrollElementToView() {
     cy.logger(`[inf] ▶ scroll to ${this.#elementName}`);
-    this.getElement().scrollIntoView();
+    this.getElement().scrollIntoView({ offset: { top: -100, left: 0 } });
   }
 
   clearData() {
@@ -81,6 +91,11 @@ class BaseElement {
   forceInputData(data) {
     cy.logger(`[inf] ▶ force input ${this.#elementName}`);
     this.getElement().type(data, { force: true });
+  }
+
+  fillInputField(data) {
+    cy.logger(`[inf] ▶ fill input data into ${this.#elementName}`);
+    this.getElement().fill(data, { overwrite: false, prepend: true });
   }
 
   enterData(data) {
@@ -182,6 +197,22 @@ class BaseElement {
       cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
       this.getElement(rightArrowElement.#elementLocator).click();
     }
+  }
+
+  clickRandomKaskoTariff() {
+    this.getElements().then((tariffs) => {
+      console.log('tariffs length: ', tariffs.length);
+      const randomIndex = Randomizer.getRandomInteger(tariffs.length);
+      const randomTariffXPATH = new XPATH(`(//span[text()='Рассчитать'])[${randomIndex}]`);
+      this.#elementLocator = randomTariffXPATH;
+      console.log('randomIndex: ', randomIndex);
+      console.log('randomTariffXPATH: ', randomTariffXPATH.locator);
+      console.log('element: ', this.getElement(randomTariffXPATH));
+      this.elementIsVisible();
+      this.scrollElementToView();
+      this.elementIsDisplayed();
+      this.getElement().click();
+    });
   }
 }
 

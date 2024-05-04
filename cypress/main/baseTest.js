@@ -5,7 +5,6 @@ const dictionaryAPI = require('../tests/API/dictionaryAPI');
 
 class BaseTest {
   static async beforeAll() {
-    console.log('entered pre hooks');
     await dictionaryAPI.setToken();
     await dictionaryAPI.toggleServer();
     await dictionaryAPI.toggleVerification();

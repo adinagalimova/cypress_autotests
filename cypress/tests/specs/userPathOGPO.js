@@ -9,8 +9,8 @@ describe('OGPO smoke test:', () => {
     let endDate;
 
     mainPage.clickOGPOButton();
-
     OGPOPage.pageIsDisplayed();
+
     OGPOPage.juridicalSwitchIsChecked().should('be.false');
     OGPOPage.IPSwitchIsChecked().should('be.false');
     OGPOPage.residentSwitchIsChecked().should('be.true');

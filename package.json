@@ -17,6 +17,7 @@
     "allure-commandline": "^2.23.1",
     "axios": "^0.21.1",
     "cypress": "12.14.0",
+    "cypress-fill-command": "^1.0.2",
     "cypress-localstorage-commands": "^2.2.4",
     "cypress-log-filter": "^1.0.4",
     "cypress-parallel": "^0.14.0",

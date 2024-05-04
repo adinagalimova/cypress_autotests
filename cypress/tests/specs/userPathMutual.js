@@ -1,6 +1,6 @@
 const moment = require('moment');
 const OGPOPage = require('../pageObjects/OGPOPage');
-const mutualPage = require('../pageObjects/MutualPage');
+const mutualPage = require('../pageObjects/mutualPage');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 describe('Mutual smoke test:', () => {
@@ -9,8 +9,8 @@ describe('Mutual smoke test:', () => {
     OGPOPage.clickConfirmIssueMutualButton();
 
     mutualPage.pageIsDisplayed();
-
     mutualPage.clickHolderStepButton();
+
     mutualPage.juridicalSwitchIsChecked().should('be.equal', false);
     mutualPage.IPSwitchIsChecked().should('be.equal', false);
     mutualPage.residentSwitchIsChecked().should('be.equal', true);
