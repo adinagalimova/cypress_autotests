@@ -193,6 +193,37 @@ class BaseElement {
       this.getElement(rightArrowElement.#elementLocator).click();
     }
   }
+
+  iterateWithArrows(dropdownElement) {
+    const elements = [];
+    const elementTextSet = new Set();
+    let breakCondition;
+
+    for (let i = 0; i < 20; i += 1) {
+      cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
+      this.getElement(dropdownElement.#elementLocator).click();
+      cy.logger(`[inf] ▶ get element from ${this.#elementName}`);
+      this.getElement(dropdownElement.#elementLocator).then((element) => {
+        elements.push(element);
+      })
+
+      this.getText().then((elementText) => {
+        elementTextSet.add(elementText);
+      })
+
+      this.getElement(dropdownElement.#elementLocator).type(`{downArrow}`)
+
+      breakCondition = this.getText().then((elementText) => {
+        return elementTextSet.has(elementText)
+      });
+
+      if (!breakCondition) break;
+
+      this.getElement(dropdownElement.#elementLocator).type(`{Esc}`)
+    }
+
+    return elements;
+  }
 }
 
 module.exports = BaseElement;
