@@ -112,7 +112,7 @@ class OGPOPage extends BaseForm {
     this.#carRegionDropdownElement = new Button(new XPATH(`//div[@class="ant-select-item-option-content" and text()="${JSONLoader.testData.carRegion}"]`), 'car region dropdown element');
     this.#carVINTextbox = new Textbox(new XPATH('//input[@id="form_item_vin"]'), 'car VIN textbox');
     this.#carTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_type_id"]/following::span[@class="ant-select-selection-item"]'), 'car type dropdown button');
-    this.#carManufacturedYearDropdownButton = new Textbox(new XPATH('//input[@id="form_item_year"]/following::span[@class="ant-select-selection-item"]'), 'car manufactured year dropdown button');
+    this.#carManufacturedYearDropdownButton = new Button(new XPATH('//input[@id="form_item_year"]/following::span[@class="ant-select-selection-item"]'), 'car manufactured year dropdown button');
     this.#carEngineVolumeTextbox = new Textbox(new XPATH('//input[@id="form_item_engine_volume"]'), 'engine volume textbox');
     this.#carMarkTextbox = new Textbox(new XPATH('//input[@id="form_item_mark"]'), 'car mark textbox');
     this.#carModelTextbox = new Textbox(new XPATH('//input[@id="form_item_model"]'), 'car model textbox');

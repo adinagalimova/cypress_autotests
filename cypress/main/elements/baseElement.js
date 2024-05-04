@@ -75,7 +75,7 @@ class BaseElement {
 
   scrollElementToView() {
     cy.logger(`[inf] ▶ scroll to ${this.#elementName}`);
-    this.getElement().scrollIntoView({ offset: { top: -100, left: 0 } });
+    this.getElement().scrollIntoView({ offset: { top: -150, left: 0 } });
   }
 
   clearData() {

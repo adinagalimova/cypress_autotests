@@ -5,6 +5,7 @@ const kaskoStep2 = require('../pageObjects/kasko/kaskoStep2');
 const kaskoStep3 = require('../pageObjects/kasko/kaskoStep3');
 const kaskoStep4 = require('../pageObjects/kasko/kaskoStep4');
 const kaskoStep5 = require('../pageObjects/kasko/kaskoStep5');
+const kaskoStep6 = require('../pageObjects/kasko/kaskoStep6');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 describe('Kasko smoke test:', () => {
@@ -63,5 +64,11 @@ describe('Kasko smoke test:', () => {
     kaskoStep5.clickSearchBeneficiaryButton();
     kaskoStep5.getBeneficiaryFullNameElement().should('contain.value', clientFirstAndLastName);
     kaskoStep5.clickSaveButton();
+
+    kaskoStep6.pageIsDisplayed();
+    kaskoStep6.chooseInsurancePeriod();
+    kaskoStep6.getPremiumElement().then((premium) => cy.setLocalStorage('premium', premium));
+    kaskoStep6.choosePaymentType();
+    kaskoStep6.clickSaveButton();
   });
 });
