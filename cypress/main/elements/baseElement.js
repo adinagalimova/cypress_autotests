@@ -214,6 +214,19 @@ class BaseElement {
       this.getElement().click();
     });
   }
+
+  iterateWithArrows(dropdownElement) {
+    const elements = [];
+
+    for (let i = 0; i < 12; i += 1) {
+      cy.log(`[inf] ▶ click ${dropdownElement.#elementName}`);
+      this.getElement(dropdownElement.#elementLocator)
+        .type(`{downArrow}`);
+    }
+    cy.type(`{downArrow}`);
+
+    return elements;
+  }
 }
 
 module.exports = BaseElement;
