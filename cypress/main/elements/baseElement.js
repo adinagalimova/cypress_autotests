@@ -196,20 +196,25 @@ class BaseElement {
 
   iterateWithArrows(dropdownElement) {
     const elements = [];
-    let breakCondition;
 
     for (let i = 0; i < 500; i += 1) {
-      cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
-      this.getElement(dropdownElement.#elementLocator).click()
+      cy.log(`[inf] ▶ click ${dropdownElement.#elementName}`);
+      this.getElement(dropdownElement.#elementLocator).click();
+      this.getElement()
         .then((element) => {
-          elements.push(element)
-        })
+          cy.logger(`[inf] ▶ logging ${element.text()}`);
+          elements.push(element.text());
+          cy.logger(`[inf] ▶ length ${elements.length}`);
+        });
+      this.getElement(dropdownElement.#elementLocator)
         .type(`{downArrow}`)
-        .type(`{Esc}`)
+        .type(`{Esc}`);
 
-      if (i !== 0 && elements[i] === elements[0]) {
-        break;
-      }
+      // if (i !== 0 && elements[i] === elements[0]) {
+      //   cy.logger(`[inf] ▶ logging ${elements[i]}`);
+      //   cy.logger(`[inf] ▶ logging ${elements[0]}`);
+      //   break;
+      // }
 
       // cy.logger(`[inf] ▶ get element from ${this.#elementName}`);
       // this.getElement(dropdownElement.#elementLocator).then((element) => {
@@ -228,22 +233,32 @@ class BaseElement {
     const elements = [];
     this.getElement(dropdownElement.#elementLocator).click();
 
-    return this.getElement(dropdownElement.#elementLocator).then((element) => {
-      elements.push(element);
+    return this.getElement().then((element) => {
+      elements.push(element.text());
       return this.iterateOverList(element, elements);
     })
   }
 
   iterateOverList(element, elements) {
-    this.getElement(element.#elementLocator).type(`{downArrow}`);
+    this.getElement().type(`{downArrow}`);
 
-    return this.getElement(element.#elementLocator).then((el) => {
+    return element.getElement().then((el) => {
       if (el.text() === elements[0].text()) {
         return elements;
       } else {
         elements.push(el);
         return this.iterateOverList(el, elements);
       }
+    })
+  }
+
+  createListOfElements2(dropdownElement) {
+    const elements = [];
+    this.getElement(dropdownElement.#elementLocator).click();
+
+    return this.getElement(dropdownElement.#elementLocator).then((element) => {
+      elements.push(element);
+      return this.iterateOverList(element, elements);
     })
   }
 }
