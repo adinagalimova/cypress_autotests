@@ -197,11 +197,10 @@ class BaseElement {
   iterateWithArrows(dropdownElement) {
     const elements = [];
 
-    for (let i = 0; i < 500; i += 1) {
+    for (let i = 0; i < 12; i += 1) {
       cy.log(`[inf] ▶ click ${dropdownElement.#elementName}`);
       this.getElement(dropdownElement.#elementLocator).click();
-      this.getElement()
-        .then((element) => {
+      this.getElement().then((element) => {
           cy.logger(`[inf] ▶ logging ${element.text()}`);
           elements.push(element.text());
           cy.logger(`[inf] ▶ length ${elements.length}`);
@@ -235,19 +234,20 @@ class BaseElement {
 
     return this.getElement().then((element) => {
       elements.push(element.text());
-      return this.iterateOverList(element, elements);
+      return this.iterateOverList(elements);
     })
   }
 
-  iterateOverList(element, elements) {
-    this.getElement().type(`{downArrow}`);
+  iterateOverList(elements) {
+    this.getElement().type(`{downArrow}`).type(`{Esc}`);
 
-    return element.getElement().then((el) => {
-      if (el.text() === elements[0].text()) {
+    return this.getElement().then((el) => {
+      cy.logger(`[inf] ▶ logging ${el.text()}`);
+      if (el.text() === elements[0]) {
         return elements;
       } else {
         elements.push(el);
-        return this.iterateOverList(el, elements);
+        return this.iterateOverList(elements);
       }
     })
   }
