@@ -196,40 +196,55 @@ class BaseElement {
 
   iterateWithArrows(dropdownElement) {
     const elements = [];
-    const elementTextSet = new Set();
     let breakCondition;
 
     for (let i = 0; i < 500; i += 1) {
       cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
       this.getElement(dropdownElement.#elementLocator).click()
-        // .then((element) => {
-        //   elements.push(element)
-        //   elementTextSet.add(element.text())
-        // })
-        // .type(`{downArrow}`)
+        .then((element) => {
+          elements.push(element)
+        })
+        .type(`{downArrow}`)
+        .type(`{Esc}`)
 
-      cy.logger(`[inf] ▶ get element from ${this.#elementName}`);
-      this.getElement(dropdownElement.#elementLocator).then((element) => {
-        elements.push(element);
-      })
+      if (i !== 0 && elements[i] === elements[0]) {
+        break;
+      }
 
-      this.getText().then((elementText) => {
-        elementTextSet.add(elementText);
-      })
+      // cy.logger(`[inf] ▶ get element from ${this.#elementName}`);
+      // this.getElement(dropdownElement.#elementLocator).then((element) => {
+      //   elements.push(element);
+      // })
 
-      this.getElement(dropdownElement.#elementLocator).type(`{downArrow}`)
+      // this.getElement(dropdownElement.#elementLocator).type(`{downArrow}`)
 
-      breakCondition = this.getText().then((elementText) => {
-        cy.logger(`[inf] ▶ break condition is  ${elementTextSet.has(elementText)}`);
-        return elementTextSet.has(elementText)
-      });
-
-      if (!breakCondition) break;
-
-      this.getElement(dropdownElement.#elementLocator).type(`{Esc}`)
+      // this.getElement(dropdownElement.#elementLocator).type(`{Esc}`)
     }
 
     return elements;
+  }
+
+  createListOfElements(dropdownElement) {
+    const elements = [];
+    this.getElement(dropdownElement.#elementLocator).click();
+
+    return this.getElement(dropdownElement.#elementLocator).then((element) => {
+      elements.push(element);
+      return this.iterateOverList(element, elements);
+    })
+  }
+
+  iterateOverList(element, elements) {
+    this.getElement(element.#elementLocator).type(`{downArrow}`);
+
+    return this.getElement(element.#elementLocator).then((el) => {
+      if (el.text() === elements[0].text()) {
+        return elements;
+      } else {
+        elements.push(el);
+        return this.iterateOverList(el, elements);
+      }
+    })
   }
 }
 
