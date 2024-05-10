@@ -200,7 +200,7 @@ class BaseElement {
 
     return this.getElement().then((element) => {
       elements.push(element.text());
-      return this.iterateOverList(elements, dropdownElement);
+      return this.iterateOverList(elements);
     })
   }
 
@@ -209,6 +209,7 @@ class BaseElement {
 
     return this.getElement().then((el) => {
       if (el.text() === elements[0]) {
+        cy.logger('Number of countries is ' + elements.length)
         return cy.wrap(elements);
       } else {
         elements.push(el);

@@ -8,6 +8,7 @@ const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
 const RadioButton = require('../../main/elements/baseElementChildren/radioButton');
 const Switch = require('../../main/elements/baseElementChildren/switch');
+const DataUtils = require('../../main/utils/data/dataUtils');
 
 class MSTPagePartOne extends BaseForm {
   #agentDropdown;
@@ -55,8 +56,17 @@ class MSTPagePartOne extends BaseForm {
     return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
   }
 
-  clickCountryDropdown() {
-    return this.#countriesDropdown.clickElement();
+  getCountriesFromRequest() {
+    const countries = [];
+    cy.intercept('countries*', (request) => {
+      request.continue(response => {
+        response.body.forEach((country) => {
+          countries.push(country.title)
+        });
+      })
+    });
+
+    return countries;
   }
 }
 
