@@ -52,7 +52,7 @@ class MSTPagePartOne extends BaseForm {
   }
 
   getAllCountries() {
-    return this.#countriesDropdownHighlighted.iterateWithArrows(this.#countriesDropdown);
+    return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
   }
 
   clickCountryDropdown() {
