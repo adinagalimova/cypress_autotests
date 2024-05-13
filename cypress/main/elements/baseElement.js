@@ -201,21 +201,20 @@ class BaseElement {
     return this.getElement().then((element) => {
       elements.push(element.text());
       return this.iterateOverList(elements);
-    })
+    });
   }
 
   iterateOverList(elements) {
-    this.getElement().click().type(`{downArrow}`);
+    this.getElement().click().type('{downArrow}');
 
     return this.getElement().then((el) => {
       if (el.text() === elements[0]) {
-        cy.logger('Number of countries is ' + elements.length)
+        cy.logger(`Number of countries is ${elements.length}`);
         return cy.wrap(elements);
-      } else {
-        elements.push(el);
-        return this.iterateOverList(elements);
       }
-    })
+      elements.push(el);
+      return this.iterateOverList(elements);
+    });
   }
 }
 

@@ -19,7 +19,7 @@ exports.userPathMST = () => {
 
     // countries.then((countryArray) => {
     //   countryArray.should('have.length', countriesFromRequest)
-      // expect(countryArray).to.have.length(countriesFromRequest.length - 1)
+    // expect(countryArray).to.have.length(countriesFromRequest.length - 1)
     // })
   });
 };
