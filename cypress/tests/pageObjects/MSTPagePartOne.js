@@ -27,13 +27,13 @@ class MSTPagePartOne extends BaseForm {
 
   constructor(beginDate) {
     super(new XPATH('//span[text()="на год"]'), 'MST page Part One');
-    this.#agentDropdown = new Button(new XPATH(`//div[@class="ant-col ant-col-19 ant-form-item-control css-1eslcgx"]`), 'agent dropdown');
-    this.#agentDropdownElements = new Textbox(new XPATH(`//div[@class="ant-select-item-option-content"]`), 'agent dropdown elements');
-    this.#policyDuration = new Textbox(new XPATH(`//label[@title="Срок полиса"]`), 'policy duration');
-    this.#policyDurationElements = new Textbox(new XPATH(`//div[@class="ant-radio-group ant-radio-group-solid css-1eslcgx"]/descendant::label`), 'policy duration elements');
-    this.#policyDurationChosen = new Textbox(new XPATH(`//label[@class="ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-1eslcgx"]`), 'policy duration chosen one');
-    this.#countriesDropdown = new Textbox(new XPATH(`//label[text()="Территория"]/parent::div/following::div/descendant::div`), 'countries dropdown');
-    this.#countriesDropdownHighlighted = new Textbox(new XPATH(`//div[@class="ant-select-item ant-select-item-option ant-select-item-option-active"]`), 'countries dropdown highlighted');
+    this.#agentDropdown = new Button(new XPATH('//div[@class="ant-col ant-col-19 ant-form-item-control css-1eslcgx"]'), 'agent dropdown');
+    this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
+    this.#policyDuration = new Textbox(new XPATH('//label[@title="Срок полиса"]'), 'policy duration');
+    this.#policyDurationElements = new Textbox(new XPATH('//div[@class="ant-radio-group ant-radio-group-solid css-1eslcgx"]/descendant::label'), 'policy duration elements');
+    this.#policyDurationChosen = new Textbox(new XPATH('//label[@class="ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-1eslcgx"]'), 'policy duration chosen one');
+    this.#countriesDropdown = new Textbox(new XPATH('//label[text()="Территория"]/parent::div/following::div/descendant::div'), 'countries dropdown');
+    this.#countriesDropdownHighlighted = new Textbox(new XPATH('//div[@class="ant-select-item ant-select-item-option ant-select-item-option-active"]'), 'countries dropdown highlighted');
   }
 
   clickAgent() {
@@ -60,13 +60,13 @@ class MSTPagePartOne extends BaseForm {
     const excludedCountries = new Set(JSONLoader.testData.MSTExcludedCountries);
     const countries = [];
     cy.intercept('countries*', (request) => {
-      request.continue(response => {
+      request.continue((response) => {
         response.body.forEach((country) => {
           if (!excludedCountries.has(country.title)) {
-            countries.push(country.title)
+            countries.push(country.title);
           }
         });
-      })
+      });
     });
 
     return cy.wrap(countries);

@@ -201,21 +201,20 @@ class BaseElement {
     return this.getElement().then((element) => {
       elements.push(element.text());
       return this.iterateOverList(elements);
-    })
+    });
   }
 
   iterateOverList(elements) {
-    this.getElement().click().type(`{downArrow}`);
+    this.getElement().click().type('{downArrow}');
 
     return this.getElement().then((el) => {
       if (el.text() === elements[0]) {
-        cy.logger('Number of countries is ' + elements.length)
+        cy.logger(`Number of countries is ${elements.length}`);
         return cy.wrap(elements);
-      } else {
-        elements.push(el.text());
-        return this.iterateOverList(elements);
       }
-    })
+      elements.push(el.text());
+      return this.iterateOverList(elements);
+    });
   }
 
   clickElementsFromDropdownByText(elementsArray, dropdownElement, ...args) {
@@ -243,11 +242,11 @@ class BaseElement {
         );
         exceptionsTextList.push(randomElementText);
         cy.logger(`[inf] ▶ chose ${randomElementText}`);
-        dropdownElement.enterData(randomElementText)
+        dropdownElement.enterData(randomElementText);
       }
-    })
+    });
 
-    this.getElement().click().type(`{Esc}`);
+    this.getElement().click().type('{Esc}');
   }
 }
 
