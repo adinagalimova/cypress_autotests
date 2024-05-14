@@ -32,7 +32,7 @@ class MSTPagePartOne extends BaseForm {
     this.#policyDuration = new Textbox(new XPATH(`//label[@title="Срок полиса"]`), 'policy duration');
     this.#policyDurationElements = new Textbox(new XPATH(`//div[@class="ant-radio-group ant-radio-group-solid css-1eslcgx"]/descendant::label`), 'policy duration elements');
     this.#policyDurationChosen = new Textbox(new XPATH(`//label[@class="ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-1eslcgx"]`), 'policy duration chosen one');
-    this.#countriesDropdown = new Textbox(new XPATH(`//span[text()="Выберите страны"]/parent::div`), 'countries dropdown');
+    this.#countriesDropdown = new Textbox(new XPATH(`//label[text()="Территория"]/parent::div/following::div/descendant::div`), 'countries dropdown');
     this.#countriesDropdownHighlighted = new Textbox(new XPATH(`//div[@class="ant-select-item ant-select-item-option ant-select-item-option-active"]`), 'countries dropdown highlighted');
   }
 
@@ -57,16 +57,23 @@ class MSTPagePartOne extends BaseForm {
   }
 
   getCountriesFromRequest() {
+    const excludedCountries = new Set(JSONLoader.testData.MSTExcludedCountries);
     const countries = [];
     cy.intercept('countries*', (request) => {
       request.continue(response => {
         response.body.forEach((country) => {
-          countries.push(country.title)
+          if (!excludedCountries.has(country.title)) {
+            countries.push(country.title)
+          }
         });
       })
     });
 
-    return countries;
+    return cy.wrap(countries);
+  }
+
+  clickThreeCountries(elementsArray) {
+    return this.#countriesDropdownHighlighted.clickElementsFromDropdownByText(elementsArray, this.#countriesDropdown, 3);
   }
 }
 

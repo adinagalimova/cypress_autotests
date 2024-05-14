@@ -9,17 +9,13 @@ exports.userPathMST = () => {
     let endDate;
     mainPage.clickMSTButton();
 
-    const countriesFromRequest = MSTPagePartOne.getCountriesFromRequest();
+    const countries = MSTPagePartOne.getCountriesFromRequest()
     MSTPagePartOne.pageIsDisplayed().should('be.true');
     MSTPagePartOne.clickAgent();
     MSTPagePartOne.clickFirstAgent();
     MSTPagePartOne.clickRandomDuration();
     const duration = MSTPagePartOne.getChosenDuration();
-    MSTPagePartOne.getAllCountries().should('have.length', countriesFromRequest.length);
-
-    // countries.then((countryArray) => {
-    //   countryArray.should('have.length', countriesFromRequest)
-      // expect(countryArray).to.have.length(countriesFromRequest.length - 1)
-    // })
+    // const countries = MSTPagePartOne.getAllCountries();
+    MSTPagePartOne.clickThreeCountries(countries)
   });
 };

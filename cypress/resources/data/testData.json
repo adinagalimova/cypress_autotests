@@ -53,5 +53,8 @@
   "insuredClientIsPDL": "Нет",
   "draftStatus": "Черновик",
   "unifiedCombinedLimit": "550000 тг. (обоюдка 150000 + беспечный водитель 400000)",
-  "mutualPremium": "14999"
+  "mutualPremium": "14999",
+  "MSTExcludedCountries": [
+    "Казахстан"
+  ]
 }
