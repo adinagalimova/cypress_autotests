@@ -193,6 +193,61 @@ class BaseElement {
       this.getElement(rightArrowElement.#elementLocator).click();
     }
   }
+
+  createListOfElements(dropdownElement) {
+    const elements = [];
+    this.getElement(dropdownElement.#elementLocator).click();
+
+    return this.getElement().then((element) => {
+      elements.push(element.text());
+      return this.iterateOverList(elements);
+    });
+  }
+
+  iterateOverList(elements) {
+    this.getElement().click().type('{downArrow}');
+
+    return this.getElement().then((el) => {
+      if (el.text() === elements[0]) {
+        cy.logger(`Number of countries is ${elements.length}`);
+        return cy.wrap(elements);
+      }
+      elements.push(el.text());
+      return this.iterateOverList(elements);
+    });
+  }
+
+  clickElementsFromDropdownByText(elementsArray, dropdownElement, ...args) {
+    let count = args[0];
+    let exceptionsElements = args.slice(1, args.length);
+    if (args === undefined) {
+      count = 1;
+    } else if (typeof args[0] !== 'number') {
+      count = 1;
+      exceptionsElements = args.slice(0, args.length);
+    }
+
+    const exceptionsTextList = [];
+    if (exceptionsElements.length !== 0) {
+      exceptionsElements.forEach((element) => this.getElement(element.#elementLocator)
+        .then(($el) => exceptionsTextList.push($el.text())));
+    }
+
+    elementsArray.then((elementsTextList) => {
+      for (let counter = 0; counter < count; counter += 1) {
+        cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
+        const randomElementText = Randomizer.getRandomElementByText(
+          elementsTextList,
+          exceptionsTextList,
+        );
+        exceptionsTextList.push(randomElementText);
+        cy.logger(`[inf] ▶ chose ${randomElementText}`);
+        dropdownElement.enterData(randomElementText);
+      }
+    });
+
+    this.getElement().click().type('{Esc}');
+  }
 }
 
 module.exports = BaseElement;

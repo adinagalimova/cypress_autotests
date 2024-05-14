@@ -7,10 +7,13 @@ class MainPage extends BaseForm {
 
   #mutualButton;
 
+  #MSTButton;
+
   constructor() {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
     this.#OGPOButton = new Button(new XPATH('//a[@href="/ogpo/create"]'), 'OGPO button');
     this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'Mutual button');
+    this.#MSTButton = new Button(new XPATH('//a[@href="/mst/create"]'), 'MST button');
   }
 
   clickOGPOButton() {
@@ -19,6 +22,10 @@ class MainPage extends BaseForm {
 
   clickMutualButton() {
     this.#mutualButton.clickElement();
+  }
+
+  clickMSTButton() {
+    this.#MSTButton.clickElement();
   }
 }
 
