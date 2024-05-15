@@ -56,5 +56,6 @@
   "mutualPremium": "14999",
   "MSTExcludedCountries": [
     "Казахстан"
-  ]
+  ],
+  "countriesCount": 3
 }
