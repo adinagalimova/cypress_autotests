@@ -9,13 +9,17 @@ exports.userPathMST = () => {
     let endDate;
     mainPage.clickMSTButton();
 
-    const countries = MSTPagePartOne.getCountriesFromRequest();
+    const countries = MSTPagePartOne.getCountriesFromRequest(); // option number one
     MSTPagePartOne.pageIsDisplayed().should('be.true');
     MSTPagePartOne.clickAgent();
     MSTPagePartOne.clickFirstAgent();
     MSTPagePartOne.clickRandomDuration();
     const duration = MSTPagePartOne.getChosenDuration();
-    // const countries = MSTPagePartOne.getAllCountries();
-    MSTPagePartOne.clickThreeCountries(countries);
+    // const countries = MSTPagePartOne.getAllCountries(); // option number two
+    MSTPagePartOne.clickThreeRandomCountries(countries);
+    MSTPagePartOne.clickRandomPurpose();
+    if (duration === 'Одноразовая') {
+
+    }
   });
 };
