@@ -200,6 +200,7 @@ class BaseElement {
 
     return this.getElement().then((element) => {
       elements.push(element.text());
+
       return this.iterateOverList(elements);
     });
   }
@@ -210,9 +211,11 @@ class BaseElement {
     return this.getElement().then((el) => {
       if (el.text() === elements[0]) {
         cy.logger(`Number of countries is ${elements.length}`);
+
         return cy.wrap(elements);
       }
       elements.push(el.text());
+
       return this.iterateOverList(elements);
     });
   }
@@ -245,7 +248,6 @@ class BaseElement {
         dropdownElement.enterData(randomElementText);
       }
     });
-
     this.getElement().click().type('{Esc}');
   }
 }

@@ -17,9 +17,19 @@ exports.userPathMST = () => {
     const duration = MSTPagePartOne.getChosenDuration();
     // const countries = MSTPagePartOne.getAllCountries(); // option number two
     MSTPagePartOne.clickThreeRandomCountries(countries);
-    MSTPagePartOne.clickRandomPurpose();
-    if (duration === 'Одноразовая') {
-
-    }
+    duration.then((value) => {
+      if (value === 'Одноразовая') {
+        MSTPagePartOne.clickPurposeDropdown();
+        MSTPagePartOne.clickRandomPurposeWithoutEducation();
+        MSTPagePartOne.inputRandomDates();
+      } else {
+        MSTPagePartOne.clickRandomPurpose();
+        MSTPagePartOne.inputRandomBeginDate();
+        MSTPagePartOne.clickRandomNumberOfDays();
+      }
+    });
+    MSTPagePartOne.clickRandomSum();
+    MSTPagePartOne.clickRandomAdditionalCheckboxes();
+    MSTPagePartOne.inputDOB(JSONLoader.testData.clientDateOfBirth);
   });
 };

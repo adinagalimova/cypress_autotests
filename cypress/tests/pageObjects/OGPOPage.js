@@ -286,7 +286,7 @@ class OGPOPage extends BaseForm {
   inputRandomBeginDate() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new OGPOPage(dates.startDate, dates.finishDate);
+    const newInstance = new OGPOPage(dates.startDate);
     this.#beginDateCalendarButton.flipCalendarMonth(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
