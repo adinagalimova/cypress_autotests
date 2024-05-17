@@ -6,9 +6,6 @@ const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
-const RadioButton = require('../../main/elements/baseElementChildren/radioButton');
-const Switch = require('../../main/elements/baseElementChildren/switch');
-const DataUtils = require('../../main/utils/data/dataUtils');
 
 class MSTPagePartOne extends BaseForm {
   #agentDropdown;
@@ -53,6 +50,16 @@ class MSTPagePartOne extends BaseForm {
 
   #clientDOB;
 
+  #chosenSum;
+
+  #sumField;
+
+  #calculateButton;
+
+  #continueButton;
+
+  #totalSum;
+
   constructor(beginDate, endDate) {
     super(new XPATH('//span[text()="на год"]'), 'MST page Part One');
     this.#agentDropdown = new Button(new XPATH('//div[@class="ant-col ant-col-19 ant-form-item-control css-1eslcgx"]'), 'agent dropdown');
@@ -68,26 +75,31 @@ class MSTPagePartOne extends BaseForm {
     this.#calendarRightArrowButton = new Button(new XPATH('//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::button[contains(@class, "ant-picker-header-next-btn")]'), 'calendar right arrow button');
     this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date button');
     this.#endDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
-    this.#endDateButton = new Button(new XPATH(`//td[@title="${endDate}"]`), 'end date button');
+    this.#endDateButton = new Button(new XPATH(`//div[@class="ant-picker-dropdown css-1eslcgx ant-picker-dropdown-placement-bottomLeft" and not(contains(@style, "none"))]/descendant::td[@title="${endDate}"]`), 'end date button');
     this.#purposeEducation = new Textbox(new XPATH('//div[text()="Обучение"]'), 'purpose education');
     this.#numberOfDays = new Button(new XPATH('//label[@title="Кол.во дней"]'), 'number of days');
-    this.#numberOfDaysElements = new Textbox(new XPATH('//div[@id="form_item_insured_days"]/descendant::label'), 'policy duration elements');
+    this.#numberOfDaysElements = new Textbox(new XPATH('//div[@id="form_item_insured_days"]/descendant::label'), 'number of days elements');
     this.#sumDropdown = new Button(new XPATH('//span[text()="Выберите страховую сумму"]/parent::div'), 'sum dropdown');
     this.#sumElements = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="false"]'), 'sum elements');
     this.#additionalCheckboxLabel = new Label(new XPATH('//label[@class="ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item css-1eslcgx"]/descendant::span[not(@*)]'), 'additional checkbox');
     this.#clientDOB = new Button(new XPATH('//input[@placeholder="Дата рождения"]'), 'client date of birth');
+    this.#chosenSum = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="true"]'), 'chosen sum');
+    this.#sumField = new Button(new XPATH('//label[@title="Страховая сумма"]/parent::div/following::span[@class="ant-select-selection-item"]'), 'sum field');
+    this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
+    this.#continueButton = new Button(new XPATH('//span[text()="Далее"]'), 'continue button');
+    this.#totalSum = new Textbox(new XPATH('//h3[text()=" Итого: "]'), 'total sum');
   }
 
   clickAgent() {
-    return this.#agentDropdown.clickElement();
+    this.#agentDropdown.clickElement();
   }
 
   clickFirstAgent() {
-    return this.#agentDropdownElements.clickElement();
+    this.#agentDropdownElements.clickElement();
   }
 
   clickRandomDuration() {
-    return this.#policyDurationElements.clickRandomElementsFromDropdownByText(this.#policyDuration);
+    this.#policyDurationElements.clickRandomElementsFromDropdownByText(this.#policyDuration);
   }
 
   getChosenDuration() {
@@ -98,28 +110,16 @@ class MSTPagePartOne extends BaseForm {
     return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
   }
 
-  getCountriesFromRequest() {
-    const excludedCountries = new Set(JSONLoader.testData.MSTExcludedCountries);
-    const countries = [];
-    cy.intercept('countries*', (request) =>
-      request.continue((response) =>
-        response.body.forEach((country) => {
-          if (!excludedCountries.has(country.title)) countries.push(country.title);
-        })));
-
-    return cy.wrap(countries);
-  }
-
   clickThreeRandomCountries(elementsArray) {
-    return this.#countriesDropdownHighlighted.clickElementsFromDropdownByText(
+    this.#countriesDropdownHighlighted.clickElementsFromDropdownByText(
       elementsArray,
       this.#countriesDropdown,
-      JSONLoader.testData.countriesCount
+      JSONLoader.testData.countriesCount,
     );
   }
 
   clickRandomPurpose() {
-    return this.#purposeElements.clickRandomElementsFromDropdownByText(this.#purposeDropdown);
+    this.#purposeElements.clickRandomElementsFromDropdownByText(this.#purposeDropdown);
   }
 
   inputRandomBeginDate() {
@@ -150,19 +150,22 @@ class MSTPagePartOne extends BaseForm {
   }
 
   clickRandomPurposeWithoutEducation() {
-    return this.#purposeElements.clickRandomElementsFromDropdownByText(this.#purposeDropdown, this.#purposeEducation);
+    this.#purposeElements.clickRandomElementsFromDropdownByText(
+      this.#purposeDropdown,
+      this.#purposeEducation,
+    );
   }
 
   clickPurposeDropdown() {
-    return this.#purposeDropdown.clickElement();
+    this.#purposeDropdown.clickElement();
   }
 
   clickRandomNumberOfDays() {
-    return this.#numberOfDaysElements.clickRandomElementsFromDropdownByText(this.#numberOfDays);
+    this.#numberOfDaysElements.clickRandomElementsFromDropdownByText(this.#numberOfDays);
   }
 
   clickRandomSum() {
-    return this.#sumElements.clickRandomElementsFromDropdownByText(this.#sumDropdown);
+    this.#sumElements.clickRandomElementsFromDropdownByText(this.#sumDropdown);
   }
 
   clickRandomAdditionalCheckboxes() {
@@ -171,6 +174,51 @@ class MSTPagePartOne extends BaseForm {
 
   inputDOB(birthDate) {
     this.#clientDOB.inputData(birthDate);
+  }
+
+  getBeginDateTitle() {
+    return this.#beginDateCalendarButton.getAttributeValue('title');
+  }
+
+  getEndDateTitle() {
+    return this.#endDateCalendarButton.getAttributeValue('title');
+  }
+
+  calculate180DaysEndDate() {
+    return this.getBeginDateTitle().then((value) => {
+      const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd)
+        .add(180, 'day').subtract(1, 'day').format(JSONLoader.testData.datesFormatFrontEnd);
+      return cy.wrap(endDate);
+    });
+  }
+
+  calculateYearEndDate() {
+    return this.getBeginDateTitle().then((value) => {
+      const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd)
+        .add(1, 'year').subtract(1, 'day').format(JSONLoader.testData.datesFormatFrontEnd);
+      return cy.wrap(endDate);
+    });
+  }
+
+  getChosenSum() {
+    return this.#chosenSum.getText();
+  }
+
+  getShownSum() {
+    return this.#sumField.getText();
+  }
+
+  clickCalculate() {
+    this.#calculateButton.clickElement();
+  }
+
+  clickContinue() {
+    this.#continueButton.scrollElementToView();
+    this.#continueButton.clickElement();
+  }
+
+  totalSumIsVisible() {
+    return this.#totalSum.elementIsVisible();
   }
 }
 

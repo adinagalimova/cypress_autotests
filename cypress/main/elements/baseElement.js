@@ -208,13 +208,13 @@ class BaseElement {
   iterateOverList(elements) {
     this.getElement().click().type('{downArrow}');
 
-    return this.getElement().then((el) => {
-      if (el.text() === elements[0]) {
+    return this.getElement().then((element) => {
+      if (element.text() === elements[0]) {
         cy.logger(`Number of countries is ${elements.length}`);
 
         return cy.wrap(elements);
       }
-      elements.push(el.text());
+      elements.push(element.text());
 
       return this.iterateOverList(elements);
     });
@@ -223,9 +223,7 @@ class BaseElement {
   clickElementsFromDropdownByText(elementsArray, dropdownElement, ...args) {
     let count = args[0];
     let exceptionsElements = args.slice(1, args.length);
-    if (args === undefined) {
-      count = 1;
-    } else if (typeof args[0] !== 'number') {
+    if (args === undefined) count = 1; else if (typeof args[0] !== 'number') {
       count = 1;
       exceptionsElements = args.slice(0, args.length);
     }
