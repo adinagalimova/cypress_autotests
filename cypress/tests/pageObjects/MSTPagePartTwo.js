@@ -55,10 +55,10 @@ class MSTPagePartTwo extends BaseForm {
 
   constructor() {
     super(new XPATH('//span[text()=" Страхователь является застрахованным "]'), 'MST page part two');
-    this.#juridicalCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Юр. лицо "]/preceding::span[@class="ant-checkbox css-1eslcgx"]'), 'juridical checkbox not active');
-    this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()=" Резидент "]/preceding::span[@class="ant-checkbox css-1eslcgx ant-checkbox-checked"]'), 'residency checkbox active');
-    this.#insuredCheckboxActive = new Checkbox(new XPATH('//span[text()=" Страхователь является застрахованным "]/parent::label/child::span[@class="ant-checkbox css-1eslcgx ant-checkbox-checked"]'), 'insured checkbox active');
-    this.#insuredCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Страхователь является застрахованным "]/parent::label/child::span[@class="ant-checkbox css-1eslcgx"]'), 'insured checkbox not active');
+    this.#juridicalCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Юр. лицо "]/preceding::span[contains(@class, "ant-checkbox")]'), 'juridical checkbox not active');
+    this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()=" Резидент "]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
+    this.#insuredCheckboxActive = new Checkbox(new XPATH('//span[text()=" Страхователь является застрахованным "]/parent::label/child::span[contains(@class, "ant-checkbox-checked")]'), 'insured checkbox active');
+    this.#insuredCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Страхователь является застрахованным "]/parent::label/child::span[contains(@class, "ant-checkbox")]'), 'insured checkbox not active');
     this.#IINTextbox = new Textbox(new XPATH('//input[@placeholder="Введите ИИН клиента"]'), 'iin textbox');
     this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search button');
     this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name textbox');
@@ -77,7 +77,7 @@ class MSTPagePartTwo extends BaseForm {
     this.#address = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
     this.#email = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
     this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="Введите номер телефона"]'), 'phone number textbox');
-    this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[@class="ant-checkbox css-1eslcgx"]'), 'pdl checkbox not active');
+    this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox")]'), 'pdl checkbox not active');
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
   }
 

@@ -91,5 +91,21 @@ exports.userPathMST = () => {
 
     MSTPagePartThree.pageIsDisplayed().should('be.true');
     MSTPagePartThree.residencyCheckboxOn().should('be.true');
+    MSTPagePartThree.inputIIN(JSONLoader.testData.insuredClientIIN);
+    MSTPagePartThree.clickSearchClientButton();
+    MSTPagePartThree.getLastNameElement().should('have.value', JSONLoader.testData.insuredClientLastName);
+    MSTPagePartThree.getLastNameEngElement().should('have.value', JSONLoader.testData.insuredClientLastNameEng);
+    MSTPagePartThree.getFirstNameElement().should('have.value', JSONLoader.testData.insuredClientFirstName);
+    MSTPagePartThree.getFirstNameEngElement().should('have.value', JSONLoader.testData.insuredClientFirstNameEng);
+    MSTPagePartThree.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName).should('have.value', JSONLoader.testData.insuredClientMiddleName);
+    MSTPagePartThree.getDateOfBirthElement().should('have.value', JSONLoader.testData.insuredClientDateOfBirth);
+    MSTPagePartThree.getDocumentTypeText().should('be.equal', JSONLoader.testData.insuredClientDocumentType);
+    MSTPagePartThree.getDocumentNumberElement().should('have.value', JSONLoader.testData.insuredClientDocumentNumber);
+    MSTPagePartThree.getDocumentIssuedDateElement().should('have.value', JSONLoader.testData.insuredClientDocumentIssueDate);
+    MSTPagePartThree.getDocumentIssuedByElement().should('have.value', JSONLoader.testData.insuredClientDocumentIssueBy);
+    MSTPagePartThree.getSexText().should('be.equal', JSONLoader.testData.insuredClientSex);
+    MSTPagePartThree.getAddressElement().should('have.value', JSONLoader.testData.insuredClientAddress);
+    MSTPagePartThree.PDLCheckboxOff().should('be.true');
+    MSTPagePartThree.clickSave();
   });
 };

@@ -62,11 +62,11 @@ class MSTPagePartOne extends BaseForm {
 
   constructor(beginDate, endDate) {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
-    this.#agentDropdown = new Button(new XPATH('//div[@class="ant-col ant-col-19 ant-form-item-control css-1eslcgx"]'), 'agent dropdown');
+    this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-19 ant-form-item-control")]'), 'agent dropdown');
     this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
     this.#policyDuration = new Button(new XPATH('//label[@title="Срок полиса"]'), 'policy duration');
     this.#policyDurationElements = new Textbox(new XPATH('//div[@id="form_item_range"]/descendant::label'), 'policy duration elements');
-    this.#policyDurationChosen = new Textbox(new XPATH('//label[@class="ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item css-1eslcgx"]'), 'policy duration chosen one');
+    this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item")]'), 'policy duration chosen one');
     this.#countriesDropdown = new Button(new XPATH('//label[text()="Территория"]/parent::div/following::div/descendant::div'), 'countries dropdown');
     this.#countriesDropdownHighlighted = new Textbox(new XPATH('//div[@class="ant-select-item ant-select-item-option ant-select-item-option-active"]'), 'countries dropdown highlighted');
     this.#purposeDropdown = new Button(new XPATH('//span[text()="Выберите цель поездки"]/parent::div'), 'purpose dropdown');
@@ -75,13 +75,13 @@ class MSTPagePartOne extends BaseForm {
     this.#calendarRightArrowButton = new Button(new XPATH('//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::button[contains(@class, "ant-picker-header-next-btn")]'), 'calendar right arrow button');
     this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date button');
     this.#endDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
-    this.#endDateButton = new Button(new XPATH(`//div[@class="ant-picker-dropdown css-1eslcgx ant-picker-dropdown-placement-bottomLeft" and not(contains(@style, "none"))]/descendant::td[@title="${endDate}"]`), 'end date button');
+    this.#endDateButton = new Button(new XPATH(`//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::td[@title="${endDate}"]`), 'end date button');
     this.#purposeEducation = new Textbox(new XPATH('//div[text()="Обучение"]'), 'purpose education');
     this.#numberOfDays = new Button(new XPATH('//label[@title="Кол.во дней"]'), 'number of days');
     this.#numberOfDaysElements = new Textbox(new XPATH('//div[@id="form_item_insured_days"]/descendant::label'), 'number of days elements');
     this.#sumDropdown = new Button(new XPATH('//span[text()="Выберите страховую сумму"]/parent::div'), 'sum dropdown');
     this.#sumElements = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="false"]'), 'sum elements');
-    this.#additionalCheckboxLabel = new Label(new XPATH('//label[@class="ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item css-1eslcgx"]/descendant::span[not(@*)]'), 'additional checkbox');
+    this.#additionalCheckboxLabel = new Label(new XPATH('//label[contains(@class, "ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item")]/descendant::span[not(@*)]'), 'additional checkbox');
     this.#clientDOB = new Button(new XPATH('//input[@placeholder="Дата рождения"]'), 'client date of birth');
     this.#chosenSum = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="true"]'), 'chosen sum');
     this.#sumField = new Button(new XPATH('//label[@title="Страховая сумма"]/parent::div/following::span[@class="ant-select-selection-item"]'), 'sum field');
