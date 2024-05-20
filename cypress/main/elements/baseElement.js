@@ -155,7 +155,7 @@ class BaseElement {
         );
         exceptionsTextList.push(randomElementText);
         cy.logger(`[inf] ▶ click ${randomElementText}`);
-        cy.contains(randomElementText).click({ force: true });
+        cy.contains(new RegExp(`^ *${randomElementText} *$`, 'g')).click({ force: true });
       });
     }
   }

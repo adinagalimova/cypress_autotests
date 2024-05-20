@@ -4,13 +4,18 @@
   "datesFormatFrontEnd": "DD.MM.YYYY",
   "clientIIN": "880701351146",
   "clientFirstName": "САБАХУДИН",
+  "clientFirstNameEng": "SABAHUDIN",
   "clientLastName": "ХАНАЛИЕВ",
+  "clientLastNameEng": "KHANALIEV",
   "clientMiddleName": "ИЗИМЖАНОВИЧ",
   "clientDateOfBirth": "01.07.1988",
   "clientSex": "Мужской",
+  "clientCountry": "Казахстан",
+  "clientRegion": "Алматинская область",
   "clientDocumentType": "Паспорт",
   "clientDocumentNumber": "19800460",
   "clientDocumentIssueDate": "20.06.2010",
+  "clientDocumentIssueBy": "МЮ РК",
   "clientAddress": "Ул. Есенина, д. 10, кв. 3 Толя тест",
   "clientEmail": "a.anisimov@a-i.kz",
   "clientPhone": "77066682051",
@@ -57,5 +62,5 @@
   "MSTExcludedCountries": [
     "Казахстан"
   ],
-  "countriesCount": 3
+  "MSTCountriesCount": 3
 }

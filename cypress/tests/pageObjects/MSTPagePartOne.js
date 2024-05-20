@@ -61,7 +61,7 @@ class MSTPagePartOne extends BaseForm {
   #totalSum;
 
   constructor(beginDate, endDate) {
-    super(new XPATH('//span[text()="на год"]'), 'MST page Part One');
+    super(new XPATH('//span[text()="на год"]'), 'MST page part one');
     this.#agentDropdown = new Button(new XPATH('//div[@class="ant-col ant-col-19 ant-form-item-control css-1eslcgx"]'), 'agent dropdown');
     this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
     this.#policyDuration = new Button(new XPATH('//label[@title="Срок полиса"]'), 'policy duration');
@@ -114,7 +114,7 @@ class MSTPagePartOne extends BaseForm {
     this.#countriesDropdownHighlighted.clickElementsFromDropdownByText(
       elementsArray,
       this.#countriesDropdown,
-      JSONLoader.testData.countriesCount,
+      JSONLoader.testData.MSTCountriesCount,
     );
   }
 
