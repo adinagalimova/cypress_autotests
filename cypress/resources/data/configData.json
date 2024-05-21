@@ -4,7 +4,8 @@
     "setPolicyWaitingTWB": false,
     "hiddenLogBodies": true,
     "verification": true,
-    "environment": "dev",
+    "timezone": "Asia/Aqtau",
+    "environment": "localhost",
     "allureCommandlineArgs": [
         "generate",
         "./artifacts/allure-results",
