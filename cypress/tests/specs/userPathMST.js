@@ -81,11 +81,11 @@ exports.userPathMST = () => {
     MSTPagePartTwo.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
     MSTPagePartTwo.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
     MSTPagePartTwo.getDocumentIssuedDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
-    MSTPagePartTwo.getDocumentIssuedByElement().should('have.value', JSONLoader.testData.clientDocumentIssueBy);
+    MSTPagePartTwo.getOrSetDocumentIssuedByElement(JSONLoader.testData.clientDocumentIssueBy).should('have.value', JSONLoader.testData.clientDocumentIssueBy);
     MSTPagePartTwo.getSexText().should('be.equal', JSONLoader.testData.clientSex);
-    MSTPagePartTwo.getAddressElement().should('have.value', JSONLoader.testData.clientAddress);
-    MSTPagePartTwo.getEmailElement().should('have.value', JSONLoader.testData.clientEmail);
-    MSTPagePartTwo.inputPhoneNumber(JSONLoader.testData.clientPhone);
+    MSTPagePartTwo.getOrSetAddressElement(JSONLoader.testData.clientAddress).should('have.value', JSONLoader.testData.clientAddress);
+    MSTPagePartTwo.getOrSetEmailElement(JSONLoader.testData.clientEmail).should('have.value', JSONLoader.testData.clientEmail);
+    MSTPagePartTwo.inputPhoneNumber(JSONLoader.testData.clientPhoneForKASKO);
     MSTPagePartTwo.PDLCheckboxOff().should('be.true');
     MSTPagePartTwo.clickSave();
 
@@ -102,9 +102,9 @@ exports.userPathMST = () => {
     MSTPagePartThree.getDocumentTypeText().should('be.equal', JSONLoader.testData.insuredClientDocumentType);
     MSTPagePartThree.getDocumentNumberElement().should('have.value', JSONLoader.testData.insuredClientDocumentNumber);
     MSTPagePartThree.getDocumentIssuedDateElement().should('have.value', JSONLoader.testData.insuredClientDocumentIssueDate);
-    MSTPagePartThree.getDocumentIssuedByElement().should('have.value', JSONLoader.testData.insuredClientDocumentIssueBy);
+    MSTPagePartThree.getOrSetDocumentIssuedByElement(JSONLoader.testData.insuredClientDocumentIssueBy).should('have.value', JSONLoader.testData.insuredClientDocumentIssueBy);
     MSTPagePartThree.getSexText().should('be.equal', JSONLoader.testData.insuredClientSex);
-    MSTPagePartThree.getAddressElement().should('have.value', JSONLoader.testData.insuredClientAddress);
+    MSTPagePartThree.getOrSetAddressElement(JSONLoader.testData.insuredClientAddress).should('have.value', JSONLoader.testData.insuredClientAddress);
     MSTPagePartThree.PDLCheckboxOff().should('be.true');
     MSTPagePartThree.clickSave();
   });

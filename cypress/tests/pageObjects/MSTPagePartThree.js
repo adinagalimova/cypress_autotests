@@ -122,7 +122,12 @@ class MSTPagePartThree extends BaseForm {
     return this.#documentIssuedDate.getElement();
   }
 
-  getDocumentIssuedByElement() {
+  getOrSetDocumentIssuedByElement(documentIssuedBy) {
+    if (this.#documentIssuedBy.getText !== documentIssuedBy) {
+      this.#documentIssuedBy.clearData();
+      this.#documentIssuedBy.inputData(documentIssuedBy);
+    }
+
     return this.#documentIssuedBy.getElement();
   }
 
@@ -130,7 +135,12 @@ class MSTPagePartThree extends BaseForm {
     return this.#sexDropdownButton.getText();
   }
 
-  getAddressElement() {
+  getOrSetAddressElement(address) {
+    if (this.#address.getText !== address) {
+      this.#address.clearData();
+      this.#address.inputData(address);
+    }
+
     return this.#address.getElement();
   }
 
