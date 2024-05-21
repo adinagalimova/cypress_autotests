@@ -4,7 +4,7 @@
     "setPolicyWaitingTWB": false,
     "hiddenLogBodies": true,
     "verification": true,
-    "environment": "dev",
+    "environment": "staging",
     "allureCommandlineArgs": [
         "generate",
         "./artifacts/allure-results",

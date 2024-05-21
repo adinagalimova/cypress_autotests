@@ -41,7 +41,13 @@ class MSTPagePartThree extends BaseForm {
 
   #addButton;
 
-  constructor(beginDate, endDate) {
+  #calculateButton;
+
+  #targetElement;
+
+  #headerElements;
+
+  constructor(targetIndex) {
     super(new XPATH('//th[text()="Премия(тг.)"]'), 'MST page part three');
     this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()="Резидент"]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
     this.#IINTextbox = new Textbox(new XPATH('//input[@placeholder="Введите ИИН клиента"]'), 'iin textbox');
@@ -61,11 +67,9 @@ class MSTPagePartThree extends BaseForm {
     this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox")]'), 'pdl checkbox not active');
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
     this.#addButton = new Button(new XPATH('//span[text()="Добавить"]'), 'add button');
-
-  }
-
-  residencyCheckboxOn() {
-    return this.#residencyCheckboxActive.elementIsVisible();
+    this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
+    this.#targetElement = new Textbox(new XPATH(`//td[contains(@class, "ant-table-cell")][${targetIndex}]`), 'target textbox');
+    this.#headerElements = new Textbox(new XPATH('//th[@class="ant-table-cell"]'), 'header textboxes');
   }
 
   residencyCheckboxOn() {
@@ -151,6 +155,28 @@ class MSTPagePartThree extends BaseForm {
   clickSave() {
     this.#saveButton.scrollElementToView();
     this.#saveButton.clickElement();
+  }
+
+  clickCalculate() {
+    this.#calculateButton.multipleClickElement(2);
+  }
+
+  findElementByHeader(header) {
+    return this.#headerElements.getElementsListText('innerText').then((innerTextArray) => {
+      let targetIndex = 0;
+      for (let i = 0; i < innerTextArray.length; i += 1) {
+        if (innerTextArray[i] === header) {
+          targetIndex = i + 1;
+          break;
+        }
+      }
+
+      return cy.wrap(targetIndex);
+    }).then((index) => {
+      const newInstance = new MSTPagePartThree(index);
+
+      return newInstance.#targetElement.getText();
+    });
   }
 }
 

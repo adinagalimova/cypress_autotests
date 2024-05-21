@@ -246,7 +246,7 @@ class BaseElement {
         dropdownElement.enterData(randomElementText);
       }
     });
-    this.getElement().click().type('{Esc}');
+    dropdownElement.getElement().click().type('{Esc}');
   }
 }
 

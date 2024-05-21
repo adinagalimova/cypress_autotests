@@ -107,5 +107,10 @@ exports.userPathMST = () => {
     MSTPagePartThree.getOrSetAddressElement(JSONLoader.testData.insuredClientAddress).should('have.value', JSONLoader.testData.insuredClientAddress);
     MSTPagePartThree.PDLCheckboxOff().should('be.true');
     MSTPagePartThree.clickSave();
+    MSTPagePartThree.clickCalculate();
+    const insuredClientFullName = `${JSONLoader.testData.insuredClientFirstName} ${
+      JSONLoader.testData.insuredClientLastName}`;
+    MSTPagePartThree.findElementByHeader('ФИО').should('be.equal', insuredClientFullName);
+    MSTPagePartThree.findElementByHeader('ИИН').should('be.equal', JSONLoader.testData.insuredClientIIN);
   });
 };
