@@ -7,7 +7,7 @@ const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Label = require('../../main/elements/baseElementChildren/label');
 
-class MSTPagePartOne extends BaseForm {
+class MSTPageOne extends BaseForm {
   #agentDropdown;
 
   #agentDropdownElements;
@@ -125,7 +125,7 @@ class MSTPagePartOne extends BaseForm {
   inputRandomBeginDate() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new MSTPagePartOne(dates.startDate);
+    const newInstance = new MSTPageOne(dates.startDate);
     this.#beginDateCalendarButton.flipCalendarMonth(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
@@ -136,7 +136,7 @@ class MSTPagePartOne extends BaseForm {
   inputRandomDates() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new MSTPagePartOne(dates.startDate, dates.finishDate);
+    const newInstance = new MSTPageOne(dates.startDate, dates.finishDate);
     this.#beginDateCalendarButton.flipCalendarMonth(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
@@ -222,4 +222,4 @@ class MSTPagePartOne extends BaseForm {
   }
 }
 
-module.exports = new MSTPagePartOne();
+module.exports = new MSTPageOne();

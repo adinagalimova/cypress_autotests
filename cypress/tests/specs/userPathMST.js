@@ -1,7 +1,7 @@
 const mainPage = require('../pageObjects/mainPage');
-const MSTPagePartOne = require('../pageObjects/MSTPagePartOne');
-const MSTPagePartTwo = require('../pageObjects/MSTPagePartTwo');
-const MSTPagePartThree = require('../pageObjects/MSTPagePartThree');
+const MSTPageOne = require('../pageObjects/MSTPageOne');
+const MSTPageTwo = require('../pageObjects/MSTPageTwo');
+const MSTPageThree = require('../pageObjects/MSTPageThree');
 const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
@@ -11,37 +11,37 @@ exports.userPathMST = () => {
     mainPage.clickMSTButton();
 
     const countries = DataUtils.getCountriesFromRequest(); // option number one
-    MSTPagePartOne.pageIsDisplayed().should('be.true');
-    MSTPagePartOne.clickAgent();
-    MSTPagePartOne.clickFirstAgent();
-    MSTPagePartOne.clickRandomDuration();
-    // const countries = MSTPagePartOne.getAllCountries(); // option number two
-    MSTPagePartOne.clickThreeRandomCountries(countries);
-    MSTPagePartOne.getChosenDuration().then((duration) => {
+    MSTPageOne.pageIsDisplayed().should('be.true');
+    MSTPageOne.clickAgent();
+    MSTPageOne.clickFirstAgent();
+    MSTPageOne.clickRandomDuration();
+    // const countries = MSTPageOne.getAllCountries(); // option number two
+    MSTPageOne.clickThreeRandomCountries(countries);
+    MSTPageOne.getChosenDuration().then((duration) => {
       switch (duration) {
         case 'Одноразовая': {
-          MSTPagePartOne.clickPurposeDropdown();
-          MSTPagePartOne.clickRandomPurposeWithoutEducation();
-          MSTPagePartOne.inputRandomDates();
+          MSTPageOne.clickPurposeDropdown();
+          MSTPageOne.clickRandomPurposeWithoutEducation();
+          MSTPageOne.inputRandomDates();
           break;
         }
         case 'на 180 дней': {
-          MSTPagePartOne.clickRandomPurpose();
-          MSTPagePartOne.inputRandomBeginDate();
-          MSTPagePartOne.clickRandomNumberOfDays();
-          MSTPagePartOne.getEndDateTitle().then((title) => {
+          MSTPageOne.clickRandomPurpose();
+          MSTPageOne.inputRandomBeginDate();
+          MSTPageOne.clickRandomNumberOfDays();
+          MSTPageOne.getEndDateTitle().then((title) => {
             endDate = title;
-            MSTPagePartOne.calculate180DaysEndDate().should('be.equal', endDate);
+            MSTPageOne.calculate180DaysEndDate().should('be.equal', endDate);
           });
           break;
         }
         case 'на год': {
-          MSTPagePartOne.clickRandomPurpose();
-          MSTPagePartOne.inputRandomBeginDate();
-          MSTPagePartOne.clickRandomNumberOfDays();
-          MSTPagePartOne.getEndDateTitle().then((title) => {
+          MSTPageOne.clickRandomPurpose();
+          MSTPageOne.inputRandomBeginDate();
+          MSTPageOne.clickRandomNumberOfDays();
+          MSTPageOne.getEndDateTitle().then((title) => {
             endDate = title;
-            MSTPagePartOne.calculateYearEndDate().should('be.equal', endDate);
+            MSTPageOne.calculateYearEndDate().should('be.equal', endDate);
           });
           break;
         }
@@ -49,93 +49,93 @@ exports.userPathMST = () => {
           break;
       }
     });
-    MSTPagePartOne.clickRandomSum();
-    MSTPagePartOne.getChosenSum()
-      .then((chosenSum) => MSTPagePartOne.getShownSum().should('be.equal', chosenSum));
-    MSTPagePartOne.clickRandomAdditionalCheckboxes();
-    MSTPagePartOne.inputDOB(JSONLoader.testData.insuredClientDateOfBirth);
-    MSTPagePartOne.clickCalculate();
-    MSTPagePartOne.totalSumIsVisible();
-    MSTPagePartOne.clickContinue();
+    MSTPageOne.clickRandomSum();
+    MSTPageOne.getChosenSum()
+      .then((chosenSum) => MSTPageOne.getShownSum().should('be.equal', chosenSum));
+    MSTPageOne.clickRandomAdditionalCheckboxes();
+    MSTPageOne.inputDOB(JSONLoader.testData.insuredClientDateOfBirth);
+    MSTPageOne.clickCalculate();
+    MSTPageOne.totalSumIsVisible();
+    MSTPageOne.clickContinue();
 
-    MSTPagePartTwo.pageIsDisplayed().should('be.true');
-    MSTPagePartTwo.juridicalCheckboxOff().should('be.true');
-    MSTPagePartTwo.residencyCheckboxOn().should('be.true');
-    MSTPagePartTwo.inputIIN(JSONLoader.testData.clientIIN);
-    MSTPagePartTwo.clickSearchClientButton();
-    MSTPagePartTwo.getLastNameElement().should('have.value', JSONLoader.testData.clientLastName);
-    MSTPagePartTwo.insuredCheckboxOn().should('be.true');
-    MSTPagePartTwo.insuredCheckboxTurnOff();
-    MSTPagePartTwo.insuredCheckboxOff().should('be.true');
-    MSTPagePartTwo.getLastNameEngElement()
+    MSTPageTwo.pageIsDisplayed().should('be.true');
+    MSTPageTwo.juridicalCheckboxOff().should('be.true');
+    MSTPageTwo.residencyCheckboxOn().should('be.true');
+    MSTPageTwo.inputIIN(JSONLoader.testData.clientIIN);
+    MSTPageTwo.clickSearchClientButton();
+    MSTPageTwo.getLastNameElement().should('have.value', JSONLoader.testData.clientLastName);
+    MSTPageTwo.insuredCheckboxOn().should('be.true');
+    MSTPageTwo.insuredCheckboxTurnOff();
+    MSTPageTwo.insuredCheckboxOff().should('be.true');
+    MSTPageTwo.getLastNameEngElement()
       .should('have.value', JSONLoader.testData.clientLastNameEng);
-    MSTPagePartTwo.getFirstNameElement().should('have.value', JSONLoader.testData.clientFirstName);
-    MSTPagePartTwo.getFirstNameEngElement()
+    MSTPageTwo.getFirstNameElement().should('have.value', JSONLoader.testData.clientFirstName);
+    MSTPageTwo.getFirstNameEngElement()
       .should('have.value', JSONLoader.testData.clientFirstNameEng);
-    MSTPagePartTwo.getOrSetMiddleNameElement(JSONLoader.testData.clientMiddleName)
+    MSTPageTwo.getOrSetMiddleNameElement(JSONLoader.testData.clientMiddleName)
       .should('have.value', JSONLoader.testData.clientMiddleName);
-    MSTPagePartTwo.getDateOfBirthElement()
+    MSTPageTwo.getDateOfBirthElement()
       .should('have.value', JSONLoader.testData.clientDateOfBirth);
-    MSTPagePartTwo.getResidencyCountryText().should('be.equal', JSONLoader.testData.clientCountry);
-    MSTPagePartTwo.getRegionText().should('be.equal', JSONLoader.testData.clientRegion);
-    MSTPagePartTwo.getDocumentTypeText()
+    MSTPageTwo.getResidencyCountryText().should('be.equal', JSONLoader.testData.clientCountry);
+    MSTPageTwo.getRegionText().should('be.equal', JSONLoader.testData.clientRegion);
+    MSTPageTwo.getDocumentTypeText()
       .should('be.equal', JSONLoader.testData.clientDocumentType);
-    MSTPagePartTwo.getDocumentNumberElement()
+    MSTPageTwo.getDocumentNumberElement()
       .should('have.value', JSONLoader.testData.clientDocumentNumber);
-    MSTPagePartTwo.getDocumentIssuedDateElement()
+    MSTPageTwo.getDocumentIssuedDateElement()
       .should('have.value', JSONLoader.testData.clientDocumentIssueDate);
-    MSTPagePartTwo.getOrSetDocumentIssuedByElement(JSONLoader.testData.clientDocumentIssueBy)
+    MSTPageTwo.getOrSetDocumentIssuedByElement(JSONLoader.testData.clientDocumentIssueBy)
       .should('have.value', JSONLoader.testData.clientDocumentIssueBy);
-    MSTPagePartTwo.getSexText().should('be.equal', JSONLoader.testData.clientSex);
-    MSTPagePartTwo.getOrSetAddressElement(JSONLoader.testData.clientAddress)
+    MSTPageTwo.getSexText().should('be.equal', JSONLoader.testData.clientSex);
+    MSTPageTwo.getOrSetAddressElement(JSONLoader.testData.clientAddress)
       .should('have.value', JSONLoader.testData.clientAddress);
-    MSTPagePartTwo.getOrSetEmailElement(JSONLoader.testData.clientEmail)
+    MSTPageTwo.getOrSetEmailElement(JSONLoader.testData.clientEmail)
       .should('have.value', JSONLoader.testData.clientEmail);
-    MSTPagePartTwo.inputPhoneNumber(JSONLoader.testData.clientPhoneForKASKO);
-    MSTPagePartTwo.PDLCheckboxOff().should('be.true');
-    MSTPagePartTwo.clickSave();
+    MSTPageTwo.inputPhoneNumber(JSONLoader.testData.clientPhoneForKASKO);
+    MSTPageTwo.PDLCheckboxOff().should('be.true');
+    MSTPageTwo.clickSave();
 
-    MSTPagePartThree.pageIsDisplayed().should('be.true');
-    MSTPagePartThree.residencyCheckboxOn().should('be.true');
-    MSTPagePartThree.inputIIN(JSONLoader.testData.insuredClientIIN);
-    MSTPagePartThree.clickSearchClientButton();
-    MSTPagePartThree.getLastNameElement()
+    MSTPageThree.pageIsDisplayed().should('be.true');
+    MSTPageThree.residencyCheckboxOn().should('be.true');
+    MSTPageThree.inputIIN(JSONLoader.testData.insuredClientIIN);
+    MSTPageThree.clickSearchClientButton();
+    MSTPageThree.getLastNameElement()
       .should('have.value', JSONLoader.testData.insuredClientLastName);
-    MSTPagePartThree.getLastNameEngElement()
+    MSTPageThree.getLastNameEngElement()
       .should('have.value', JSONLoader.testData.insuredClientLastNameEng);
-    MSTPagePartThree.getFirstNameElement()
+    MSTPageThree.getFirstNameElement()
       .should('have.value', JSONLoader.testData.insuredClientFirstName);
-    MSTPagePartThree.getFirstNameEngElement()
+    MSTPageThree.getFirstNameEngElement()
       .should('have.value', JSONLoader.testData.insuredClientFirstNameEng);
-    MSTPagePartThree.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName)
+    MSTPageThree.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName)
       .should('have.value', JSONLoader.testData.insuredClientMiddleName);
-    MSTPagePartThree.getDateOfBirthElement()
+    MSTPageThree.getDateOfBirthElement()
       .should('have.value', JSONLoader.testData.insuredClientDateOfBirth);
-    MSTPagePartThree.getDocumentTypeText()
+    MSTPageThree.getDocumentTypeText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentType);
-    MSTPagePartThree.getDocumentNumberElement()
+    MSTPageThree.getDocumentNumberElement()
       .should('have.value', JSONLoader.testData.insuredClientDocumentNumber);
-    MSTPagePartThree.getDocumentIssuedDateElement()
+    MSTPageThree.getDocumentIssuedDateElement()
       .should('have.value', JSONLoader.testData.insuredClientDocumentIssueDate);
-    MSTPagePartThree.getOrSetDocumentIssuedByElement(
+    MSTPageThree.getOrSetDocumentIssuedByElement(
       JSONLoader.testData.insuredClientDocumentIssueBy,
     ).should('have.value', JSONLoader.testData.insuredClientDocumentIssueBy);
-    MSTPagePartThree.getSexText().should('be.equal', JSONLoader.testData.insuredClientSex);
-    MSTPagePartThree.getOrSetAddressElement(JSONLoader.testData.insuredClientAddress)
+    MSTPageThree.getSexText().should('be.equal', JSONLoader.testData.insuredClientSex);
+    MSTPageThree.getOrSetAddressElement(JSONLoader.testData.insuredClientAddress)
       .should('have.value', JSONLoader.testData.insuredClientAddress);
-    MSTPagePartThree.PDLCheckboxOff().should('be.true');
-    MSTPagePartThree.clickSave();
-    MSTPagePartThree.clickCalculate();
+    MSTPageThree.PDLCheckboxOff().should('be.true');
+    MSTPageThree.clickSave();
+    MSTPageThree.clickCalculate();
     const insuredClientFullName = `${JSONLoader.testData.insuredClientFirstName} ${
       JSONLoader.testData.insuredClientLastName}`;
-    MSTPagePartThree.findElementTextByHeader('ФИО').should('be.equal', insuredClientFullName);
-    MSTPagePartThree.findElementTextByHeader('ИИН')
+    MSTPageThree.findElementTextByHeader('ФИО').should('be.equal', insuredClientFullName);
+    MSTPageThree.findElementTextByHeader('ИИН')
       .should('be.equal', JSONLoader.testData.insuredClientIIN);
-    MSTPagePartThree.getSumToPay().then((sum) => cy.setLocalStorage('sumToPay', sum));
-    MSTPagePartThree.clickSetPolicy();
-    MSTPagePartThree.clickSetPolicyAgain();
-    MSTPagePartThree.getPolicyNumberText()
+    MSTPageThree.getSumToPay().then((sum) => cy.setLocalStorage('sumToPay', sum));
+    MSTPageThree.clickSetPolicy();
+    MSTPageThree.clickSetPolicyAgain();
+    MSTPageThree.getPolicyNumberText()
       .should('contain', JSONLoader.testData.MSTPolicyCodeNumber);
-    MSTPagePartThree.getPaymentCode().then((code) => cy.setLocalStorage('paymentCode', code));
+    MSTPageThree.getPaymentCode().then((code) => cy.setLocalStorage('paymentCode', code));
   });
 };
