@@ -1,10 +1,10 @@
-const BaseForm = require('../../main/baseForm');
-const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../main/elements/baseElementChildren/button');
-const Textbox = require('../../main/elements/baseElementChildren/textbox');
-const Checkbox = require('../../main/elements/baseElementChildren/checkbox');
+const BaseForm = require('../../../main/baseForm');
+const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const Button = require('../../../main/elements/baseElementChildren/button');
+const Textbox = require('../../../main/elements/baseElementChildren/textbox');
+const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
 
-class MSTPageTwo extends BaseForm {
+class MSTStep2 extends BaseForm {
   #juridicalCheckboxNotActive;
 
   #residencyCheckboxActive;
@@ -203,4 +203,4 @@ class MSTPageTwo extends BaseForm {
   }
 }
 
-module.exports = new MSTPageTwo();
+module.exports = new MSTStep2();

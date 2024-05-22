@@ -1,11 +1,11 @@
-const BaseForm = require('../../main/baseForm');
-const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../main/elements/baseElementChildren/button');
-const Textbox = require('../../main/elements/baseElementChildren/textbox');
-const Checkbox = require('../../main/elements/baseElementChildren/checkbox');
-const Label = require('../../main/elements/baseElementChildren/label');
+const BaseForm = require('../../../main/baseForm');
+const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const Button = require('../../../main/elements/baseElementChildren/button');
+const Textbox = require('../../../main/elements/baseElementChildren/textbox');
+const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
+const Label = require('../../../main/elements/baseElementChildren/label');
 
-class MSTPageThree extends BaseForm {
+class MSTStep3 extends BaseForm {
   #residencyCheckboxActive;
 
   #IINTextbox;
@@ -189,7 +189,7 @@ class MSTPageThree extends BaseForm {
 
       return cy.wrap(targetIndex);
     }).then((index) => {
-      const newInstance = new MSTPageThree(index);
+      const newInstance = new MSTStep3(index);
 
       return newInstance.#targetElement.getText();
     });
@@ -218,4 +218,4 @@ class MSTPageThree extends BaseForm {
   }
 }
 
-module.exports = new MSTPageThree();
+module.exports = new MSTStep3();

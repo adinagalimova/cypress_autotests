@@ -1,13 +1,13 @@
 const moment = require('moment');
-const BaseForm = require('../../main/baseForm');
-const JSONLoader = require('../../main/utils/data/JSONLoader');
-const Randomizer = require('../../main/utils/random/randomizer');
-const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../main/elements/baseElementChildren/button');
-const Textbox = require('../../main/elements/baseElementChildren/textbox');
-const Label = require('../../main/elements/baseElementChildren/label');
+const BaseForm = require('../../../main/baseForm');
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
+const Randomizer = require('../../../main/utils/random/randomizer');
+const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const Button = require('../../../main/elements/baseElementChildren/button');
+const Textbox = require('../../../main/elements/baseElementChildren/textbox');
+const Label = require('../../../main/elements/baseElementChildren/label');
 
-class MSTPageOne extends BaseForm {
+class MSTStep1 extends BaseForm {
   #agentDropdown;
 
   #agentDropdownElements;
@@ -125,7 +125,7 @@ class MSTPageOne extends BaseForm {
   inputRandomBeginDate() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new MSTPageOne(dates.startDate);
+    const newInstance = new MSTStep1(dates.startDate);
     this.#beginDateCalendarButton.flipCalendarMonth(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
@@ -136,7 +136,7 @@ class MSTPageOne extends BaseForm {
   inputRandomDates() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new MSTPageOne(dates.startDate, dates.finishDate);
+    const newInstance = new MSTStep1(dates.startDate, dates.finishDate);
     this.#beginDateCalendarButton.flipCalendarMonth(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
@@ -222,4 +222,4 @@ class MSTPageOne extends BaseForm {
   }
 }
 
-module.exports = new MSTPageOne();
+module.exports = new MSTStep1();
