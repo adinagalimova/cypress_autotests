@@ -67,5 +67,7 @@
   "MSTExcludedCountries": [
     "Казахстан"
   ],
-  "MSTCountriesCount": 3
+  "MSTCountriesCount": 3,
+  "OGPOPolicyCodeNumber": "901-",
+  "MSTPolicyCodeNumber": "802-"
 }

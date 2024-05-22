@@ -134,7 +134,7 @@ exports.userPathOGPO = () => {
         .should('be.equal', text));
     OGPOPage.clickIssuePolicyButton();
 
-    OGPOPage.getPolicyNumberText().should('contain', '901-');
+    OGPOPage.getPolicyNumberText().should('contain', JSONLoader.testData.OGPOPolicyCodeNumber);
     OGPOPage.getStatusText()
       .should('be.equal', JSONLoader.testData.issuedStatus);
     OGPOPage.getSlicedCreationDate()

@@ -3,6 +3,7 @@ const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
 const Textbox = require('../../main/elements/baseElementChildren/textbox');
 const Checkbox = require('../../main/elements/baseElementChildren/checkbox');
+const Label = require('../../main/elements/baseElementChildren/label');
 
 class MSTPagePartThree extends BaseForm {
   #residencyCheckboxActive;
@@ -47,6 +48,16 @@ class MSTPagePartThree extends BaseForm {
 
   #headerElements;
 
+  #sumToPayLabel;
+
+  #setPolicyButton;
+
+  #setPolicyAgainButton;
+
+  #policyNumberLabel;
+
+  #paymentCodeLabel;
+
   constructor(targetIndex) {
     super(new XPATH('//th[text()="Премия(тг.)"]'), 'MST page part three');
     this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()="Резидент"]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
@@ -64,12 +75,17 @@ class MSTPagePartThree extends BaseForm {
     this.#documentIssuedBy = new Textbox(new XPATH('//input[@id="form_item_document_gived_by"]'), 'document issued by textbox');
     this.#sexDropdownButton = new Textbox(new XPATH('//label[@title="Пол"]/following::span[@class="ant-select-selection-item"]'), 'sex');
     this.#address = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
-    this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox")]'), 'pdl checkbox not active');
+    this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox") and not(contains(@class, "ant-checkbox-checked"))]'), 'pdl checkbox not active');
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
     this.#addButton = new Button(new XPATH('//span[text()="Добавить"]'), 'add button');
     this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
     this.#targetElement = new Textbox(new XPATH(`//td[contains(@class, "ant-table-cell")][${targetIndex}]`), 'target textbox');
     this.#headerElements = new Textbox(new XPATH('//th[@class="ant-table-cell"]'), 'header textboxes');
+    this.#sumToPayLabel = new Textbox(new XPATH('//h3'), 'sum to pay label');
+    this.#setPolicyButton = new Button(new XPATH('//span[text()="Выписать полис"]'), 'set policy button');
+    this.#setPolicyAgainButton = new Button(new XPATH('//span[text()="Выписать"]'), 'set policy again button');
+    this.#policyNumberLabel = new Label(new XPATH('//div[contains(@class, "ant-divider")]/following::h3'), 'policy number label');
+    this.#paymentCodeLabel = new Label(new XPATH('//strong[text()="Код для оплаты через Kaspi: "]//following::code'), 'payment code label');
   }
 
   residencyCheckboxOn() {
@@ -161,7 +177,7 @@ class MSTPagePartThree extends BaseForm {
     this.#calculateButton.multipleClickElement(2);
   }
 
-  findElementByHeader(header) {
+  findElementTextByHeader(header) {
     return this.#headerElements.getElementsListText('innerText').then((innerTextArray) => {
       let targetIndex = 0;
       for (let i = 0; i < innerTextArray.length; i += 1) {
@@ -177,6 +193,28 @@ class MSTPagePartThree extends BaseForm {
 
       return newInstance.#targetElement.getText();
     });
+  }
+
+  getSumToPay() {
+    const regex = '\\d* \\d* \\d+';
+
+    return this.#sumToPayLabel.getText().then((text) => text.match(regex)[0].replace(/\s/g, ''));
+  }
+
+  clickSetPolicy() {
+    this.#setPolicyButton.clickElement();
+  }
+
+  clickSetPolicyAgain() {
+    this.#setPolicyAgainButton.clickElement();
+  }
+
+  getPolicyNumberText() {
+    return this.#policyNumberLabel.getText();
+  }
+
+  getPaymentCode() {
+    return this.#paymentCodeLabel.getText();
   }
 }
 
