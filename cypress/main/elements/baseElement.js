@@ -201,13 +201,8 @@ class BaseElement {
 
   clickRandomKaskoTariff() {
     this.getElements().then((tariffs) => {
-      console.log('tariffs length: ', tariffs.length);
       const randomIndex = Randomizer.getRandomInteger(tariffs.length);
-      const randomTariffXPATH = new XPATH(`(//span[text()='Рассчитать'])[${randomIndex}]`);
-      this.#elementLocator = randomTariffXPATH;
-      console.log('randomIndex: ', randomIndex);
-      console.log('randomTariffXPATH: ', randomTariffXPATH.locator);
-      console.log('element: ', this.getElement(randomTariffXPATH));
+      this.#elementLocator = new XPATH(`(//span[text()='Рассчитать'])[${randomIndex}]`);
       this.elementIsVisible();
       this.scrollElementToView();
       this.elementIsDisplayed();
@@ -215,17 +210,18 @@ class BaseElement {
     });
   }
 
-  iterateWithArrows(dropdownElement) {
-    const elements = [];
-
-    for (let i = 0; i < 12; i += 1) {
-      cy.log(`[inf] ▶ click ${dropdownElement.#elementName}`);
-      this.getElement(dropdownElement.#elementLocator)
-        .type(`{downArrow}`);
+  clickArrowButtonRandomNumberOfTimes(directionUp, numberOfElements) {
+    this.elementIsVisible();
+    const direction = directionUp ? 'Up' : 'Down';
+    const numberOfClicksOnArrowButton = 1;
+    // const numberOfClicksOnArrowButton = Randomizer.getRandomInteger(numberOfElements - 1);
+    cy.logger(`[inf] ▶ direction: ${direction}, numberOfClicks: ${numberOfClicksOnArrowButton}`);
+    for (let i = numberOfClicksOnArrowButton; i > 0; i -= 1) {
+      cy.logger(`[inf] ▶ press ${direction}Arrow button`);
+      cy.realPress(`Arrow${direction}`);
     }
-    cy.type(`{downArrow}`);
-
-    return elements;
+    cy.logger(`[inf] ▶ press Enter button`);
+    cy.realPress(`Enter`);
   }
 }
 

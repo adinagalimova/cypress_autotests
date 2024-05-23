@@ -22,6 +22,7 @@
     "cypress-log-filter": "^1.0.4",
     "cypress-parallel": "^0.14.0",
     "cypress-plugin-multiple-click": "^1.0.0",
+    "cypress-real-events": "^1.12.0",
     "cypress-split": "^1.18.5",
     "cypress-xpath": "^2.0.1",
     "dotenv": "^16.3.1",

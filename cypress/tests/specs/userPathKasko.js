@@ -69,6 +69,12 @@ describe('Kasko smoke test:', () => {
     kaskoStep6.chooseInsurancePeriod();
     kaskoStep6.getPremiumElement().then((premium) => cy.setLocalStorage('premium', premium));
     kaskoStep6.choosePaymentType();
+    kaskoStep6.getPaymentType().then((paymentTypeText) => {
+      if (paymentTypeText === 'В рассрочку') {
+        kaskoStep6.chooseInstallmentPaymentCount();
+        kaskoStep6.chooseInstallmentFirstPaymentDate();
+      }
+    })
     kaskoStep6.clickSaveButton();
   });
 });
