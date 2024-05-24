@@ -6,6 +6,7 @@ const kaskoStep3 = require('../pageObjects/kasko/kaskoStep3');
 const kaskoStep4 = require('../pageObjects/kasko/kaskoStep4');
 const kaskoStep5 = require('../pageObjects/kasko/kaskoStep5');
 const kaskoStep6 = require('../pageObjects/kasko/kaskoStep6');
+const kaskoStep7 = require('../pageObjects/kasko/kaskoStep7');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 describe('Kasko smoke test:', () => {
@@ -33,8 +34,12 @@ describe('Kasko smoke test:', () => {
     kaskoStep3.pageIsDisplayed();
     kaskoStep3.inputIIN(JSONLoader.testData.clientIIN);
     kaskoStep3.clickSearchClientButton();
-    let clientFirstAndLastName = JSONLoader.testData.clientLastName + ' ' + JSONLoader.testData.clientFirstName + ' ';
-    kaskoStep3.getFullNameElement().should('contain.value', clientFirstAndLastName);
+    const fullName = ''.concat(
+      JSONLoader.testData.clientLastName, ' ',
+      JSONLoader.testData.clientFirstName, ' ',
+      JSONLoader.testData.clientMiddleName,
+    );
+    kaskoStep3.getOrSetFullNameElement().should('have.value', fullName);
     kaskoStep3.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
     kaskoStep3.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
     kaskoStep3.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
@@ -62,7 +67,7 @@ describe('Kasko smoke test:', () => {
     kaskoStep5.clickNaturalPersonSwitch();
     kaskoStep5.inputIINBIN(JSONLoader.testData.clientIIN);
     kaskoStep5.clickSearchBeneficiaryButton();
-    kaskoStep5.getBeneficiaryFullNameElement().should('contain.value', clientFirstAndLastName);
+    kaskoStep5.getBeneficiaryFullNameElement().should('contain.value', fullName);
     kaskoStep5.clickSaveButton();
 
     kaskoStep6.pageIsDisplayed();
@@ -73,8 +78,23 @@ describe('Kasko smoke test:', () => {
       if (paymentTypeText === 'В рассрочку') {
         kaskoStep6.chooseInstallmentPaymentCount();
         kaskoStep6.chooseInstallmentFirstPaymentDate();
+        cy.setLocalStorage('ignorePayment', true);
       }
     })
     kaskoStep6.clickSaveButton();
+
+    kaskoStep7.pageIsDisplayed();
+    kaskoStep7.getHolderLabelText().should('be.equal', fullName);
+    kaskoStep7.getBeneficiaryLabelText().should('be.equal', fullName);
+    const carFullName = ''.concat(
+      JSONLoader.testData.carMark, ' ',
+      JSONLoader.testData.carModel, ', ',
+      JSONLoader.testData.carNumber,
+    );
+    kaskoStep7.getInsuredCarLabelText().should('be.equal', carFullName);
+    kaskoStep7.choosePolicyStartDate();
+    kaskoStep7.inputAdditionalInfo();
+    kaskoStep7.clickSaveButton();
+    kaskoStep7.clickIssueButton();
   });
 });

@@ -31,7 +31,7 @@ class KaskoStep6 extends BaseForm {
 
   chooseInsurancePeriod() {
     this.#insurancePeriodDropdownButton.clickElement();
-    this.#insurancePeriodDropdownButton.clickArrowButtonRandomNumberOfTimes(true, 12);
+    this.#insurancePeriodDropdownButton.clickArrowButtonRandomNumberOfTimes('up', 12);
   }
 
   getPremiumElement() {
@@ -40,7 +40,7 @@ class KaskoStep6 extends BaseForm {
 
   choosePaymentType() {
     this.#paymentTypeDropdownButton.clickElement();
-    this.#paymentTypeDropdownButton.clickArrowButtonRandomNumberOfTimes(false, 2);
+    this.#paymentTypeDropdownButton.clickArrowButtonRandomNumberOfTimes('down', 2);
   }
 
   getPaymentType() {
@@ -49,12 +49,12 @@ class KaskoStep6 extends BaseForm {
 
   chooseInstallmentPaymentCount() {
     this.#installmentPaymentCountDropdownButton.clickElement();
-    this.#installmentPaymentCountDropdownButton.clickArrowButtonRandomNumberOfTimes(false, 12);
+    this.#installmentPaymentCountDropdownButton.clickArrowButtonRandomNumberOfTimes('down', 12);
   }
 
   chooseInstallmentFirstPaymentDate() {
     this.#installmentFirstPaymentCalendarButton.clickElement();
-    const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
+    const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate);
     const newInstance = new KaskoStep6(dates.startDate);
     this.#installmentFirstPaymentCalendarButton.flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
     newInstance.#installmentFirstPaymentDateButton.clickElement();

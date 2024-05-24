@@ -210,15 +210,14 @@ class BaseElement {
     });
   }
 
-  clickArrowButtonRandomNumberOfTimes(directionUp, numberOfElements) {
+  clickArrowButtonRandomNumberOfTimes(direction, numberOfElements) {
     this.elementIsVisible();
-    const direction = directionUp ? 'Up' : 'Down';
-    const numberOfClicksOnArrowButton = 1;
-    // const numberOfClicksOnArrowButton = Randomizer.getRandomInteger(numberOfElements - 1);
+    direction = direction.toLowerCase();
+    const numberOfClicksOnArrowButton = Randomizer.getRandomInteger(numberOfElements - 1);
     cy.logger(`[inf] ▶ direction: ${direction}, numberOfClicks: ${numberOfClicksOnArrowButton}`);
     for (let i = numberOfClicksOnArrowButton; i > 0; i -= 1) {
-      cy.logger(`[inf] ▶ press ${direction}Arrow button`);
-      cy.realPress(`Arrow${direction}`);
+      cy.logger(`[inf] ▶ press ${direction} arrow button`);
+      cy.realPress(`{${direction}arrow}`);
     }
     cy.logger(`[inf] ▶ press Enter button`);
     cy.realPress(`Enter`);

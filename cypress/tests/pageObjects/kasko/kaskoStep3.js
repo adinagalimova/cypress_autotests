@@ -5,6 +5,7 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Label = require('../../../main/elements/baseElementChildren/label');
 const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
 const Randomizer = require('../../../main/utils/random/randomizer');
+const JSONLoader = require("../../../main/utils/data/JSONLoader");
 
 class KaskoStep3 extends BaseForm {
   #IINTextbox;
@@ -45,7 +46,17 @@ class KaskoStep3 extends BaseForm {
     this.#searchClientButton.clickElement();
   }
 
-  getFullNameElement() {
+  getOrSetFullNameElement() {
+    const fullName = ''.concat(
+      JSONLoader.testData.clientLastName, ' ',
+      JSONLoader.testData.clientFirstName, ' ',
+      JSONLoader.testData.clientMiddleName,
+    );
+    if (this.#fullNameTextbox.getText !== fullName) {
+      this.#fullNameTextbox.clearData();
+      this.#fullNameTextbox.inputData(fullName);
+    }
+
     return this.#fullNameTextbox.getElement();
   }
 
