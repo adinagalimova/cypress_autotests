@@ -39,6 +39,10 @@ describe('Kasko smoke test:', () => {
       JSONLoader.testData.clientFirstName, ' ',
       JSONLoader.testData.clientMiddleName,
     );
+    const firstAndLastName = ''.concat(
+      JSONLoader.testData.clientLastName, ' ',
+      JSONLoader.testData.clientFirstName
+    );
     kaskoStep3.getOrSetFullNameElement().should('have.value', fullName);
     kaskoStep3.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
     kaskoStep3.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
@@ -67,25 +71,27 @@ describe('Kasko smoke test:', () => {
     kaskoStep5.clickNaturalPersonSwitch();
     kaskoStep5.inputIINBIN(JSONLoader.testData.clientIIN);
     kaskoStep5.clickSearchBeneficiaryButton();
-    kaskoStep5.getBeneficiaryFullNameElement().should('contain.value', fullName);
+    kaskoStep5.getBeneficiaryFullNameElement().should('contain.value', firstAndLastName);
     kaskoStep5.clickSaveButton();
 
     kaskoStep6.pageIsDisplayed();
     kaskoStep6.chooseInsurancePeriod();
-    kaskoStep6.getPremiumElement().then((premium) => cy.setLocalStorage('premium', premium));
+    kaskoStep6.getPremiumElement().then((premium) => cy.setLocalStorage('sumToPay', premium));
     kaskoStep6.choosePaymentType();
     kaskoStep6.getPaymentType().then((paymentTypeText) => {
       if (paymentTypeText === 'В рассрочку') {
         kaskoStep6.chooseInstallmentPaymentCount();
         kaskoStep6.chooseInstallmentFirstPaymentDate();
-        cy.setLocalStorage('ignorePayment', true);
+        cy.setLocalStorage('installmentPayment', true);
+      } else {
+        cy.setLocalStorage('installmentPayment', false);
       }
     })
     kaskoStep6.clickSaveButton();
 
     kaskoStep7.pageIsDisplayed();
     kaskoStep7.getHolderLabelText().should('be.equal', fullName);
-    kaskoStep7.getBeneficiaryLabelText().should('be.equal', fullName);
+    kaskoStep7.getBeneficiaryLabelTextboxElement().should('contain.text', firstAndLastName);
     const carFullName = ''.concat(
       JSONLoader.testData.carMark, ' ',
       JSONLoader.testData.carModel, ', ',
@@ -93,8 +99,24 @@ describe('Kasko smoke test:', () => {
     );
     kaskoStep7.getInsuredCarLabelText().should('be.equal', carFullName);
     kaskoStep7.choosePolicyStartDate();
+    let policyStartDate = '';
+    kaskoStep7.getPolicyStartDateTitle().then((date) => policyStartDate = date);
     kaskoStep7.inputAdditionalInfo();
+    let additionalInfo = 'default';
+    kaskoStep7.getAdditionalInfoTextboxValue().then((text) => additionalInfo = text);
     kaskoStep7.clickSaveButton();
     kaskoStep7.clickIssueButton();
+
+    kaskoStep7.pageIsDisplayed();
+    kaskoStep7.getHolderLabelText().should('be.equal', fullName);
+    kaskoStep7.getBeneficiaryLabelTextboxElement().should('contain.text', fullName);
+    kaskoStep7.getInsuredCarLabelText().should('be.equal', carFullName);
+    kaskoStep7.getPolicyStartDateTitle()
+      .then((date) => cy.wrap(date).should('be.equal', policyStartDate));
+    kaskoStep7.getAdditionalInfoTextboxValue()
+      .then((text2) => cy.wrap(text2).should('be.equal', additionalInfo));
+    kaskoStep7.getPolicyNumberText().then((policyNumber) => cy.setLocalStorage('policyNumber', policyNumber));
+    kaskoStep7.getPaymentCode()
+      .then((code) => cy.setLocalStorage('paymentCode', code));
   });
 });
