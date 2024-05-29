@@ -1,5 +1,9 @@
+const { login } = require('./login');
+const { kaspiPay } = require('./kaspiPay');
+const { userPathKasko } = require('./userPathKasko');
+
 describe('Kasko test suite', () => {
-  require('./login');
-  require('./userPathKasko');
-  require('./kaspiPay');
+  login();
+  userPathKasko();
+  kaspiPay();
 });

@@ -32,7 +32,7 @@
   "clientIsPDL": "Нет",
   "clientIsInvalid": "Нет",
   "clientIsPensioner": "Нет",
-  "responsePaid": "оплачен",
+
   "carNumber": "777KIS02",
   "carRegistration": "AU00187600",
   "carRegDate": "19.11.2021",
@@ -43,8 +43,7 @@
   "carEngineVolume": "1591",
   "carMark": "HYUNDAI",
   "carModel": "ACCENT",
-  "OGPOperiod": "12 месяцев",
-  "issuedStatus": "Выписан",
+
   "insuredClientIIN": "690219300200",
   "insuredClientLastName": "МУХАТАЕВ",
   "insuredClientLastNameEng": "MUHATAEV",

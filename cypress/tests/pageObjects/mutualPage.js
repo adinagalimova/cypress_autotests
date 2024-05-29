@@ -41,7 +41,7 @@ class MutualPage extends BaseForm {
 
   #documentNumberLabel;
 
-  #documentGivenDateLabel;
+  #documentIssueDateLabel;
 
   #addressLabel;
 
@@ -137,7 +137,7 @@ class MutualPage extends BaseForm {
     this.#sexLabel = new Label(new XPATH('//label[@title="Пол"]/following::span[@class="font-bold"]'), 'sex label');
     this.#documentTypeLabel = new Label(new XPATH('//label[@title="Тип документа"]/following::span[@class="font-bold"]'), 'document type label');
     this.#documentNumberLabel = new Label(new XPATH('//label[@title="Номер документа"]/following::span[@class="font-bold"]'), 'document number label');
-    this.#documentGivenDateLabel = new Label(new XPATH('//label[@title="Дата выдачи"]/following::span[@class="font-bold"]'), 'document given date label');
+    this.#documentIssueDateLabel = new Label(new XPATH('//label[@title="Дата выдачи"]/following::span[@class="font-bold"]'), 'document issue date label');
     this.#addressLabel = new Label(new XPATH('//label[@title="Адрес клиента"]/following::span[@class="font-bold"]'), 'address label');
     this.#emailLabel = new Label(new XPATH('//label[@title="E-Mail"]/following::span[@class="font-bold"]'), 'email label');
     this.#mobileNumberLabel = new Label(new XPATH('//label[@title="Мобильный телефон"]/following::span[@class="font-bold"]'), 'mobile number label');
@@ -230,8 +230,8 @@ class MutualPage extends BaseForm {
     return this.#documentNumberLabel.getText();
   }
 
-  getDocumentGivenDateText() {
-    return this.#documentGivenDateLabel.getText();
+  getDocumentIssueDateText() {
+    return this.#documentIssueDateLabel.getText();
   }
 
   getAddressText() {

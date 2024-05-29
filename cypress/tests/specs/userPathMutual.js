@@ -29,7 +29,7 @@ exports.userPathMutual = () => {
       .should('be.equal', JSONLoader.testData.clientDocumentType);
     mutualPage.getDocumentNumberText()
       .should('be.equal', JSONLoader.testData.clientDocumentNumber);
-    mutualPage.getDocumentGivenDateText()
+    mutualPage.getDocumentIssueDateText()
       .should('be.equal', JSONLoader.testData.clientDocumentIssueDate);
     mutualPage.getAddressText()
       .should('be.equal', JSONLoader.testData.clientAddress);
@@ -39,23 +39,6 @@ exports.userPathMutual = () => {
       .should('be.equal', JSONLoader.testData.clientPhoneFormatted);
     mutualPage.getIsPDLText()
       .should('be.equal', JSONLoader.testData.clientIsPDL);
-
-    mutualPage.juridicalSwitchIsChecked().should('be.equal', false);
-    mutualPage.IPSwitchIsChecked().should('be.equal', false);
-    mutualPage.residentSwitchIsChecked().should('be.equal', true);
-    mutualPage.getIINText().should('be.equal', JSONLoader.testData.clientIIN);
-    mutualPage.getLastNameText().should('be.equal', JSONLoader.testData.clientLastName);
-    mutualPage.getFirstNameText().should('be.equal', JSONLoader.testData.clientFirstName);
-    mutualPage.getMiddleNameText().should('be.equal', JSONLoader.testData.clientMiddleName);
-    mutualPage.getDateOfBirthText().should('be.equal', JSONLoader.testData.clientDateOfBirth);
-    mutualPage.getSexText().should('be.equal', JSONLoader.testData.clientSex);
-    mutualPage.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
-    mutualPage.getDocumentNumberText().should('be.equal', JSONLoader.testData.clientDocumentNumber);
-    mutualPage.getDocumentGivenDateText().should('be.equal', JSONLoader.testData.clientDocumentIssueDate);
-    mutualPage.getAddressText().should('be.equal', JSONLoader.testData.clientAddress);
-    mutualPage.getEmailText().should('be.equal', JSONLoader.testData.clientEmail);
-    mutualPage.getMobileNumberText().should('be.equal', JSONLoader.testData.clientPhoneFormatted);
-    mutualPage.getIsPDLText().should('be.equal', JSONLoader.testData.clientIsPDL);
 
     mutualPage.clickInsuredStepButton();
     mutualPage.juridicalSwitchIsChecked().should('be.false');
@@ -77,7 +60,7 @@ exports.userPathMutual = () => {
       .should('be.equal', JSONLoader.testData.insuredClientDocumentType);
     mutualPage.getDocumentNumberText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentNumber);
-    mutualPage.getDocumentGivenDateText()
+    mutualPage.getDocumentIssueDateText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentIssueDate);
     const insuredFullName = `${JSONLoader.testData.insuredClientLastName} ${
       JSONLoader.testData.insuredClientFirstName} ${

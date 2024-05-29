@@ -9,7 +9,7 @@ const kaskoStep6 = require('../pageObjects/kasko/kaskoStep6');
 const kaskoStep7 = require('../pageObjects/kasko/kaskoStep7');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
-describe('Kasko smoke test:', () => {
+exports.userPathKasko = () => {
   it('Kasko user path:', { scrollBehavior: false }, () => {
 
     mainPage.clickKaskoButton();
@@ -119,4 +119,4 @@ describe('Kasko smoke test:', () => {
     kaskoStep7.getPaymentCode()
       .then((code) => cy.setLocalStorage('paymentCode', code));
   });
-});
+};
