@@ -210,8 +210,10 @@ class BaseElement {
   }
 
   clickRandomKaskoTariff() {
+    this.elementIsVisible();
+    this.elementIsDisplayed();
     this.getElements().then((tariffs) => {
-      const randomIndex = Randomizer.getRandomInteger(tariffs.length);
+      const randomIndex = Randomizer.getRandomInteger(tariffs.length, 1);
       this.#elementLocator = new XPATH(`(//span[text()='Рассчитать'])[${randomIndex}]`);
       this.elementIsVisible();
       this.scrollElementToView();
