@@ -1,23 +1,32 @@
 const BaseForm = require('../../../main/baseForm');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
-const Label = require("../../../main/elements/baseElementChildren/label");
-const Textbox = require("../../../main/elements/baseElementChildren/textbox");
-const StrUtils = require('../../../main/utils/str/strUtils');
-const Randomizer = require("../../../main/utils/random/randomizer");
-const JSONLoader = require("../../../main/utils/data/JSONLoader");
+const Label = require('../../../main/elements/baseElementChildren/label');
+const Textbox = require('../../../main/elements/baseElementChildren/textbox');
+const Randomizer = require('../../../main/utils/random/randomizer');
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
 
 class KaskoStep7 extends BaseForm {
   #holderLabel;
+
   #beneficiaryLabel;
+
   #insuredCarLabel;
+
   #policyStartDateCalendarButton;
+
   #policyStartDateButton;
+
   #calendarRightArrowButton;
+
   #additionalInfoTextbox;
+
   #saveButton;
+
   #issueButton;
+
   #policyNumberLabel;
+
   #paymentCodeLabel;
 
   constructor(policyStartDate) {
@@ -50,18 +59,22 @@ class KaskoStep7 extends BaseForm {
 
   choosePolicyStartDate() {
     this.#policyStartDateCalendarButton.clickElement();
-    const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate);
+    const dates = Randomizer
+      .getRandomDatesIntervalFromTomorrow(
+        ...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate,
+      );
     const newInstance = new KaskoStep7(dates.startDate);
-    this.#policyStartDateCalendarButton.flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
+    this.#policyStartDateCalendarButton
+      .flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
     newInstance.#policyStartDateButton.clickElement();
   }
 
   inputAdditionalInfo() {
     this.#additionalInfoTextbox.inputData(''.concat(
       Randomizer.getRandomString(true, true, true, true, false, 10, 30),
-      ' ', 'autotest'
-      )
-    );
+      ' ',
+      'autotest',
+    ));
   }
 
   getAdditionalInfoTextboxValue() {

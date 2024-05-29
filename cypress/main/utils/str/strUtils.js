@@ -1,15 +1,13 @@
 class StrUtils {
-  static  toTitleCase(str) {
+  static toTitleCase(str) {
     return str.replace(
       /\w\S*/g,
-      function (txt) {
-        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      }
+      (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
     );
   }
 
-  static  removeAllNonNumbersFromString(str) {
-    return str.replace(/\D/g, "");
+  static removeAllNonNumbersFromString(str) {
+    return str.replace(/\D/g, '');
   }
 }
 

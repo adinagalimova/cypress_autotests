@@ -1,15 +1,18 @@
 const BaseForm = require('../../../main/baseForm');
-const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
-const Switch = require("../../../main/elements/baseElementChildren/switch");
+const Switch = require('../../../main/elements/baseElementChildren/switch');
 
 class KaskoStep5 extends BaseForm {
   #naturalPersonSwitch;
+
   #IINBINTextbox;
+
   #searchBeneficiaryButton;
+
   #beneficiaryFullNameTextbox;
+
   #saveButton;
 
   constructor() {
@@ -41,7 +44,6 @@ class KaskoStep5 extends BaseForm {
   clickSaveButton() {
     this.#saveButton.clickElement();
   }
-
 }
 
 module.exports = new KaskoStep5();

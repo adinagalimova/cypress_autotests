@@ -8,24 +8,36 @@ const StrUtils = require('../../../main/utils/str/strUtils');
 
 class KaskoStep1 extends BaseForm {
   #agentManagerDropdown;
+
   #agentManagerDropdownElement;
+
   #carMarkDropdown;
+
   #carMarkDropdownElement;
+
   #carModelDropdown;
+
   #carModelDropdownElement;
+
   #carManufacturedYearTextbox;
+
   #carEngineVolumeTextbox;
+
   #insuranceSumTextbox;
+
   #calculateButton;
+
   #additionalEquipmentSwitch;
+
   #usedAutoSwitch;
+
   #saveButton;
 
   constructor() {
     super(new XPATH('//a[@href="/kasko"]'), 'Kasko step 1 page');
 
     this.#agentManagerDropdown = new Button(new XPATH('//input[@id=\'form_item_agent_id_1c\']'), 'agent manager dropdown');
-    this.#agentManagerDropdownElement = new Button(new XPATH(`//div[@login=\'${Cypress.env('login')}\']`), 'agent manager dropdown element');
+    this.#agentManagerDropdownElement = new Button(new XPATH(`//div[@login='${Cypress.env('login')}']`), 'agent manager dropdown element');
     this.#carMarkDropdown = new Button(new XPATH('//input[@id=\'form_item_mark_id\']'), 'car mark dropdown');
     this.#carMarkDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(JSONLoader.testData.carMark)}']`), 'car mark dropdown element');
     this.#carModelDropdown = new Button(new XPATH('//input[@id=\'form_item_model_id\']'), 'car model dropdown');
@@ -61,7 +73,7 @@ class KaskoStep1 extends BaseForm {
   }
 
   inputCarEngineVolume() {
-    const carEngineVolume = (Number(JSONLoader.testData.carEngineVolume)/1000).toFixed(1);
+    const carEngineVolume = (Number(JSONLoader.testData.carEngineVolume) / 1000).toFixed(1);
     this.#carEngineVolumeTextbox.fillInputField(carEngineVolume);
   }
 
@@ -91,7 +103,6 @@ class KaskoStep1 extends BaseForm {
   clickSaveButton() {
     this.#saveButton.clickElement();
   }
-
 }
 
 module.exports = new KaskoStep1();

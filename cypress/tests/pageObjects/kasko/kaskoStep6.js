@@ -1,19 +1,26 @@
 const BaseForm = require('../../../main/baseForm');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
-const Label = require("../../../main/elements/baseElementChildren/label");
+const Label = require('../../../main/elements/baseElementChildren/label');
 const StrUtils = require('../../../main/utils/str/strUtils');
-const Randomizer = require("../../../main/utils/random/randomizer");
-const JSONLoader = require("../../../main/utils/data/JSONLoader");
+const Randomizer = require('../../../main/utils/random/randomizer');
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
 
 class KaskoStep6 extends BaseForm {
   #insurancePeriodDropdownButton;
+
   #premiumLabel;
+
   #paymentTypeDropdownButton;
+
   #installmentPaymentCountDropdownButton;
+
   #installmentFirstPaymentCalendarButton;
+
   #installmentFirstPaymentDateButton;
+
   #calendarRightArrowButton;
+
   #saveButton;
 
   constructor(installmentPaymentStartDate) {
@@ -35,7 +42,8 @@ class KaskoStep6 extends BaseForm {
   }
 
   getPremiumElement() {
-    return this.#premiumLabel.getText().then((text) => StrUtils.removeAllNonNumbersFromString(text));
+    return this.#premiumLabel.getText()
+      .then((text) => StrUtils.removeAllNonNumbersFromString(text));
   }
 
   choosePaymentType() {
@@ -54,16 +62,19 @@ class KaskoStep6 extends BaseForm {
 
   chooseInstallmentFirstPaymentDate() {
     this.#installmentFirstPaymentCalendarButton.clickElement();
-    const dates = Randomizer.getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate);
+    const dates = Randomizer
+      .getRandomDatesIntervalFromTomorrow(
+        ...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate,
+      );
     const newInstance = new KaskoStep6(dates.startDate);
-    this.#installmentFirstPaymentCalendarButton.flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
+    this.#installmentFirstPaymentCalendarButton
+      .flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
     newInstance.#installmentFirstPaymentDateButton.clickElement();
   }
 
   clickSaveButton() {
     this.#saveButton.clickElement();
   }
-
 }
 
 module.exports = new KaskoStep6();

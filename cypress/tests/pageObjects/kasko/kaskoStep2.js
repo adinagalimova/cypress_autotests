@@ -14,7 +14,6 @@ class KaskoStep2 extends BaseForm {
   clickRandomTariff() {
     this.#tariffRows.clickRandomKaskoTariff();
   }
-
 }
 
 module.exports = new KaskoStep2();

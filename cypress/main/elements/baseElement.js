@@ -222,15 +222,15 @@ class BaseElement {
 
   clickArrowButtonRandomNumberOfTimes(direction, numberOfElements) {
     this.elementIsVisible();
-    direction = direction.toLowerCase();
+    const directionLowerCase = direction.toLowerCase();
     const numberOfClicksOnArrowButton = Randomizer.getRandomInteger(numberOfElements - 1);
-    cy.logger(`[inf] ▶ direction: ${direction}, numberOfClicks: ${numberOfClicksOnArrowButton}`);
+    cy.logger(`[inf] ▶ direction: ${directionLowerCase}, numberOfClicks: ${numberOfClicksOnArrowButton}`);
     for (let i = numberOfClicksOnArrowButton; i > 0; i -= 1) {
-      cy.logger(`[inf] ▶ press ${direction} arrow button`);
-      cy.realPress(`{${direction}arrow}`);
+      cy.logger(`[inf] ▶ press ${directionLowerCase} arrow button`);
+      cy.realPress(`{${directionLowerCase}arrow}`);
     }
-    cy.logger(`[inf] ▶ press Enter button`);
-    cy.realPress(`Enter`);
+    cy.logger('[inf] ▶ press Enter button');
+    cy.realPress('Enter');
   }
 
   createListOfElements(dropdownElement) {

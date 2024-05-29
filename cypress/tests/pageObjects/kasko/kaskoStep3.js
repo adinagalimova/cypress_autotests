@@ -5,20 +5,31 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Label = require('../../../main/elements/baseElementChildren/label');
 const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
 const Randomizer = require('../../../main/utils/random/randomizer');
-const JSONLoader = require("../../../main/utils/data/JSONLoader");
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
 
 class KaskoStep3 extends BaseForm {
   #IINTextbox;
+
   #searchClientButton;
+
   #fullNameTextbox;
+
   #documentTypeDropdownButton;
+
   #documentNumberTextbox;
+
   #documentIssueDateTextbox;
+
   #documentIssuedByTextbox;
+
   #addressTextbox;
+
   #emailTextbox;
+
   #phoneTextbox;
+
   #PDLCheckbox;
+
   #saveButton;
 
   constructor() {
@@ -48,8 +59,10 @@ class KaskoStep3 extends BaseForm {
 
   getOrSetFullNameElement() {
     const fullName = ''.concat(
-      JSONLoader.testData.clientLastName, ' ',
-      JSONLoader.testData.clientFirstName, ' ',
+      JSONLoader.testData.clientLastName,
+      ' ',
+      JSONLoader.testData.clientFirstName,
+      ' ',
       JSONLoader.testData.clientMiddleName,
     );
     if (this.#fullNameTextbox.getText !== fullName) {
@@ -102,7 +115,6 @@ class KaskoStep3 extends BaseForm {
   clickSaveButton() {
     this.#saveButton.clickElement();
   }
-
 }
 
 module.exports = new KaskoStep3();

@@ -6,16 +6,27 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 
 class KaskoStep4 extends BaseForm {
   #regNumTextbox;
+
   #regCertNumTextbox;
+
   #searchCarButton;
+
   #carMarkTextbox;
+
   #carModelTextbox;
+
   #carManufacturedYearTextbox;
+
   #carVINTextbox;
+
   #carRegionDropdownButton;
+
   #carRegionDropdownElement;
+
   #carRegDateTextbox;
+
   #insuranceSumTextbox;
+
   #saveButton;
 
   constructor() {
@@ -78,7 +89,6 @@ class KaskoStep4 extends BaseForm {
   clickSaveButton() {
     this.#saveButton.clickElement();
   }
-
 }
 
 module.exports = new KaskoStep4();

@@ -6,7 +6,7 @@ exports.kaspiPay = () => {
   it('Pay with Kaspi:', { scrollBehavior: false }, () => {
     cy.getLocalStorage('installmentPayment').then((installmentPayment) => {
       if (installmentPayment === 'true') {
-        cy.logger(`[inf] ▶ payment skipped (installment)`);
+        cy.logger('[inf] ▶ payment skipped (installment)');
       } else {
         cy.getLocalStorage('paymentCode')
           .then((paymentCode) => cy.getLocalStorage('sumToPay')
@@ -17,7 +17,7 @@ exports.kaspiPay = () => {
             cy.wrap(convertedResponse.comment.pop())
               .should('contain', JSONLoader.testData.responsePaid);
           });
-        cy.logger(`[inf] ▶ paid (one-time payment)`);
+        cy.logger('[inf] ▶ paid (one-time payment)');
       }
     });
   });

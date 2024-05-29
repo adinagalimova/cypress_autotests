@@ -1,4 +1,3 @@
-const moment = require('moment');
 const mainPage = require('../pageObjects/mainPage');
 const kaskoStep1 = require('../pageObjects/kasko/kaskoStep1');
 const kaskoStep2 = require('../pageObjects/kasko/kaskoStep2');
@@ -11,7 +10,6 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathKasko = () => {
   it('Kasko user path:', { scrollBehavior: false }, () => {
-
     mainPage.clickKaskoButton();
 
     kaskoStep1.pageIsDisplayed();
@@ -23,7 +21,8 @@ exports.userPathKasko = () => {
     kaskoStep1.inputInsuranceSumTextbox();
     kaskoStep1.clickCalculateButton();
     let insuranceSum;
-    kaskoStep1.getInsuranceSumText().then((insuranceSumValue) => insuranceSum = insuranceSumValue);
+    kaskoStep1.getInsuranceSumText()
+      .then((insuranceSumValue) => { insuranceSum = insuranceSumValue; });
     kaskoStep1.additionalEquipmentSwitchIsChecked().should('be.false');
     kaskoStep1.usedAutoSwitchIsChecked().should('be.false');
     kaskoStep1.clickSaveButton();
@@ -35,19 +34,22 @@ exports.userPathKasko = () => {
     kaskoStep3.inputIIN(JSONLoader.testData.clientIIN);
     kaskoStep3.clickSearchClientButton();
     const fullName = ''.concat(
-      JSONLoader.testData.clientLastName, ' ',
-      JSONLoader.testData.clientFirstName, ' ',
+      JSONLoader.testData.clientLastName,
+      ' ',
+      JSONLoader.testData.clientFirstName,
+      ' ',
       JSONLoader.testData.clientMiddleName,
     );
     const firstAndLastName = ''.concat(
-      JSONLoader.testData.clientLastName, ' ',
-      JSONLoader.testData.clientFirstName
+      JSONLoader.testData.clientLastName,
+      ' ',
+      JSONLoader.testData.clientFirstName,
     );
     kaskoStep3.getOrSetFullNameElement().should('have.value', fullName);
     kaskoStep3.getDocumentTypeText().should('be.equal', JSONLoader.testData.clientDocumentType);
     kaskoStep3.getDocumentNumberElement().should('have.value', JSONLoader.testData.clientDocumentNumber);
-    kaskoStep3.getDocumentIssueDateElement().should('have.value', JSONLoader.testData.clientDocumentIssueDate);
-    // kaskoStep3.getDocumentIssuedByElement().should('have.value', JSONLoader.testData.clientDocumentIssuedBy);
+    kaskoStep3.getDocumentIssueDateElement()
+      .should('have.value', JSONLoader.testData.clientDocumentIssueDate);
     kaskoStep3.inputAddress(JSONLoader.testData.clientAddress);
     kaskoStep3.inputPhone(JSONLoader.testData.clientPhoneForKASKO);
     kaskoStep3.inputEmail(JSONLoader.testData.clientEmail);
@@ -86,24 +88,26 @@ exports.userPathKasko = () => {
       } else {
         cy.setLocalStorage('installmentPayment', false);
       }
-    })
+    });
     kaskoStep6.clickSaveButton();
 
     kaskoStep7.pageIsDisplayed();
     kaskoStep7.getHolderLabelText().should('be.equal', fullName);
     kaskoStep7.getBeneficiaryLabelTextboxElement().should('contain.text', firstAndLastName);
     const carFullName = ''.concat(
-      JSONLoader.testData.carMark, ' ',
-      JSONLoader.testData.carModel, ', ',
+      JSONLoader.testData.carMark,
+      ' ',
+      JSONLoader.testData.carModel,
+      ', ',
       JSONLoader.testData.carNumber,
     );
     kaskoStep7.getInsuredCarLabelText().should('be.equal', carFullName);
     kaskoStep7.choosePolicyStartDate();
     let policyStartDate = '';
-    kaskoStep7.getPolicyStartDateTitle().then((date) => policyStartDate = date);
+    kaskoStep7.getPolicyStartDateTitle().then((date) => { policyStartDate = date; });
     kaskoStep7.inputAdditionalInfo();
     let additionalInfo = 'default';
-    kaskoStep7.getAdditionalInfoTextboxValue().then((text) => additionalInfo = text);
+    kaskoStep7.getAdditionalInfoTextboxValue().then((text) => { additionalInfo = text; });
     kaskoStep7.clickSaveButton();
     kaskoStep7.clickIssueButton();
 
