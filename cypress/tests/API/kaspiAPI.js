@@ -9,22 +9,20 @@ require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'),
 class KaspiAPI extends BaseAPI {
   #API;
 
-  constructor(options = {}) {
-    super(
-      options.baseURL || process.env.GATEWAY_URL,
-      options.logString,
-      options.timeout,
-      options.headers,
-    );
+  #options;
+
+  constructor(options = {
+    baseURL: '' || process.env.GATEWAY_URL,
+  }) {
+    super(options);
+    this.#options = options;
   }
 
   async setToken() {
     const response = await authAPI.auth({ APIName: 'Kaspi API' });
-    this.#API = new KaspiAPI({
-      headers: {
-        Authorization: `Bearer ${response.data.data.access_token}`,
-      },
-    });
+    this.#options.headers = {};
+    this.#options.headers.Authorization = `Bearer ${response.data.data.access_token}`;
+    this.#API = new KaspiAPI(this.#options);
     return response;
   }
 
@@ -37,7 +35,7 @@ class KaspiAPI extends BaseAPI {
       sum: paymentInfo.sumToPay,
     };
 
-    return await this.#API.get(JSONLoader.APIEndpoints.kaspi.pay, params);
+    return this.#API.get(JSONLoader.APIEndpoints.kaspi.pay, params);
   }
 }
 

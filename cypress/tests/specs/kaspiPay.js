@@ -2,7 +2,7 @@ const NodeEvents = require('../../support/nodeEvents');
 const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
-describe('Payment', () => {
+exports.kaspiPay = () => {
   it('Pay with Kaspi:', { scrollBehavior: false }, () => {
     cy.getLocalStorage('installmentPayment').then((installmentPayment) => {
       if (installmentPayment === 'true') {
@@ -21,4 +21,4 @@ describe('Payment', () => {
       }
     });
   });
-});
+};

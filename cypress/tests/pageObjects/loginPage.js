@@ -5,7 +5,9 @@ const Textbox = require('../../main/elements/baseElementChildren/textbox');
 
 class LoginPage extends BaseForm {
   #loginTextbox;
+
   #passwordTextbox;
+
   #submitButton;
 
   constructor() {

@@ -1,4 +1,3 @@
-const qs = require('qs');
 const axios = require('axios');
 
 class BaseAPI {
@@ -14,11 +13,11 @@ class BaseAPI {
 
   #axiosInstance;
 
-  constructor(baseURL, logString, timeout, headers) {
-    this.#baseURL = baseURL;
-    this.#logString = logString;
-    this.#timeout = timeout;
-    this.#headers = headers;
+  constructor(options) {
+    this.#baseURL = options.baseURL;
+    this.#logString = options.logString;
+    this.#timeout = options.timeout;
+    this.#headers = options.headers;
     this.#axiosInstance = this.createInstance();
   }
 
@@ -49,7 +48,7 @@ class BaseAPI {
     const logs = [`[req] ▶ post ${JSON.stringify(params || {})} to ${endpoint}:`];
     if (this.#logBaseURL) logs.unshift(this.#logBaseURL);
     try {
-      const response = await this.#axiosInstance.post(`/${endpoint}`, qs.stringify(params));
+      const response = await this.#axiosInstance.post(`/${endpoint}`, params);
       logs.push(`[res]   status code: ${response.status}`);
       return { data: response.data, status: response.status, logs };
     } catch (error) {
@@ -63,7 +62,7 @@ class BaseAPI {
     const logs = [`[req] ▶ patch ${JSON.stringify(params || {})} to ${endpoint}:`];
     if (this.#logBaseURL) logs.unshift(this.#logBaseURL);
     try {
-      const response = await this.#axiosInstance.patch(`/${endpoint}`, qs.stringify(params));
+      const response = await this.#axiosInstance.patch(`/${endpoint}`, params);
       logs.push(`[res]   status code: ${response.status}`);
       return { data: response.data, status: response.status, logs };
     } catch (error) {

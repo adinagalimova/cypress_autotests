@@ -7,13 +7,18 @@
 
   "clientIIN": "880701351146",
   "clientFirstName": "САБАХУДИН",
+  "clientFirstNameEng": "SABAHUDIN",
   "clientLastName": "ХАНАЛИЕВ",
+  "clientLastNameEng": "KHANALIEV",
   "clientMiddleName": "ИЗИМЖАНОВИЧ",
   "clientDateOfBirth": "01.07.1988",
   "clientSex": "Мужской",
+  "clientCountry": "Казахстан",
+  "clientRegion": "Алматинская область",
   "clientDocumentType": "Паспорт",
   "clientDocumentNumber": "19800460",
   "clientDocumentIssueDate": "20.06.2010",
+  "clientDocumentIssueBy": "МЮ РК",
   "clientDocumentIssuedBy": "МВД РК",
   "clientAddress": "Ул. Есенина, д. 10, кв. 3 Толя тест",
   "clientEmail": "a.anisimov@a-i.kz",
@@ -27,7 +32,7 @@
   "clientIsPDL": "Нет",
   "clientIsInvalid": "Нет",
   "clientIsPensioner": "Нет",
-
+  "responsePaid": "оплачен",
   "carNumber": "777KIS02",
   "carRegistration": "AU00187600",
   "carRegDate": "19.11.2021",
@@ -38,16 +43,21 @@
   "carEngineVolume": "1591",
   "carMark": "HYUNDAI",
   "carModel": "ACCENT",
-
+  "OGPOperiod": "12 месяцев",
+  "issuedStatus": "Выписан",
   "insuredClientIIN": "690219300200",
   "insuredClientLastName": "МУХАТАЕВ",
+  "insuredClientLastNameEng": "MUHATAEV",
   "insuredClientFirstName": "ЖАСУЛАН",
+  "insuredClientFirstNameEng": "ZHASULAN",
   "insuredClientMiddleName": "МАМАТКАСЫМОВИЧ",
   "insuredClientDateOfBirth": "19.02.1969",
   "insuredClientSex": "Мужской",
   "insuredClientDocumentType": "Удостоверение личности",
   "insuredClientDocumentNumber": "26519690",
   "insuredClientDocumentIssueDate": "04.08.2003",
+  "insuredClientDocumentIssueBy": "МИНИСТЕРСТВО ВНУТРЕННИХ ДЕЛ РК",
+  "insuredClientAddress": "Ул. Достык 232, кв. 7",
   "insuredClientClassID": "6",
   "insuredClientDriverLicenceType": "Права РК",
   "insuredClientDriverLicenceNumber": "LL169693",
@@ -61,5 +71,11 @@
   "issuedStatus": "Выписан",
   "draftStatus": "Черновик",
   "unifiedCombinedLimit": "550000 тг. (обоюдка 150000 + беспечный водитель 400000)",
-  "mutualPremium": "14999"
+  "mutualPremium": "14999",
+  "MSTExcludedCountries": [
+    "Казахстан"
+  ],
+  "MSTCountriesCount": 3,
+  "OGPOPolicyCodeNumber": "901-",
+  "MSTPolicyCodeNumber": "802-"
 }

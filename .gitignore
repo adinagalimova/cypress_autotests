@@ -5,5 +5,4 @@ cypress/screenshots/
 cypress/videos/
 cypress/downloads/
 cypress/fixtures/
-multi-reporter-config.json
-runner-results/
+cypress/runner-results/

@@ -1,12 +1,8 @@
 const BaseElement = require('../baseElement');
 
 class Switch extends BaseElement {
-  constructor(locator, name) {
-    super(locator, name);
-  }
-
   isChecked() {
-    return this.getAttributeValue('aria-checked').then((value) => value === 'true');
+    return this.getAttributeValue('aria-checked').then((value) => JSON.parse(value));
   }
 }
 

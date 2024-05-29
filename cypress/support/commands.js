@@ -13,11 +13,11 @@ Cypress.Commands.add('open', (url, options) => {
 
 Cypress.Commands.add('isVisible', { prevSubject: true }, (subject) => Cypress.dom.isVisible(subject));
 
-Cypress.Commands.add('isExisting', { prevSubject: false }, (locator) => cy.document().then((document) => {
+Cypress.Commands.add('isExisting', { prevSubject: false }, (subject) => cy.document().then((document) => {
   const convertLocator = (locator) => {
     const nodeList = [];
     const result = document.evaluate(locator, document, null, XPathResult.ANY_TYPE, null);
-    let node;
+    let node; // eslint-disable-next-line no-cond-assign
     while (node = result.iterateNext()) {
       nodeList.push(node);
     }
@@ -27,7 +27,7 @@ Cypress.Commands.add('isExisting', { prevSubject: false }, (locator) => cy.docum
 
   return new Cypress.Promise((resolve) => {
     Cypress.$(() => {
-      resolve(Cypress.$(document).find(convertLocator(locator)).length > 0);
+      resolve(Cypress.$(document).find(convertLocator(subject)).length > 0);
     });
   });
 }));
@@ -42,4 +42,5 @@ Cypress.Commands.add('logger', (step, title) => {
 
 Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes("Cannot read properties of null (reading 'focus')")) return false;
+  return true;
 });
