@@ -15,9 +15,9 @@ class MSTStep1 extends BaseForm {
 
   #policyDurationElements;
 
-  #randomPolicyDurationElement;
-
   #policyDurationChosen;
+
+  #countriesDropdownButton;
 
   #countriesDropdown;
 
@@ -61,13 +61,13 @@ class MSTStep1 extends BaseForm {
 
   #totalSum;
 
-  constructor(beginDate, endDate, durationIndex) {
+  constructor(beginDate, endDate) {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
     this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-19 ant-form-item-control")]'), 'agent dropdown');
     this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
-    this.#policyDurationElements = new Textbox(new XPATH(`//div[@id="form_item_range"]/descendant::label`), 'policy duration elements');
-    this.#randomPolicyDurationElement = new Textbox(new XPATH(`(//div[@id="form_item_range"]/descendant::label)[${durationIndex}]`), 'random policy duration element');
+    this.#policyDurationElements = new Textbox(new XPATH('//div[@id="form_item_range"]/descendant::label'), 'policy duration elements');
     this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper-checked")]'), 'policy duration chosen one');
+    this.#countriesDropdownButton = new Button(new XPATH('//span[text()="Выберите страны"]/parent::div'), 'countries dropdown button');
     this.#countriesDropdown = new Button(new XPATH('//label[text()="Территория"]/parent::div/following::div/descendant::div'), 'countries dropdown');
     this.#countriesDropdownHighlighted = new Textbox(new XPATH('//div[@class="ant-select-item ant-select-item-option ant-select-item-option-active"]'), 'countries dropdown highlighted');
     this.#purposeDropdown = new Button(new XPATH('//span[text()="Выберите цель поездки"]/parent::div'), 'purpose dropdown');
@@ -115,20 +115,19 @@ class MSTStep1 extends BaseForm {
     return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
   }
 
-  clickThreeRandomCountries(elementsArray) {
-    this.#countriesDropdownHighlighted.clickRandomElementsFromDropdownByText(
-      elementsArray,
+  clickThreeRandomCountries(countries) {
+    this.#countriesDropdownButton.chooseRandomElementsFromDropdownByText(
       this.#countriesDropdown,
-      true,
-      JSONLoader.testData.MSTCountriesCount,
+      {
+        valuesListPromise: countries,
+        count: JSONLoader.testData.MSTCountriesCount,
+        typeAndEnter: true,
+      },
     );
   }
 
   clickRandomPurpose() {
-    this.#purposeDropdown.clickElement();
-    const arrayOfValues = this.#purposeElements.getArrayOfDropdownElementsTexts();
-    cy.logger('DEBUG arrayOfValues: ', arrayOfValues.values);
-    this.#purposeElements.clickRandomElementsFromDropdownByText(arrayOfValues, this.#purposeDropdown, false);
+    this.#purposeDropdown.chooseRandomElementsFromDropdownByText(this.#purposeElements);
   }
 
   inputRandomBeginDate() {
@@ -159,11 +158,11 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomPurposeWithoutEducation() {
-    const arrayOfValues = this.#purposeElements.getArrayOfDropdownElementsTexts();
-    this.#purposeElements.clickRandomElementsFromDropdownByText(
-      arrayOfValues,
-      this.#purposeDropdown,
-      this.#purposeEducation,
+    this.#purposeDropdown.chooseRandomElementsFromDropdownByText(
+      this.#purposeElements,
+      {
+        exceptionElementsList: [this.#purposeEducation],
+      },
     );
   }
 
@@ -172,14 +171,15 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomNumberOfDays() {
-    const arrayOfValues = this.#numberOfDaysElements.getArrayOfDropdownElementsTexts();
-    this.#numberOfDaysElements.clickRandomElementsFromDropdownByText(arrayOfValues, this.#numberOfDays);
+    this.#numberOfDaysElements.getElements().then((numberOfDaysElementsList) => {
+      const randomIndex = Randomizer.getRandomInteger(numberOfDaysElementsList.length - 1);
+      const randomNumberOfDaysElement = new Button(new TAG(numberOfDaysElementsList[randomIndex]), 'random number of days element');
+      randomNumberOfDaysElement.clickElement();
+    });
   }
 
   clickRandomSum() {
-    this.#sumDropdown.clickElement();
-    const arrayOfValues = this.#sumElements.getArrayOfDropdownElementsTexts();
-    this.#sumElements.clickRandomElementsFromDropdownByText(arrayOfValues, this.#sumDropdown);
+    this.#sumDropdown.chooseRandomElementsFromDropdownByText(this.#sumElements);
   }
 
   clickRandomAdditionalCheckboxes() {

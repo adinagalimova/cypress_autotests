@@ -20,7 +20,6 @@ exports.userPathMST = () => {
     MSTStep1.getChosenDuration().then((duration) => {
       switch (duration) {
         case 'Одноразовая': {
-          MSTStep1.clickPurposeDropdown();
           MSTStep1.clickRandomPurposeWithoutEducation();
           MSTStep1.inputRandomDates();
           break;
