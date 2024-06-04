@@ -113,7 +113,7 @@ exports.userPathKasko = () => {
 
     kaskoStep7.pageIsDisplayed();
     kaskoStep7.getHolderLabelText().should('be.equal', fullName);
-    kaskoStep7.getBeneficiaryLabelTextboxElement().should('contain.text', fullName);
+    kaskoStep7.getBeneficiaryLabelTextboxElement().should('contain.text', firstAndLastName);
     kaskoStep7.getInsuredCarLabelText().should('be.equal', carFullName);
     kaskoStep7.getPolicyStartDateTitle()
       .then((date) => cy.wrap(date).should('be.equal', policyStartDate));

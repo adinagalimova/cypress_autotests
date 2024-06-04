@@ -74,13 +74,13 @@ class KaskoStep1 extends BaseForm {
 
   inputCarEngineVolume() {
     const carEngineVolume = (Number(JSONLoader.testData.carEngineVolume) / 1000).toFixed(1);
-    this.#carEngineVolumeTextbox.fillInputField(carEngineVolume);
+    this.#carEngineVolumeTextbox.inputData(carEngineVolume, true);
   }
 
   inputInsuranceSumTextbox() {
     this.#insuranceSumTextbox.focusOnElement();
     this.#insuranceSumTextbox.clickElement();
-    this.#insuranceSumTextbox.inputData(1);
+    this.#insuranceSumTextbox.inputData('1');
   }
 
   clickCalculateButton() {

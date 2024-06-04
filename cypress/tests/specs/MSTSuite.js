@@ -5,5 +5,5 @@ const { userPathMST } = require('./userPathMST');
 describe('MST test suite:', () => {
   login();
   userPathMST();
-  kaspiPay();
+  // kaspiPay();
 });

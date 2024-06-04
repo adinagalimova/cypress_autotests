@@ -3,6 +3,7 @@ const BaseForm = require('../../../main/baseForm');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const Randomizer = require('../../../main/utils/random/randomizer');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const TAG = require('../../../main/locators/baseLocatorChildren/TAG');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Label = require('../../../main/elements/baseElementChildren/label');
@@ -12,9 +13,9 @@ class MSTStep1 extends BaseForm {
 
   #agentDropdownElements;
 
-  #policyDuration;
-
   #policyDurationElements;
+
+  #randomPolicyDurationElement;
 
   #policyDurationChosen;
 
@@ -60,13 +61,13 @@ class MSTStep1 extends BaseForm {
 
   #totalSum;
 
-  constructor(beginDate, endDate) {
+  constructor(beginDate, endDate, durationIndex) {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
     this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-19 ant-form-item-control")]'), 'agent dropdown');
     this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
-    this.#policyDuration = new Button(new XPATH('//label[@title="Срок полиса"]'), 'policy duration');
-    this.#policyDurationElements = new Textbox(new XPATH('//div[@id="form_item_range"]/descendant::label'), 'policy duration elements');
-    this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper ant-radio-button-wrapper-checked ant-radio-button-wrapper-in-form-item")]'), 'policy duration chosen one');
+    this.#policyDurationElements = new Textbox(new XPATH(`//div[@id="form_item_range"]/descendant::label`), 'policy duration elements');
+    this.#randomPolicyDurationElement = new Textbox(new XPATH(`(//div[@id="form_item_range"]/descendant::label)[${durationIndex}]`), 'random policy duration element');
+    this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper-checked")]'), 'policy duration chosen one');
     this.#countriesDropdown = new Button(new XPATH('//label[text()="Территория"]/parent::div/following::div/descendant::div'), 'countries dropdown');
     this.#countriesDropdownHighlighted = new Textbox(new XPATH('//div[@class="ant-select-item ant-select-item-option ant-select-item-option-active"]'), 'countries dropdown highlighted');
     this.#purposeDropdown = new Button(new XPATH('//span[text()="Выберите цель поездки"]/parent::div'), 'purpose dropdown');
@@ -99,7 +100,11 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomDuration() {
-    this.#policyDurationElements.clickRandomElementsFromDropdownByText(this.#policyDuration);
+    this.#policyDurationElements.getElements().then((durationsElementsList) => {
+      const randomIndex = Randomizer.getRandomInteger(durationsElementsList.length - 1);
+      const randomDurationElement = new Button(new TAG(durationsElementsList[randomIndex]), 'random duration element');
+      randomDurationElement.clickElement();
+    });
   }
 
   getChosenDuration() {
@@ -111,15 +116,19 @@ class MSTStep1 extends BaseForm {
   }
 
   clickThreeRandomCountries(elementsArray) {
-    this.#countriesDropdownHighlighted.clickElementsFromDropdownByText(
+    this.#countriesDropdownHighlighted.clickRandomElementsFromDropdownByText(
       elementsArray,
       this.#countriesDropdown,
+      true,
       JSONLoader.testData.MSTCountriesCount,
     );
   }
 
   clickRandomPurpose() {
-    this.#purposeElements.clickRandomElementsFromDropdownByText(this.#purposeDropdown);
+    this.#purposeDropdown.clickElement();
+    const arrayOfValues = this.#purposeElements.getArrayOfDropdownElementsTexts();
+    cy.logger('DEBUG arrayOfValues: ', arrayOfValues.values);
+    this.#purposeElements.clickRandomElementsFromDropdownByText(arrayOfValues, this.#purposeDropdown, false);
   }
 
   inputRandomBeginDate() {
@@ -150,7 +159,9 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomPurposeWithoutEducation() {
+    const arrayOfValues = this.#purposeElements.getArrayOfDropdownElementsTexts();
     this.#purposeElements.clickRandomElementsFromDropdownByText(
+      arrayOfValues,
       this.#purposeDropdown,
       this.#purposeEducation,
     );
@@ -161,11 +172,14 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomNumberOfDays() {
-    this.#numberOfDaysElements.clickRandomElementsFromDropdownByText(this.#numberOfDays);
+    const arrayOfValues = this.#numberOfDaysElements.getArrayOfDropdownElementsTexts();
+    this.#numberOfDaysElements.clickRandomElementsFromDropdownByText(arrayOfValues, this.#numberOfDays);
   }
 
   clickRandomSum() {
-    this.#sumElements.clickRandomElementsFromDropdownByText(this.#sumDropdown);
+    this.#sumDropdown.clickElement();
+    const arrayOfValues = this.#sumElements.getArrayOfDropdownElementsTexts();
+    this.#sumElements.clickRandomElementsFromDropdownByText(arrayOfValues, this.#sumDropdown);
   }
 
   clickRandomAdditionalCheckboxes() {

@@ -84,9 +84,14 @@ class BaseElement {
     this.getElement().clear();
   }
 
-  inputData(data) {
+  inputData(data, useCypressRealEvents = false) {
     cy.logger(`[inf] ▶ input ${this.#elementName}`);
-    this.getElement().type(data);
+    if (useCypressRealEvents === true) {
+      this.getElement().click();
+      cy.realType(data);
+    } else {
+      this.getElement().type(data);
+    }
   }
 
   forceInputData(data) {
@@ -143,7 +148,10 @@ class BaseElement {
   // requires one mandatory argument: dropdownElement.
   // args contain optional count of returning random elements
   // or/and optional exceptions elements sequence:
-  clickRandomElementsFromDropdownByText(dropdownElement, ...args) {
+  clickRandomElementsFromDropdownByText(arrayOfValues, dropdownElement, typeAndEnter, ...args) {
+    console.log('arrayOfValues: ', arrayOfValues);
+    console.log('dropdownElement: ', dropdownElement);
+    console.log('count: ', args[0]);
     let count = args[0];
     let exceptionsElements = args.slice(1, args.length);
     if (args === undefined) {
@@ -159,20 +167,23 @@ class BaseElement {
         .then(($el) => exceptionsTextList.push($el.text())));
     }
 
-    for (let counter = 0; counter < count; counter += 1) {
-      cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
-      this.getElement(dropdownElement.#elementLocator).click();
-      cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
-      this.getElementsListText('innerText').then((elementsTextList) => {
+    arrayOfValues.then((elementsTextList) => {
+      for (let counter = 0; counter < count; counter += 1) {
+        cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
+        this.getElement(dropdownElement.#elementLocator).click();
+        cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
         const randomElementText = Randomizer.getRandomElementByText(
           elementsTextList,
           exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
-        cy.logger(`[inf] ▶ click ${randomElementText}`);
-        cy.contains(new RegExp(`^ *${randomElementText} *$`, 'g')).click({ force: true });
-      });
-    }
+        this.chooseElementFromDropdown(randomElementText, dropdownElement, typeAndEnter);
+      }
+    });
+  }
+
+  getArrayOfDropdownElementsTexts() {
+    return this.getElementsListText('innerText');
   }
 
   // requires one mandatory argument:
@@ -209,19 +220,6 @@ class BaseElement {
     }
   }
 
-  clickRandomKaskoTariff() {
-    this.elementIsVisible();
-    this.elementIsDisplayed();
-    this.getElements().then((tariffs) => {
-      const randomIndex = Randomizer.getRandomInteger(tariffs.length, 1);
-      this.#elementLocator = new XPATH(`(//span[text()='Рассчитать'])[${randomIndex}]`);
-      this.elementIsVisible();
-      this.scrollElementToView();
-      this.elementIsDisplayed();
-      this.getElement().click();
-    });
-  }
-
   clickArrowButtonRandomNumberOfTimes(direction, numberOfElements) {
     this.elementIsVisible();
     const directionLowerCase = direction.toLowerCase();
@@ -247,7 +245,8 @@ class BaseElement {
   }
 
   iterateOverList(elements) {
-    this.getElement().click().type('{downArrow}');
+    this.getElement();
+    cy.realPress('{downarrow}');
 
     return this.getElement().then((element) => {
       if (element.text() === elements[0]) {
@@ -261,33 +260,15 @@ class BaseElement {
     });
   }
 
-  clickElementsFromDropdownByText(elementsArray, dropdownElement, ...args) {
-    let count = args[0];
-    let exceptionsElements = args.slice(1, args.length);
-    if (args === undefined) count = 1; else if (typeof args[0] !== 'number') {
-      count = 1;
-      exceptionsElements = args.slice(0, args.length);
+  chooseElementFromDropdown(text, dropdownElement, typeAndEnter = false) {
+    if (typeAndEnter) {
+      cy.logger(`[inf] ▶ type and enter ${text}`);
+      dropdownElement.enterData(text);
+      cy.realPress('{esc}');
+    } else {
+      cy.logger(`[inf] ▶ click ${text}`);
+      cy.contains(new RegExp(`${text}`, 'g')).click({ force: true });
     }
-
-    const exceptionsTextList = [];
-    if (exceptionsElements.length !== 0) {
-      exceptionsElements.forEach((element) => this.getElement(element.#elementLocator)
-        .then(($el) => exceptionsTextList.push($el.text())));
-    }
-
-    elementsArray.then((elementsTextList) => {
-      for (let counter = 0; counter < count; counter += 1) {
-        cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
-        const randomElementText = Randomizer.getRandomElementByText(
-          elementsTextList,
-          exceptionsTextList,
-        );
-        exceptionsTextList.push(randomElementText);
-        cy.logger(`[inf] ▶ chose ${randomElementText}`);
-        dropdownElement.enterData(randomElementText);
-      }
-    });
-    dropdownElement.getElement().click().type('{Esc}');
   }
 }
 
