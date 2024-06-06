@@ -5,7 +5,7 @@ const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 const Switch = require('../../../main/elements/baseElementChildren/switch');
-const Label = require("../../../main/elements/baseElementChildren/label");
+const Label = require('../../../main/elements/baseElementChildren/label');
 
 class OGPOStep2 extends BaseForm {
   #juridicalSwitch;

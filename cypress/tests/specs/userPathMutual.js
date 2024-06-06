@@ -1,6 +1,11 @@
 const moment = require('moment');
-const OGPOPage = require('../pageObjects/OGPOPage');
-const mutualPage = require('../pageObjects/mutualPage');
+const OGPOPage = require('../pageObjects/OGPO/OGPOStep5');
+const mutualSteps = require('../pageObjects/mutual/mutualSteps');
+const mutualStep1 = require('../pageObjects/mutual/mutualStep1');
+const mutualStep2 = require('../pageObjects/mutual/mutualStep2');
+const mutualStep3 = require('../pageObjects/mutual/mutualStep3');
+const mutualStep4 = require('../pageObjects/mutual/mutualStep4');
+const mutualStep5 = require('../pageObjects/mutual/mutualStep5');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathMutual = () => {
@@ -8,147 +13,151 @@ exports.userPathMutual = () => {
     OGPOPage.clickMutualButton();
     OGPOPage.clickConfirmIssueMutualButton();
 
-    mutualPage.pageIsDisplayed();
-    mutualPage.clickHolderStepButton();
-    mutualPage.juridicalSwitchIsChecked().should('be.false');
-    mutualPage.IPSwitchIsChecked().should('be.false');
-    mutualPage.residentSwitchIsChecked().should('be.true');
-    mutualPage.getIINText()
+    mutualSteps.pageIsDisplayed();
+    mutualSteps.clickHolderStepButton();
+    mutualStep1.pageIsDisplayed();
+    mutualStep1.juridicalSwitchIsChecked().should('be.false');
+    mutualStep1.IPSwitchIsChecked().should('be.false');
+    mutualStep1.residentSwitchIsChecked().should('be.true');
+    mutualStep1.getIINText()
       .should('be.equal', JSONLoader.testData.clientIIN);
-    mutualPage.getLastNameText()
+    mutualStep1.getLastNameText()
       .should('be.equal', JSONLoader.testData.clientLastName);
-    mutualPage.getFirstNameText()
+    mutualStep1.getFirstNameText()
       .should('be.equal', JSONLoader.testData.clientFirstName);
-    mutualPage.getMiddleNameText()
+    mutualStep1.getMiddleNameText()
       .should('be.equal', JSONLoader.testData.clientMiddleName);
-    mutualPage.getDateOfBirthText()
+    mutualStep1.getDateOfBirthText()
       .should('be.equal', JSONLoader.testData.clientDateOfBirth);
-    mutualPage.getSexText()
+    mutualStep1.getSexText()
       .should('be.equal', JSONLoader.testData.clientSex);
-    mutualPage.getDocumentTypeText()
+    mutualStep1.getDocumentTypeText()
       .should('be.equal', JSONLoader.testData.clientDocumentType);
-    mutualPage.getDocumentNumberText()
+    mutualStep1.getDocumentNumberText()
       .should('be.equal', JSONLoader.testData.clientDocumentNumber);
-    mutualPage.getDocumentIssueDateText()
+    mutualStep1.getDocumentIssueDateText()
       .should('be.equal', JSONLoader.testData.clientDocumentIssueDate);
-    mutualPage.getAddressText()
+    mutualStep1.getAddressText()
       .should('be.equal', JSONLoader.testData.clientAddress);
-    mutualPage.getEmailText()
+    mutualStep1.getEmailText()
       .should('be.equal', JSONLoader.testData.clientEmail);
-    mutualPage.getMobileNumberText()
+    mutualStep1.getMobileNumberText()
       .should('be.equal', JSONLoader.testData.clientPhoneFormatted);
-    mutualPage.getIsPDLText()
+    mutualStep1.getIsPDLText()
       .should('be.equal', JSONLoader.testData.clientIsPDL);
 
-    mutualPage.clickInsuredStepButton();
-    mutualPage.juridicalSwitchIsChecked().should('be.false');
-    mutualPage.IPSwitchIsChecked().should('be.false');
-    mutualPage.residentSwitchIsChecked().should('be.true');
-    mutualPage.getIINText()
+    mutualSteps.clickInsuredStepButton();
+    mutualStep2.pageIsDisplayed();
+    mutualStep2.juridicalSwitchIsChecked().should('be.false');
+    mutualStep2.IPSwitchIsChecked().should('be.false');
+    mutualStep2.residentSwitchIsChecked().should('be.true');
+    mutualStep2.getIINText()
       .should('be.equal', JSONLoader.testData.insuredClientIIN);
-    mutualPage.getLastNameText()
+    mutualStep2.getLastNameText()
       .should('be.equal', JSONLoader.testData.insuredClientLastName);
-    mutualPage.getFirstNameText()
+    mutualStep2.getFirstNameText()
       .should('be.equal', JSONLoader.testData.insuredClientFirstName);
-    mutualPage.getMiddleNameText()
+    mutualStep2.getMiddleNameText()
       .should('be.equal', JSONLoader.testData.insuredClientMiddleName);
-    mutualPage.getDateOfBirthText()
+    mutualStep2.getDateOfBirthText()
       .should('be.equal', JSONLoader.testData.insuredClientDateOfBirth);
-    mutualPage.getSexText()
+    mutualStep2.getSexText()
       .should('be.equal', JSONLoader.testData.insuredClientSex);
-    mutualPage.getDocumentTypeText()
+    mutualStep2.getDocumentTypeText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentType);
-    mutualPage.getDocumentNumberText()
+    mutualStep2.getDocumentNumberText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentNumber);
-    mutualPage.getDocumentIssueDateText()
+    mutualStep2.getDocumentIssueDateText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentIssueDate);
     const insuredFullName = `${JSONLoader.testData.insuredClientLastName} ${
       JSONLoader.testData.insuredClientFirstName} ${
       JSONLoader.testData.insuredClientMiddleName}`;
-    mutualPage.getInsuredLastnameTabText()
+    mutualStep2.getInsuredLastnameTabText()
       .should('be.equal', JSONLoader.testData.insuredClientLastName);
-    mutualPage.getClassIDText()
+    mutualStep2.getClassIDText()
       .should('be.equal', JSONLoader.testData.insuredClientClassID);
-    mutualPage.getDriverLicenceTypeText()
+    mutualStep2.getDriverLicenceTypeText()
       .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceType);
-    mutualPage.getDriverLicenceNumberText()
+    mutualStep2.getDriverLicenceNumberText()
       .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceNumber);
-    mutualPage.getDriverLicenceIssueDateText()
+    mutualStep2.getDriverLicenceIssueDateText()
       .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceIssueDate);
-    mutualPage.experienceLessThan2YearsSwitchIsChecked()
+    mutualStep2.experienceLessThan2YearsSwitchIsChecked()
       .should('be.false');
-    mutualPage.getIsPensionerText()
+    mutualStep2.getIsPensionerText()
       .should('be.equal', JSONLoader.testData.insuredClientIsInvalid);
-    mutualPage.getIsInvalidText()
+    mutualStep2.getIsInvalidText()
       .should('be.equal', JSONLoader.testData.insuredClientIsPensioner);
-    mutualPage.getIsPDLText()
+    mutualStep2.getIsPDLText()
       .should('be.equal', JSONLoader.testData.insuredClientIsPDL);
 
-    mutualPage.clickCarStepButton();
-    mutualPage.getCarTabText()
+    mutualSteps.clickCarStepButton();
+    mutualStep3.pageIsDisplayed();
+    mutualStep3.getCarTabText()
       .should('be.equal', JSONLoader.testData.carNumber);
-    mutualPage.getCarRegNumText()
+    mutualStep3.getCarRegNumText()
       .should('be.equal', JSONLoader.testData.carNumber);
-    mutualPage.getCarRegCertNumText()
+    mutualStep3.getCarRegCertNumText()
       .should('be.equal', JSONLoader.testData.carRegistration);
-    mutualPage.getCarRegDateLabelText()
+    mutualStep3.getCarRegDateLabelText()
       .should('be.equal', JSONLoader.testData.carRegDate);
-    mutualPage.getCarRegionText()
+    mutualStep3.getCarRegionText()
       .should('be.equal', JSONLoader.testData.carRegion);
-    mutualPage.getCarVINText()
+    mutualStep3.getCarVINText()
       .should('be.equal', JSONLoader.testData.carVIN);
-    mutualPage.getCarTypeText()
+    mutualStep3.getCarTypeText()
       .should('be.equal', JSONLoader.testData.carType);
-    mutualPage.getCarManufacturedYearText()
+    mutualStep3.getCarManufacturedYearText()
       .should('be.equal', JSONLoader.testData.carManufacturedYear);
-    mutualPage.getCarEngineVolumeText()
+    mutualStep3.getCarEngineVolumeText()
       .should('be.equal', JSONLoader.testData.carEngineVolume);
-    mutualPage.getCarMarkText()
+    mutualStep3.getCarMarkText()
       .should('be.equal', JSONLoader.testData.carMark);
-    mutualPage.getCarModelText()
+    mutualStep3.getCarModelText()
       .should('be.equal', JSONLoader.testData.carModel);
 
-    mutualPage.clickOGPOPolicyStepButton();
-    mutualPage.getOGPOPolicyNumberText()
+    mutualSteps.clickOGPOPolicyStepButton();
+    mutualStep4.pageIsDisplayed();
+    mutualStep4.getOGPOPolicyNumberText()
       .then((currentValue) => cy.getLocalStorage('OGPOPolicyNumber')
         .then((storedValue) => cy.wrap(storedValue)
           .should('be.equal', currentValue)));
-    mutualPage.getOGPOPolicyStatusText()
+    mutualStep4.getOGPOPolicyStatusText()
       .should('be.equal', JSONLoader.testData.issuedStatus);
-    mutualPage.getSlicedOGPOPolicyIssueDateText()
+    mutualStep4.getSlicedOGPOPolicyIssueDateText()
       .should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
-    mutualPage.getOGPOInsurancePeriodText()
+    mutualStep4.getOGPOInsurancePeriodText()
       .then((currentValue) => cy.getLocalStorage('OGPOPolicyInsurancePeriod')
         .then((storedValue) => cy.wrap(storedValue)
           .should('be.equal', currentValue)));
     const holderFullName = `${JSONLoader.testData.clientLastName} ${
       JSONLoader.testData.clientFirstName} ${
       JSONLoader.testData.clientMiddleName}`;
-    mutualPage.getOGPOHolderText()
+    mutualStep4.getOGPOHolderText()
       .should('be.equal', holderFullName);
-    mutualPage.getOGPOListOfInsuredPeopleText()
+    mutualStep4.getOGPOListOfInsuredPeopleText()
       .should('be.equal', insuredFullName);
     const listOfCars = `${JSONLoader.testData.carMark}, ${
       JSONLoader.testData.carModel}, ${
       JSONLoader.testData.carNumber}`;
-    mutualPage.getOGPOListOfCarsText()
+    mutualStep4.getOGPOListOfCarsText()
       .should('be.equal', listOfCars);
 
-    mutualPage.clickIssueMutualPolicyStepButton();
-    mutualPage.getStatusText()
+    mutualSteps.clickIssueMutualPolicyStepButton();
+    mutualStep5.pageIsDisplayed();
+    mutualStep5.getStatusText()
       .should('be.equal', JSONLoader.testData.draftStatus);
-    mutualPage.getInsurancePeriodText()
+    mutualStep5.getInsurancePeriodText()
       .then((currentValue) => cy.getLocalStorage('OGPOPolicyInsurancePeriod')
         .then((storedValue) => cy.wrap(storedValue)
           .should('be.equal', currentValue)));
-    mutualPage.getUnifiedCombinedLimitText()
+    mutualStep5.getUnifiedCombinedLimitText()
       .should('be.equal', JSONLoader.testData.unifiedCombinedLimit);
-    mutualPage.getPremiumText()
+    mutualStep5.getPremiumText()
       .should('be.equal', JSONLoader.testData.mutualPremium);
-    mutualPage.clickIssuePolicyButton();
-
-    mutualPage.getPolicyNumberText().should('contain', '219-');
-    mutualPage.getPaymentCode().then((code) => {
+    mutualStep5.clickIssuePolicyButton();
+    mutualStep5.getPolicyNumberText().should('contain', '219-');
+    mutualStep5.getPaymentCode().then((code) => {
       cy.setLocalStorage('paymentCode', code);
       cy.setLocalStorage('sumToPay', JSONLoader.testData.mutualPremium);
     });

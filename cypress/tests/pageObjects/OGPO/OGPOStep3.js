@@ -1,13 +1,8 @@
-const moment = require('moment');
 const BaseForm = require('../../../main/baseForm');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
-const Randomizer = require('../../../main/utils/random/randomizer');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
-const Label = require('../../../main/elements/baseElementChildren/label');
-const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
-const Switch = require('../../../main/elements/baseElementChildren/switch');
 
 class OGPOStep3 extends BaseForm {
   #saveButton;
