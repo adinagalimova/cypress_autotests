@@ -1,6 +1,10 @@
 const moment = require('moment');
 const mainPage = require('../pageObjects/mainPage');
-const OGPOPage = require('../pageObjects/OGPOPage');
+const OGPOStep1 = require('../pageObjects/OGPO/OGPOStep1');
+const OGPOStep2 = require('../pageObjects/OGPO/OGPOStep2');
+const OGPOStep3 = require('../pageObjects/OGPO/OGPOStep3');
+const OGPOStep4 = require('../pageObjects/OGPO/OGPOStep4');
+const OGPOStep5 = require('../pageObjects/OGPO/OGPOStep5');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathOGPO = () => {
@@ -8,152 +12,156 @@ exports.userPathOGPO = () => {
     let beginDate;
     let endDate;
     mainPage.clickOGPOButton();
-    OGPOPage.pageIsDisplayed();
 
-    OGPOPage.juridicalSwitchIsChecked().should('be.false');
-    OGPOPage.IPSwitchIsChecked().should('be.false');
-    OGPOPage.residentSwitchIsChecked().should('be.true');
-    OGPOPage.inputIIN(JSONLoader.testData.clientIIN);
-    OGPOPage.clickSearchClientButton();
-    OGPOPage.getLastNameElement()
+    OGPOStep1.pageIsDisplayed();
+    OGPOStep1.juridicalSwitchIsChecked().should('be.false');
+    OGPOStep1.IPSwitchIsChecked().should('be.false');
+    OGPOStep1.residentSwitchIsChecked().should('be.true');
+    OGPOStep1.inputIIN(JSONLoader.testData.clientIIN);
+    OGPOStep1.clickSearchClientButton();
+    OGPOStep1.getLastNameElement()
       .should('have.value', JSONLoader.testData.clientLastName);
-    OGPOPage.getFirstNameElement()
+    OGPOStep1.getFirstNameElement()
       .should('have.value', JSONLoader.testData.clientFirstName);
-    OGPOPage.getOrSetMiddleNameElement(JSONLoader.testData.clientMiddleName)
+    OGPOStep1.getOrSetMiddleNameElement(JSONLoader.testData.clientMiddleName)
       .should('have.value', JSONLoader.testData.clientMiddleName);
-    OGPOPage.getDateOfBirthElement()
+    OGPOStep1.getDateOfBirthElement()
       .should('have.value', JSONLoader.testData.clientDateOfBirth);
-    OGPOPage.getSexText()
+    OGPOStep1.getSexText()
       .should('be.equal', JSONLoader.testData.clientSex);
-    OGPOPage.getDocumentTypeText()
+    OGPOStep1.getDocumentTypeText()
       .should('be.equal', JSONLoader.testData.clientDocumentType);
-    OGPOPage.getDocumentNumberElement()
+    OGPOStep1.getDocumentNumberElement()
       .should('have.value', JSONLoader.testData.clientDocumentNumber);
-    OGPOPage.getDocumentIssueDateElement()
+    OGPOStep1.getDocumentIssueDateElement()
       .should('have.value', JSONLoader.testData.clientDocumentIssueDate);
-    OGPOPage.inputAddress();
-    OGPOPage.inputEmail();
-    OGPOPage.inputPhone();
-    OGPOPage.insuredSwitchIsChecked().should('be.true');
-    OGPOPage.clickInsuredSwitch();
-    OGPOPage.PDLSwitchIsChecked().should('be.false');
-    OGPOPage.clickSaveButton();
-    OGPOPage.clickNextButton();
+    OGPOStep1.inputAddress();
+    OGPOStep1.inputEmail();
+    OGPOStep1.inputPhone();
+    OGPOStep1.insuredSwitchIsChecked().should('be.true');
+    OGPOStep1.clickInsuredSwitch();
+    OGPOStep1.PDLSwitchIsChecked().should('be.false');
+    OGPOStep1.clickSaveButton();
+    OGPOStep1.clickNextButton();
 
-    OGPOPage.juridicalSwitchIsChecked().should('be.false');
-    OGPOPage.IPSwitchIsChecked().should('be.false');
-    OGPOPage.residentSwitchIsChecked().should('be.true');
-    OGPOPage.inputIIN(JSONLoader.testData.insuredClientIIN);
-    OGPOPage.clickSearchClientButton();
-    OGPOPage.getLastNameElement()
+    OGPOStep2.pageIsDisplayed();
+    OGPOStep2.juridicalSwitchIsChecked().should('be.false');
+    OGPOStep2.IPSwitchIsChecked().should('be.false');
+    OGPOStep2.residentSwitchIsChecked().should('be.true');
+    OGPOStep2.inputIIN(JSONLoader.testData.insuredClientIIN);
+    OGPOStep2.clickSearchClientButton();
+    OGPOStep2.getLastNameElement()
       .should('have.value', JSONLoader.testData.insuredClientLastName);
-    OGPOPage.getFirstNameElement()
+    OGPOStep2.getFirstNameElement()
       .should('have.value', JSONLoader.testData.insuredClientFirstName);
-    OGPOPage.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName)
+    OGPOStep2.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName)
       .should('have.value', JSONLoader.testData.insuredClientMiddleName);
-    OGPOPage.getDateOfBirthElement()
+    OGPOStep2.getDateOfBirthElement()
       .should('have.value', JSONLoader.testData.insuredClientDateOfBirth);
-    OGPOPage.getSexText()
+    OGPOStep2.getSexText()
       .should('be.equal', JSONLoader.testData.insuredClientSex);
-    OGPOPage.getDocumentTypeText()
+    OGPOStep2.getDocumentTypeText()
       .should('be.equal', JSONLoader.testData.insuredClientDocumentType);
-    OGPOPage.getDocumentNumberElement()
+    OGPOStep2.getDocumentNumberElement()
       .should('have.value', JSONLoader.testData.insuredClientDocumentNumber);
-    OGPOPage.getDocumentIssueDateElement()
+    OGPOStep2.getDocumentIssueDateElement()
       .should('have.value', JSONLoader.testData.insuredClientDocumentIssueDate);
-    OGPOPage.getClassIDLabelText()
+    OGPOStep2.getClassIDLabelText()
       .should('be.equal', JSONLoader.testData.insuredClientClassID);
-    OGPOPage.getDriverLicenceTypeText()
+    OGPOStep2.getDriverLicenceTypeText()
       .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceType);
-    OGPOPage.getDriverLicenceNumberElement()
+    OGPOStep2.getDriverLicenceNumberElement()
       .should('have.value', JSONLoader.testData.insuredClientDriverLicenceNumber);
-    OGPOPage.getDriverLicenceIssueDateElement()
+    OGPOStep2.getDriverLicenceIssueDateElement()
       .should('have.value', JSONLoader.testData.insuredClientDriverLicenceIssueDate);
-    OGPOPage.experienceLessThan2YearsSwitchIsChecked().should('be.false');
-    OGPOPage.pensionerSwitchIsChecked().should('be.false');
-    OGPOPage.invalidSwitchIsChecked().should('be.false');
-    OGPOPage.PDLSwitchIsChecked().should('be.false');
-    OGPOPage.clickSaveButton();
-    OGPOPage.clickNextButton();
+    OGPOStep2.experienceLessThan2YearsSwitchIsChecked().should('be.false');
+    OGPOStep2.pensionerSwitchIsChecked().should('be.false');
+    OGPOStep2.invalidSwitchIsChecked().should('be.false');
+    OGPOStep2.PDLSwitchIsChecked().should('be.false');
+    OGPOStep2.clickSaveButton();
+    OGPOStep2.clickNextButton();
 
-    OGPOPage.inputVehicleData();
-    OGPOPage.clickSearchVehicleButton();
-    OGPOPage.inputVehicleDataWithDisabledVerification();
-    OGPOPage.getCarRegDateElement()
+    OGPOStep3.pageIsDisplayed();
+    OGPOStep3.inputVehicleData();
+    OGPOStep3.clickSearchVehicleButton();
+    OGPOStep3.inputVehicleDataWithDisabledVerification();
+    OGPOStep3.getCarRegDateElement()
       .should('have.value', JSONLoader.testData.carRegDate);
-    OGPOPage.getCarRegionText()
+    OGPOStep3.getCarRegionText()
       .should('be.equal', JSONLoader.testData.carRegion);
-    OGPOPage.getCarVINElement()
+    OGPOStep3.getCarVINElement()
       .should('have.value', JSONLoader.testData.carVIN);
-    OGPOPage.getCarTypeText()
+    OGPOStep3.getCarTypeText()
       .should('be.equal', JSONLoader.testData.carType);
-    OGPOPage.getCarManufacturedYearText()
+    OGPOStep3.getCarManufacturedYearText()
       .should('be.equal', JSONLoader.testData.carManufacturedYear);
-    OGPOPage.getCarEngineVolumeElement()
+    OGPOStep3.getCarEngineVolumeElement()
       .should('have.value', JSONLoader.testData.carEngineVolume);
-    OGPOPage.getCarMarkElement()
+    OGPOStep3.getCarMarkElement()
       .should('have.value', JSONLoader.testData.carMark);
-    OGPOPage.getCarModelElement()
+    OGPOStep3.getCarModelElement()
       .should('have.value', JSONLoader.testData.carModel);
-    OGPOPage.clickSaveButton();
-    OGPOPage.clickNextButton();
+    OGPOStep3.clickSaveButton();
+    OGPOStep3.clickNextButton();
 
-    OGPOPage.getPeriodText()
+    OGPOStep4.pageIsDisplayed();
+    OGPOStep4.getPeriodText()
       .should('be.equal', JSONLoader.testData.OGPOperiod);
-    OGPOPage.inputRandomBeginDate();
-    OGPOPage.getBeginDateTitle().then((title) => { beginDate = title; });
-    OGPOPage.getEndDateTitle()
+    OGPOStep4.inputRandomBeginDate();
+    OGPOStep4.getBeginDateTitle().then((title) => { beginDate = title; });
+    OGPOStep4.getEndDateTitle()
       .then((title) => {
         endDate = title;
-        OGPOPage.calculateEndDate().should('be.equal', endDate);
+        OGPOStep4.calculateEndDate().should('be.equal', endDate);
       });
-    OGPOPage.clickCalculatePremiumButton();
-    OGPOPage.getNextButtonElement().should('be.enabled');
-    OGPOPage.getSumToPay()
+    OGPOStep4.clickCalculatePremiumButton();
+    OGPOStep4.getNextButtonElement().should('be.enabled');
+    OGPOStep4.getSumToPay()
       .then((sum) => cy.setLocalStorage('sumToPay', sum));
-    OGPOPage.clickNextButton();
+    OGPOStep4.clickNextButton();
 
+    OGPOStep5.pageIsDisplayed();
     const clientFullName = `${JSONLoader.testData.clientLastName} ${
       JSONLoader.testData.clientFirstName} ${
       JSONLoader.testData.clientMiddleName}`;
-    OGPOPage.getHolderText().should('be.equal', clientFullName);
+    OGPOStep5.getHolderText().should('be.equal', clientFullName);
     const insuredClientFullName = `${JSONLoader.testData.insuredClientLastName} ${
       JSONLoader.testData.insuredClientFirstName} ${
       JSONLoader.testData.insuredClientMiddleName}`;
-    OGPOPage.getListOfInsuredPeopleText()
+    OGPOStep5.getListOfInsuredPeopleText()
       .should('be.equal', insuredClientFullName);
     const carFullName = `${JSONLoader.testData.carMark}, ${
       JSONLoader.testData.carModel}, ${
       JSONLoader.testData.carNumber}`;
-    OGPOPage.getListOfCarsText().should('be.equal', carFullName);
-    OGPOPage.getInsurancePeriodBeforeIssuingText().then((text) => {
+    OGPOStep5.getListOfCarsText().should('be.equal', carFullName);
+    OGPOStep5.getInsurancePeriodBeforeIssuingText().then((text) => {
       cy.wrap(`${beginDate} - ${endDate}`).should('be.equal', text);
     });
-    OGPOPage.getInsurancePeriodBeforeIssuingText()
+    OGPOStep5.getInsurancePeriodBeforeIssuingText()
       .then((text) => cy.wrap(`${beginDate} - ${endDate}`)
         .should('be.equal', text));
-    OGPOPage.clickIssuePolicyButton();
+    OGPOStep5.clickIssuePolicyButton();
 
-    OGPOPage.getPolicyNumberText().should('contain', JSONLoader.testData.OGPOPolicyCodeNumber);
-    OGPOPage.getStatusText()
+    OGPOStep5.getPolicyNumberText().should('contain', JSONLoader.testData.OGPOPolicyCodeNumber);
+    OGPOStep5.getStatusText()
       .should('be.equal', JSONLoader.testData.issuedStatus);
-    OGPOPage.getSlicedCreationDate()
+    OGPOStep5.getSlicedCreationDate()
       .should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
-    OGPOPage.getInsurancePeriodAfterIssuingText().then((text) => {
+    OGPOStep5.getInsurancePeriodAfterIssuingText().then((text) => {
       cy.wrap(`${beginDate} - ${endDate}`).should('be.equal', text);
     });
-    OGPOPage.getInsurancePeriodAfterIssuingText()
+    OGPOStep5.getInsurancePeriodAfterIssuingText()
       .then((text) => cy.wrap(`${beginDate} - ${endDate}`)
         .should('be.equal', text));
-    OGPOPage.getHolderText().should('be.equal', clientFullName);
-    OGPOPage.getListOfInsuredPeopleText()
+    OGPOStep5.getHolderText().should('be.equal', clientFullName);
+    OGPOStep5.getListOfInsuredPeopleText()
       .should('be.equal', insuredClientFullName);
-    OGPOPage.getListOfCarsText().should('be.equal', carFullName);
-    OGPOPage.getPaymentCode()
+    OGPOStep5.getListOfCarsText().should('be.equal', carFullName);
+    OGPOStep5.getPaymentCode()
       .then((code) => cy.setLocalStorage('paymentCode', code));
-    OGPOPage.getPolicyNumberText()
+    OGPOStep5.getPolicyNumberText()
       .then((value) => cy.setLocalStorage('OGPOPolicyNumber', value));
-    OGPOPage.getInsurancePeriodAfterIssuingText()
+    OGPOStep5.getInsurancePeriodAfterIssuingText()
       .then((value) => cy.setLocalStorage('OGPOPolicyInsurancePeriod', value));
   });
 };
