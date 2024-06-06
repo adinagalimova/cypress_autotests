@@ -78,7 +78,7 @@ class KaskoStep7 extends BaseForm {
   }
 
   getAdditionalInfoTextboxValue() {
-    return this.#additionalInfoTextbox.getAttributeValue('innerText');
+    return this.#additionalInfoTextbox.getValue();
   }
 
   clickSaveButton() {

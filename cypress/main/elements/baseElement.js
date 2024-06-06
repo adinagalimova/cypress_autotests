@@ -62,6 +62,12 @@ class BaseElement {
     return this.getElement().then(($el) => $el.text());
   }
 
+  getValue() {
+    cy.logger(`[inf] ▶ get ${this.#elementName} value:`);
+    this.getElement().then(($el) => cy.logger(`[inf]   value is: "${$el.val()}"`));
+    return this.getElement().then(($el) => $el.val());
+  }
+
   getElementsListText(attrName) {
     return this.getElements().then(($el) => Cypress._.map($el, attrName));
   }
