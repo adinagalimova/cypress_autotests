@@ -90,7 +90,7 @@ class KaskoStep7 extends BaseForm {
   }
 
   getPolicyStartDateTitle() {
-    return this.#policyStartDateCalendarButton.getAttributeValue('title');
+    return this.#policyStartDateCalendarButton.getAttributeValue({ attrName: 'title' });
   }
 
   getPolicyNumberText() {

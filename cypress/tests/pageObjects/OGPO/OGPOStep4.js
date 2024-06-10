@@ -72,11 +72,11 @@ class OGPOStep4 extends BaseForm {
   }
 
   getBeginDateTitle() {
-    return this.#beginDateCalendarButton.getAttributeValue('title');
+    return this.#beginDateCalendarButton.getAttributeValue({ attrName: 'title' });
   }
 
   getEndDateTitle() {
-    return this.#endDateCalendarButton.getAttributeValue('title');
+    return this.#endDateCalendarButton.getAttributeValue({ attrName: 'title' });
   }
 
   clickNextButton() {

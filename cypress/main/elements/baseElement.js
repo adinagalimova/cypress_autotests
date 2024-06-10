@@ -68,14 +68,14 @@ class BaseElement {
     return this.getElement().then(($el) => $el.val());
   }
 
-  getElementsListText(attrName) {
-    return this.getElements().then(($el) => Cypress._.map($el, attrName));
+  getElementsListText({ propertyName }) {
+    return this.getElements().then(($el) => Cypress._.map($el, propertyName));
   }
 
-  getAttributeValue(attrName) {
+  getAttributeValue({ attrName }) {
     cy.logger(`[inf] ▶ get ${this.#elementName} attribute "${attrName}" value:`);
     return this.getElement().invoke('attr', attrName).then((value) => {
-      cy.logger(`[inf]   value contains: "${value}"`);
+      cy.logger(`[inf]   attribute value contains: "${value}"`);
       return cy.wrap(value);
     });
   }
@@ -180,7 +180,7 @@ class BaseElement {
     }
 
     if (!valuesListPromise) {
-      valuesListPromise = dropdownElement.getElementsListText('innerText');
+      valuesListPromise = dropdownElement.getElementsListText({ propertyName: 'innerText' });
     }
 
     valuesListPromise.then((elementsTextList) => {
@@ -199,8 +199,8 @@ class BaseElement {
 
   // requires one mandatory argument:
   // checkboxParent - is a tagname of an element on the upper node that nesting checkbox title text
-  clickCheckboxesByText({ checkboxParent, randomCount = true }, ...exceptionsElements) {
-    this.getElementsListText('innerText').then((elementsTextList) => {
+  clickCheckboxesByText({ checkboxParentTag, randomCount = true }, ...exceptionsElements) {
+    this.getElementsListText({ propertyName: 'innerText' }).then((elementsTextList) => {
       let count = elementsTextList.length;
       if (randomCount) count = Randomizer.getRandomInteger(elementsTextList.length);
       const exceptionsTextList = [];
@@ -217,7 +217,7 @@ class BaseElement {
         );
         exceptionsTextList.push(randomElementText);
         cy.logger(`[inf] ▶ click ${randomElementText}`);
-        cy.contains(checkboxParent, randomElementText).find('input[type=checkbox]').click({ force: true });
+        cy.contains(checkboxParentTag, randomElementText).find('input[type=checkbox]').click({ force: true });
       }
     });
   }

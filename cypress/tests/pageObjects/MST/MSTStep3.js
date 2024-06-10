@@ -178,7 +178,7 @@ class MSTStep3 extends BaseForm {
   }
 
   findElementTextByHeader(header) {
-    return this.#headerElements.getElementsListText('innerText').then((innerTextArray) => {
+    return this.#headerElements.getElementsListText({ propertyName: 'innerText' }).then((innerTextArray) => {
       let targetIndex = 0;
       for (let i = 0; i < innerTextArray.length; i += 1) {
         if (innerTextArray[i] === header) {

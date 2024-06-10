@@ -183,7 +183,7 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomAdditionalCheckboxes() {
-    this.#additionalCheckboxLabel.clickCheckboxesByText({ checkboxParent: 'label' });
+    this.#additionalCheckboxLabel.clickCheckboxesByText({ checkboxParentTag: 'label' });
   }
 
   inputDOB(birthDate) {
@@ -191,11 +191,11 @@ class MSTStep1 extends BaseForm {
   }
 
   getBeginDateTitle() {
-    return this.#beginDateCalendarButton.getAttributeValue('title');
+    return this.#beginDateCalendarButton.getAttributeValue({ attrName: 'title' });
   }
 
   getEndDateTitle() {
-    return this.#endDateCalendarButton.getAttributeValue('title');
+    return this.#endDateCalendarButton.getAttributeValue({ attrName: 'title' });
   }
 
   calculate180DaysEndDate() {

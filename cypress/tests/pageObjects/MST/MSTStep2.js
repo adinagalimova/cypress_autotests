@@ -139,7 +139,7 @@ class MSTStep2 extends BaseForm {
   }
 
   getResidencyCountryText() {
-    return this.#residencyCountry.getAttributeValue('title');
+    return this.#residencyCountry.getAttributeValue({ attrName: 'title' });
   }
 
   getRegionText() {
