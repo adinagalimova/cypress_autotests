@@ -51,7 +51,6 @@ class MutualStep2 extends BaseForm {
 
   constructor() {
     super(new XPATH('//a[@href="/mutual"]'), 'Mutual step 1');
-
     this.#juridicalSwitch = new Switch(new XPATH('//label[@title="Юр. лицо"]/following::button[@role="switch"]'), 'juridical switch');
     this.#IPSwitch = new Switch(new XPATH('//label[@title="ИП"]/following::button[@role="switch"]'), 'IP switch');
     this.#residentSwitch = new Switch(new XPATH('//label[@title="Резидент"]/following::button[@role="switch"]'), 'resident switch');

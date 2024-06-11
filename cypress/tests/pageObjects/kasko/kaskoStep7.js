@@ -61,7 +61,7 @@ class KaskoStep7 extends BaseForm {
     const policyStartDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'policy start date button');
     this.#policyStartDateCalendarButton
       .openCalendarAndFlipMonths(this.#calendarRightArrowButton, dates.startMonthDifference);
-      policyStartDateButton.clickElement();
+    policyStartDateButton.clickElement();
   }
 
   inputAdditionalInfo() {

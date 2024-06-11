@@ -64,7 +64,7 @@ class KaskoStep6 extends BaseForm {
     const installmentFirstPaymentDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'installment payment start date button');
     this.#installmentFirstPaymentCalendarButton
       .openCalendarAndFlipMonths(this.#calendarRightArrowButton, dates.startMonthDifference);
-      installmentFirstPaymentDateButton.clickElement();
+    installmentFirstPaymentDateButton.clickElement();
   }
 
   clickSaveButton() {

@@ -27,7 +27,6 @@ class MutualStep3 extends BaseForm {
 
   constructor() {
     super(new XPATH('//label[@title="Гос. номер"]/following::span[@class="font-bold"]'), 'Mutual step 3');
-
     this.#carTabLabel = new Label(new XPATH('//div[@role="tab" and @tabindex=0]'), 'car tab label');
     this.#regNumLabel = new Label(new XPATH('//label[@title="Гос. номер"]/following::span[@class="font-bold"]'), 'reg num label');
     this.#regCertNumLabel = new Label(new XPATH('//label[@title="Номер свид. рег. ТС"]/following::span[@class="font-bold"]'), 'reg cert num label');

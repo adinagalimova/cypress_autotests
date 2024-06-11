@@ -64,7 +64,6 @@ class OGPOStep2 extends BaseForm {
 
   constructor() {
     super(new XPATH('//input[@id="form_item_driver_certificate"]'), 'OGPO step 2');
-
     this.#juridicalSwitch = new Switch(new XPATH('//label[@title="Юр. лицо"]/following::button[@role="switch"]'), 'juridical switch');
     this.#IPSwitch = new Switch(new XPATH('//label[@title="ИП"]/following::button[@role="switch"]'), 'IP switch');
     this.#residentSwitch = new Switch(new XPATH('//label[@title="Резидент"]/following::button[@role="switch"]'), 'resident switch');

@@ -19,7 +19,6 @@ class MutualStep4 extends BaseForm {
 
   constructor() {
     super(new XPATH('//label[@title="Номер полиса"]/following::span[@class="font-bold"]'), 'Mutual step 4');
-
     this.#OGPOPolicyNumberLabel = new Label(new XPATH('//label[@title="Номер полиса"]/following::span[@class="font-bold"]'), 'OGPO policy number label');
     this.#OGPOPolicyStatusLabel = new Label(new XPATH('//label[@title="Статус"]/following::span[@class="font-bold"]'), 'OGPO policy status label');
     this.#OGPOPolicyIssueDateLabel = new Label(new XPATH('//label[@title="Дата создания"]/following::span[@class="font-bold"]'), 'OGPO policy issue date label');

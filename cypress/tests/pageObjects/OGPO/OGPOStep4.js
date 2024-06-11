@@ -17,16 +17,12 @@ class OGPOStep4 extends BaseForm {
 
   #calendarRightArrowButton;
 
-  #beginDateButton;
-
   #calculatePremiumButton;
 
   #sumToPayLabel;
 
-  constructor(beginDate) {
+  constructor() {
     super(new XPATH('//input[@id="form_item_period"]//following::span[@class="ant-select-selection-item"]'), 'OGPO step 4');
-    this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date button');
-
     this.#nextButton = new Button(new XPATH('//span[text()="Далее"]//parent::button'), 'next button');
     this.#periodDropdownButton = new Button(new XPATH('//input[@id="form_item_period"]//following::span[@class="ant-select-selection-item"]'), 'period dropdown button');
     this.#beginDateCalendarButton = new Button(new XPATH('//input[@id="form_item_date_beg"]'), 'begin date calendar button');
@@ -51,12 +47,12 @@ class OGPOStep4 extends BaseForm {
   inputRandomBeginDate() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new OGPOStep4(dates.startDate);
+    const beginDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'begin date button');
     this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
     );
-    newInstance.#beginDateButton.clickElement();
+    beginDateButton.clickElement();
   }
 
   getPeriodText() {

@@ -20,7 +20,6 @@ class MutualStep5 extends BaseForm {
 
   constructor() {
     super(new XPATH('//label[@title="Статус"]/following::span[@class="font-bold"]'), 'Mutual step 5');
-
     this.#statusLabel = new Label(new XPATH('//label[@title="Статус"]/following::span[@class="font-bold"]'), 'status label');
     this.#insurancePeriodLabel = new Label(new XPATH('//label[@title="Период страхования"]/following::span[@class="font-bold"]'), 'insurance period label');
     this.#unifiedCombinedLimitLabel = new Label(new XPATH('//label[@title="Единый комбинированный лимит"]/following::div[@class="font-bold"]'), 'unified combined limit label');

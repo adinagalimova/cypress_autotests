@@ -17,7 +17,6 @@ class MutualSteps extends BaseForm {
 
   constructor() {
     super(new XPATH('//a[@href="/mutual"]'), 'Mutual steps');
-
     this.#policiesButton = new Button(new XPATH('//a[@href="/mutual"]'), 'policies button');
     this.#holderStepButton = new Button(new XPATH('//div[text()="Страхователь"]'), 'holder step button');
     this.#insuredStepButton = new Button(new XPATH('//div[text()="Список застрахованных"]'), 'insured step button');

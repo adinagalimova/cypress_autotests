@@ -32,7 +32,6 @@ class OGPOStep5 extends BaseForm {
 
   constructor() {
     super(new XPATH('//label[@title="Список застрахованных"]/following::div[@class="w-fit"]/div'), 'OGPO step 5');
-
     this.#holderLabel = new Label(new XPATH('//label[@title="Страхователь"]/following::div[@class="ant-form-item-control-input-content"]/span'), 'holder label');
     this.#listOfInsuredPeopleLabel = new Label(new XPATH('//label[@title="Список застрахованных"]/following::div[@class="w-fit"]/div'), 'list of insured people label');
     this.#listOfCarsLabel = new Label(new XPATH('//label[@title="Список ТС"]/following::div[@class="w-fit"]/div'), 'list of insured cars label');

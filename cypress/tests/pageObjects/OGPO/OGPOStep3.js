@@ -37,7 +37,6 @@ class OGPOStep3 extends BaseForm {
 
   constructor() {
     super(new XPATH('//label[@for="form_item_vin"]/following::span[text()="Найти"]/parent::button'), 'OGPO step 3');
-
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
     this.#nextButton = new Button(new XPATH('//span[text()="Далее"]//parent::button'), 'next button');
     this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_reg_num"]'), 'reg num textbox');
