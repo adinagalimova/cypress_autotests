@@ -127,8 +127,8 @@ exports.userPathMST = () => {
     MSTStep3.clickCalculate();
     const insuredClientFullName = `${JSONLoader.testData.insuredClientFirstName} ${
       JSONLoader.testData.insuredClientLastName}`;
-    MSTStep3.findElementTextByHeader('ФИО').should('be.equal', insuredClientFullName);
-    MSTStep3.findElementTextByHeader('ИИН')
+    MSTStep3.findElementTextByTitle('ФИО').should('be.equal', insuredClientFullName);
+    MSTStep3.findElementTextByTitle('ИИН')
       .should('be.equal', JSONLoader.testData.insuredClientIIN);
     MSTStep3.getSumToPay().then((sum) => cy.setLocalStorage('sumToPay', sum));
     MSTStep3.clickSetPolicy();

@@ -44,8 +44,6 @@ class MSTStep3 extends BaseForm {
 
   #calculateButton;
 
-  #targetElement;
-
   #headerElements;
 
   #sumToPayLabel;
@@ -58,7 +56,7 @@ class MSTStep3 extends BaseForm {
 
   #paymentCodeLabel;
 
-  constructor(targetIndex) {
+  constructor() {
     super(new XPATH('//th[text()="Премия(тг.)"]'), 'MST page part three');
     this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()="Резидент"]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
     this.#IINTextbox = new Textbox(new XPATH('//input[@placeholder="Введите ИИН клиента"]'), 'iin textbox');
@@ -79,7 +77,6 @@ class MSTStep3 extends BaseForm {
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
     this.#addButton = new Button(new XPATH('//span[text()="Добавить"]'), 'add button');
     this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
-    this.#targetElement = new Textbox(new XPATH(`//td[contains(@class, "ant-table-cell")][${targetIndex}]`), 'target textbox');
     this.#headerElements = new Textbox(new XPATH('//th[@class="ant-table-cell"]'), 'header textboxes');
     this.#sumToPayLabel = new Textbox(new XPATH('//h3'), 'sum to pay label');
     this.#setPolicyButton = new Button(new XPATH('//span[text()="Выписать полис"]'), 'set policy button');
@@ -177,11 +174,11 @@ class MSTStep3 extends BaseForm {
     this.#calculateButton.multipleClickElement(2);
   }
 
-  findElementTextByHeader(header) {
+  findElementTextByTitle(title) {
     return this.#headerElements.getElementsListText({ propertyName: 'innerText' }).then((innerTextArray) => {
       let targetIndex = 0;
       for (let i = 0; i < innerTextArray.length; i += 1) {
-        if (innerTextArray[i] === header) {
+        if (innerTextArray[i] === title) {
           targetIndex = i + 1;
           break;
         }
@@ -189,9 +186,8 @@ class MSTStep3 extends BaseForm {
 
       return cy.wrap(targetIndex);
     }).then((index) => {
-      const newInstance = new MSTStep3(index);
-
-      return newInstance.#targetElement.getText();
+      const targetElement = new Textbox(new XPATH(`//td[contains(@class, "ant-table-cell")][${index}]`), 'target textbox');
+      return targetElement.getText();
     });
   }
 

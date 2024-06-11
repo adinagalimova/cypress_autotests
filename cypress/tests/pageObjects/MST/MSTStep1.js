@@ -31,15 +31,9 @@ class MSTStep1 extends BaseForm {
 
   #calendarRightArrowButton;
 
-  #beginDateButton;
-
   #endDateCalendarButton;
 
-  #endDateButton;
-
   #purposeEducation;
-
-  #numberOfDays;
 
   #numberOfDaysElements;
 
@@ -61,7 +55,7 @@ class MSTStep1 extends BaseForm {
 
   #totalSum;
 
-  constructor(beginDate, endDate) {
+  constructor() {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
     this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-19 ant-form-item-control")]'), 'agent dropdown');
     this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
@@ -74,11 +68,8 @@ class MSTStep1 extends BaseForm {
     this.#purposeElements = new Textbox(new XPATH('//div[@id="form_item_purpose_id_list"]/following::div/descendant::div[@aria-selected="false"]'), 'purpose elements');
     this.#beginDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата начала"]'), 'begin date calendar button');
     this.#calendarRightArrowButton = new Button(new XPATH('//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::button[contains(@class, "ant-picker-header-next-btn")]'), 'calendar right arrow button');
-    this.#beginDateButton = new Button(new XPATH(`//td[@title="${beginDate}"]`), 'begin date button');
     this.#endDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
-    this.#endDateButton = new Button(new XPATH(`//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::td[@title="${endDate}"]`), 'end date button');
     this.#purposeEducation = new Textbox(new XPATH('//div[text()="Обучение"]'), 'purpose education');
-    this.#numberOfDays = new Button(new XPATH('//label[@title="Кол.во дней"]'), 'number of days');
     this.#numberOfDaysElements = new Textbox(new XPATH('//div[@id="form_item_insured_days"]/descendant::label'), 'number of days elements');
     this.#sumDropdown = new Button(new XPATH('//span[text()="Выберите страховую сумму"]/parent::div'), 'sum dropdown');
     this.#sumElements = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="false"]'), 'sum elements');
@@ -133,28 +124,30 @@ class MSTStep1 extends BaseForm {
   inputRandomBeginDate() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new MSTStep1(dates.startDate);
+    const beginDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'begin date button');
     this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
     );
-    newInstance.#beginDateButton.clickElement();
+    beginDateButton.clickElement();
   }
 
   inputRandomDates() {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const newInstance = new MSTStep1(dates.startDate, dates.finishDate);
+    const beginDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'begin date button');
     this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
     );
-    newInstance.#beginDateButton.clickElement();
+    beginDateButton.clickElement();
+
+    const endDateButton = new Button(new XPATH(`//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::td[@title="${dates.finishDate}"]`), 'end date button');
     this.#endDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.finishMonthDifference,
     );
-    newInstance.#endDateButton.clickElement();
+    endDateButton.clickElement();
   }
 
   clickRandomPurposeWithoutEducation() {
