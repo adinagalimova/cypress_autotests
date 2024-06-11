@@ -52,7 +52,7 @@ class OGPOStep4 extends BaseForm {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
     const newInstance = new OGPOStep4(dates.startDate);
-    this.#beginDateCalendarButton.flipCalendarMonth(
+    this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
     );

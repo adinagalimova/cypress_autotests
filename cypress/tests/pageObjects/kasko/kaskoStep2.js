@@ -7,12 +7,8 @@ const Randomizer = require('../../../main/utils/random/randomizer');
 class KaskoStep2 extends BaseForm {
   #tariffRows;
 
-  #tariff;
-
-  constructor(tariffIndex) {
+  constructor() {
     super(new XPATH('//span[text()=\'Агентское вознаграждение\']'), 'Kasko step 2 page');
-
-    this.#tariff = new Button(new XPATH(`(//span[text()='Рассчитать'])[${tariffIndex}]`), 'random tariff button');
     this.#tariffRows = new Label(new XPATH('//tr[@class=\'ant-table-row ant-table-row-level-0\']'), 'tariff rows');
   }
 
@@ -21,11 +17,11 @@ class KaskoStep2 extends BaseForm {
     this.#tariffRows.elementIsDisplayed();
     this.#tariffRows.getElements().then((tariffs) => {
       const randomIndex = Randomizer.getRandomInteger(tariffs.length, 1);
-      const newInstance = new KaskoStep2(randomIndex);
-      newInstance.#tariff.elementIsVisible();
-      newInstance.#tariff.scrollElementToView();
-      newInstance.#tariff.elementIsDisplayed();
-      newInstance.#tariff.clickElement();
+      const tariff = new Button(new XPATH(`(//span[text()='Рассчитать'])[${randomIndex}]`), 'random tariff button');
+      tariff.elementIsVisible();
+      tariff.scrollElementToView();
+      tariff.elementIsDisplayed();
+      tariff.clickElement();
     });
   }
 }

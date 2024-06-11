@@ -34,7 +34,6 @@ class KaskoStep3 extends BaseForm {
 
   constructor() {
     super(new XPATH('//input[@id="form_item_iin"]'), 'Kasko step 3 page');
-
     this.#IINTextbox = new Label(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
     this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]/parent::button'), 'search client button');
     this.#fullNameTextbox = new Label(new XPATH('//input[@id="form_item_fio"]'), 'full name textbox');

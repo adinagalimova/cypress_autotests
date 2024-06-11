@@ -15,8 +15,6 @@ class KaskoStep7 extends BaseForm {
 
   #policyStartDateCalendarButton;
 
-  #policyStartDateButton;
-
   #calendarRightArrowButton;
 
   #additionalInfoTextbox;
@@ -29,10 +27,8 @@ class KaskoStep7 extends BaseForm {
 
   #paymentCodeLabel;
 
-  constructor(policyStartDate) {
+  constructor() {
     super(new XPATH('//input[@id=\'form_item_insurance_start_date\']'), 'Kasko step 7 page');
-    this.#policyStartDateButton = new Button(new XPATH(`//td[@title="${policyStartDate}"]`), 'policy start date button');
-
     this.#holderLabel = new Label(new XPATH('//label[@title=\'Страхователь\']//following::span'), 'holder label');
     this.#beneficiaryLabel = new Label(new XPATH('//label[@title=\'Выгодоприобретатель\']//following::span'), 'beneficiary label');
     this.#insuredCarLabel = new Label(new XPATH('//label[@title=\'Застрахованный ТС\']//following::span'), 'insured car label');
@@ -58,15 +54,14 @@ class KaskoStep7 extends BaseForm {
   }
 
   choosePolicyStartDate() {
-    this.#policyStartDateCalendarButton.clickElement();
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(
         ...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate,
       );
-    const newInstance = new KaskoStep7(dates.startDate);
+    const policyStartDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'policy start date button');
     this.#policyStartDateCalendarButton
-      .flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
-    newInstance.#policyStartDateButton.clickElement();
+      .openCalendarAndFlipMonths(this.#calendarRightArrowButton, dates.startMonthDifference);
+      policyStartDateButton.clickElement();
   }
 
   inputAdditionalInfo() {

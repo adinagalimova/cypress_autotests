@@ -17,16 +17,12 @@ class KaskoStep6 extends BaseForm {
 
   #installmentFirstPaymentCalendarButton;
 
-  #installmentFirstPaymentDateButton;
-
   #calendarRightArrowButton;
 
   #saveButton;
 
-  constructor(installmentPaymentStartDate) {
+  constructor() {
     super(new XPATH('//input[@id=\'form_item_insurance_period\']'), 'Kasko step 6 page');
-    this.#installmentFirstPaymentDateButton = new Button(new XPATH(`//td[@title="${installmentPaymentStartDate}"]`), 'installment payment start date button');
-
     this.#insurancePeriodDropdownButton = new Button(new XPATH('//input[@id=\'form_item_insurance_period\']/parent::span/parent::div'), 'insurance period dropdown button');
     this.#premiumLabel = new Label(new XPATH('//label[text()=\'Страховая премия\']/following::b'), 'premium label');
     this.#paymentTypeDropdownButton = new Button(new XPATH('//input[@id=\'form_item_payment_type\']/parent::span/parent::div'), 'payment type dropdown button');
@@ -61,15 +57,14 @@ class KaskoStep6 extends BaseForm {
   }
 
   chooseInstallmentFirstPaymentDate() {
-    this.#installmentFirstPaymentCalendarButton.clickElement();
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(
         ...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate,
       );
-    const newInstance = new KaskoStep6(dates.startDate);
+    const installmentFirstPaymentDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'installment payment start date button');
     this.#installmentFirstPaymentCalendarButton
-      .flipCalendarMonth(this.#calendarRightArrowButton, dates.startMonthDifference);
-    newInstance.#installmentFirstPaymentDateButton.clickElement();
+      .openCalendarAndFlipMonths(this.#calendarRightArrowButton, dates.startMonthDifference);
+      installmentFirstPaymentDateButton.clickElement();
   }
 
   clickSaveButton() {

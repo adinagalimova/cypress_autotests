@@ -31,7 +31,6 @@ class KaskoStep4 extends BaseForm {
 
   constructor() {
     super(new XPATH('//input[@id="form_item_number"]'), 'Kasko step 4 page');
-
     this.#regNumTextbox = new Textbox(new XPATH('//input[@id="form_item_number"]'), 'reg num textbox');
     this.#regCertNumTextbox = new Textbox(new XPATH('//input[@id="form_item_passport_number"]'), 'reg cert num textbox');
     this.#searchCarButton = new Button(new XPATH('//span[text()="Поиск"]/parent::button'), 'search car button');

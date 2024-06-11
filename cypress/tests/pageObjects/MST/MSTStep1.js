@@ -134,7 +134,7 @@ class MSTStep1 extends BaseForm {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
     const newInstance = new MSTStep1(dates.startDate);
-    this.#beginDateCalendarButton.flipCalendarMonth(
+    this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
     );
@@ -145,12 +145,12 @@ class MSTStep1 extends BaseForm {
     const dates = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
     const newInstance = new MSTStep1(dates.startDate, dates.finishDate);
-    this.#beginDateCalendarButton.flipCalendarMonth(
+    this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.startMonthDifference,
     );
     newInstance.#beginDateButton.clickElement();
-    this.#endDateCalendarButton.flipCalendarMonth(
+    this.#endDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
       dates.finishMonthDifference,
     );
