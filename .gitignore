@@ -6,3 +6,4 @@ cypress/videos/
 cypress/downloads/
 cypress/fixtures/
 cypress/runner-results/
+cypress/resources/data/testClients.json
