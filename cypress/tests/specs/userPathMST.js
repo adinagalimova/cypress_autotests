@@ -13,9 +13,7 @@ exports.userPathMST = () => {
     mainPage.clickMSTButton();
 
     let clients = JSONLoader.testClients;
-    console.log(clients.length);
     clients = DataUtils.filterClients(clients, { isUnder60YrsOld: true });
-    console.log(clients.length);
     const randomInsuredIndex = Randomizer.getRandomInteger(clients.length - 1);
     let randomHolderIndex;
     do {
