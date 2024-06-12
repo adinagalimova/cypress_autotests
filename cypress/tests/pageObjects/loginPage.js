@@ -18,8 +18,8 @@ class LoginPage extends BaseForm {
   }
 
   fillLoginAndPassword() {
-    this.#loginTextbox.inputData(Cypress.env('login'));
-    this.#passwordTextbox.inputData(Cypress.env('password'));
+    this.#loginTextbox.inputData(Cypress.env().login);
+    this.#passwordTextbox.inputData(Cypress.env().password);
   }
 
   clickSubmitButton() {

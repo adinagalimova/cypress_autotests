@@ -36,7 +36,7 @@ class KaskoStep1 extends BaseForm {
   constructor() {
     super(new XPATH('//a[@href="/kasko"]'), 'Kasko step 1 page');
     this.#agentManagerDropdown = new Button(new XPATH('//input[@id=\'form_item_agent_id_1c\']'), 'agent manager dropdown');
-    this.#agentManagerDropdownElement = new Button(new XPATH(`//div[@login='${Cypress.env('login')}']`), 'agent manager dropdown element');
+    this.#agentManagerDropdownElement = new Button(new XPATH(`//div[@login='${Cypress.env().login}']`), 'agent manager dropdown element');
     this.#carMarkDropdown = new Button(new XPATH('//input[@id=\'form_item_mark_id\']'), 'car mark dropdown');
     this.#carMarkDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(JSONLoader.testData.carMark)}']`), 'car mark dropdown element');
     this.#carModelDropdown = new Button(new XPATH('//input[@id=\'form_item_model_id\']'), 'car model dropdown');
