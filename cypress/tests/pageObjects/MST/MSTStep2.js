@@ -98,6 +98,7 @@ class MSTStep2 extends BaseForm {
   }
 
   insuredCheckboxTurnOff() {
+    this.#insuredCheckboxActive.scrollElementToView();
     this.#insuredCheckboxActive.clickElement();
   }
 

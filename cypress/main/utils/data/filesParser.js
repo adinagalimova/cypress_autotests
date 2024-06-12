@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const dictionaryAPI = require('../../../tests/API/dictionaryAPI');
 require('dotenv').config({ path: path.join(__dirname, '../../../../', '.env.test'), override: true });
 
 const envDirectory = path.join(__dirname, '../../../../');
 const fileLocation = path.join(__dirname, 'JSONLoader.js');
+const clientsFileLocation = path.join(__dirname, '../../../resources/data/testClients.json');
 const JSONDirectory = path.join(__dirname, '../../../resources');
 
 const getFiles = (directory, extension) => {
@@ -85,6 +87,13 @@ const checkEnvExists = (directory, extension) => {
   if (!files.length) throw new Error('[err]   .env.test file not exists in root directory!');
 };
 
+const generateRandomClients = async (filePath) => {
+  await dictionaryAPI.setToken();
+  const clients = await dictionaryAPI.fetchAllTestClients();
+  fs.writeFileSync(filePath, JSON.stringify(clients.data, null, 2), 'utf8');
+};
+
 checkEnvExists(envDirectory, '.test');
 setConfigData(JSONDirectory, '.json');
+generateRandomClients(clientsFileLocation);
 generateJSONLoader(fileLocation, JSONDirectory, '.json');
