@@ -96,7 +96,7 @@ exports.userPathMST = () => {
       .should('have.value', moment(clients[randomHolderIndex].document_gived_date).format(JSONLoader.testData.datesFormatFrontEnd));
     MSTStep2.getOrSetDocumentIssuedByElement(JSONLoader.testData.clientDocumentIssueBy)
       .should('have.value', JSONLoader.testData.clientDocumentIssueBy);
-    MSTStep2.getSexText().should('be.equal', JSONLoader.dictSexId[clients[randomHolderIndex].sex_id]);
+    MSTStep2.getSexText().should('be.equal', JSONLoader.dictSexID[clients[randomHolderIndex].sex_id]);
     MSTStep2.getOrSetAddressElement(JSONLoader.testData.clientAddress)
       .should('have.value', JSONLoader.testData.clientAddress);
     MSTStep2.getOrSetEmailElement(JSONLoader.testData.clientEmail)
@@ -130,7 +130,7 @@ exports.userPathMST = () => {
     MSTStep3.getOrSetDocumentIssuedByElement(
       JSONLoader.testData.insuredClientDocumentIssueBy,
     ).should('have.value', JSONLoader.testData.insuredClientDocumentIssueBy);
-    MSTStep3.getSexText().should('be.equal', JSONLoader.dictSexId[clients[randomInsuredIndex].sex_id]);
+    MSTStep3.getSexText().should('be.equal', JSONLoader.dictSexID[clients[randomInsuredIndex].sex_id]);
     MSTStep3.getOrSetAddressElement(JSONLoader.testData.insuredClientAddress)
       .should('have.value', JSONLoader.testData.insuredClientAddress);
     MSTStep3.PDLCheckboxOff().should('be.true');
