@@ -1,19 +1,17 @@
-const { parseStringPromise } = require('xml2js');
 const moment = require('moment');
-const JSONLoader = require('./JSONLoader');
+const { parseStringPromise } = require('xml2js');
 
 class DataUtils {
   static async XMLToJSON(xml) {
     return (await parseStringPromise(xml)).response;
   }
 
-  static getCountriesFromRequest() {
-    const excludedCountries = new Set(JSONLoader.testData.MSTExcludedCountries);
+  static getCountriesFromRequest(excludedCountriesArr) {
     const countries = [];
     cy.intercept(
       'countries*',
       (request) => request.continue((response) => response.body.forEach((country) => {
-        if (!excludedCountries.has(country.title)) countries.push(country.title);
+        if (!excludedCountriesArr.includes(country.title)) countries.push(country.title);
       })),
     );
 
@@ -32,13 +30,13 @@ class DataUtils {
    * @param {boolean} options.isResident
    * @param {boolean} options.hasPassport
    * @param {boolean} options.hasDriverLicence
-   * @param {boolean} options.isUnder60YrsOld
+   * @param {boolean} options.isUnderSixtyYearsOld
    */
   static filterClients(clients, options = {}) {
     const { isResident } = options;
     const { hasPassport } = options;
     const { hasDriverLicence } = options;
-    const { isUnder60YrsOld } = options;
+    const { isUnderSixtyYearsOld } = options;
     let filteredClients = [...clients];
 
     filteredClients = filteredClients.filter((client) => {
@@ -66,8 +64,8 @@ class DataUtils {
     });
 
     filteredClients = filteredClients.filter((client) => {
-      if (isUnder60YrsOld !== undefined) {
-        return isUnder60YrsOld
+      if (isUnderSixtyYearsOld !== undefined) {
+        return isUnderSixtyYearsOld
           ? moment(client.born) > moment().subtract(60, 'years')
           : moment(client.born) <= moment().subtract(60, 'years');
       }

@@ -37,7 +37,8 @@ class MutualStep4 extends BaseForm {
   }
 
   getSlicedOGPOPolicyIssueDateText() {
-    return this.#OGPOPolicyIssueDateLabel.getText().then((text) => text.slice(0, 10));
+    return this.#OGPOPolicyIssueDateLabel.getText()
+      .then((text) => text.slice(0, 10));
   }
 
   getOGPOInsurancePeriodText() {

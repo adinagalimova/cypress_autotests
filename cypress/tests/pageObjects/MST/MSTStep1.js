@@ -1,12 +1,12 @@
-const moment = require('moment');
 const BaseForm = require('../../../main/baseForm');
+const TimeUtils = require('../../../main/utils/time/timeUtils');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const Randomizer = require('../../../main/utils/random/randomizer');
-const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const TAG = require('../../../main/locators/baseLocatorChildren/TAG');
+const Label = require('../../../main/elements/baseElementChildren/label');
+const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
-const Label = require('../../../main/elements/baseElementChildren/label');
 
 class MSTStep1 extends BaseForm {
   #agentDropdown;
@@ -43,7 +43,7 @@ class MSTStep1 extends BaseForm {
 
   #additionalCheckboxLabel;
 
-  #clientDOB;
+  #clientDateOfBirth;
 
   #chosenSum;
 
@@ -74,7 +74,7 @@ class MSTStep1 extends BaseForm {
     this.#sumDropdown = new Button(new XPATH('//span[text()="Выберите страховую сумму"]/parent::div'), 'sum dropdown');
     this.#sumElements = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="false"]'), 'sum elements');
     this.#additionalCheckboxLabel = new Label(new XPATH('//label[contains(@class, "ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item")]/descendant::span[not(@*)]'), 'additional checkbox');
-    this.#clientDOB = new Button(new XPATH('//input[@placeholder="Дата рождения"]'), 'client date of birth');
+    this.#clientDateOfBirth = new Button(new XPATH('//input[@placeholder="Дата рождения"]'), 'client date of birth');
     this.#chosenSum = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="true"]'), 'chosen sum');
     this.#sumField = new Button(new XPATH('//label[@title="Страховая сумма"]/parent::div/following::span[@class="ant-select-selection-item"]'), 'sum field');
     this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
@@ -122,30 +122,35 @@ class MSTStep1 extends BaseForm {
   }
 
   inputRandomBeginDate() {
-    const dates = Randomizer
+    const { startDate, startMonthDifference } = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const beginDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'begin date button');
+    const beginDateButton = new Button(new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`), 'begin date button');
     this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
-      dates.startMonthDifference,
+      startMonthDifference,
     );
     beginDateButton.clickElement();
   }
 
   inputRandomDates() {
-    const dates = Randomizer
+    const {
+      startDate, finishDate, startMonthDifference, finishMonthDifference,
+    } = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const beginDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'begin date button');
+    const beginDateButton = new Button(new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`), 'begin date button');
     this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
-      dates.startMonthDifference,
+      startMonthDifference,
     );
     beginDateButton.clickElement();
 
-    const endDateButton = new Button(new XPATH(`//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::td[@title="${dates.finishDate}"]`), 'end date button');
+    const endDateButton = new Button(
+      new XPATH(`//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::td[@title="${TimeUtils.reformatDateFromDMYToYMD(finishDate)}"]`),
+      'end date button',
+    );
     this.#endDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
-      dates.finishMonthDifference,
+      finishMonthDifference,
     );
     endDateButton.clickElement();
   }
@@ -179,8 +184,8 @@ class MSTStep1 extends BaseForm {
     this.#additionalCheckboxLabel.clickCheckboxesByText({ checkboxParentTag: 'label' });
   }
 
-  inputDOB(birthDate) {
-    this.#clientDOB.inputData(birthDate);
+  inputDateOfBirth(birthDate) {
+    this.#clientDateOfBirth.inputData(birthDate);
   }
 
   getBeginDateTitle() {
@@ -189,22 +194,6 @@ class MSTStep1 extends BaseForm {
 
   getEndDateTitle() {
     return this.#endDateCalendarButton.getAttributeValue({ attrName: 'title' });
-  }
-
-  calculate180DaysEndDate() {
-    return this.getBeginDateTitle().then((value) => {
-      const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd)
-        .add(180, 'day').subtract(1, 'day').format(JSONLoader.testData.datesFormatFrontEnd);
-      return cy.wrap(endDate);
-    });
-  }
-
-  calculateYearEndDate() {
-    return this.getBeginDateTitle().then((value) => {
-      const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd)
-        .add(1, 'year').subtract(1, 'day').format(JSONLoader.testData.datesFormatFrontEnd);
-      return cy.wrap(endDate);
-    });
   }
 
   getChosenSum() {

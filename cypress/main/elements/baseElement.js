@@ -231,7 +231,7 @@ class BaseElement {
     }
   }
 
-  clickArrowButtonRandomNumberOfTimes(direction, numberOfElements) {
+  clickArrowButtonRandomNumberOfTimes({ direction, numberOfElements }) {
     this.elementIsVisible();
     const directionLowerCase = direction.toLowerCase();
     const numberOfClicksOnArrowButton = Randomizer.getRandomInteger(numberOfElements - 1);

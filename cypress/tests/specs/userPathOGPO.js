@@ -1,16 +1,14 @@
-const moment = require('moment');
 const mainPage = require('../pageObjects/mainPage');
 const OGPOStep1 = require('../pageObjects/OGPO/OGPOStep1');
 const OGPOStep2 = require('../pageObjects/OGPO/OGPOStep2');
 const OGPOStep3 = require('../pageObjects/OGPO/OGPOStep3');
 const OGPOStep4 = require('../pageObjects/OGPO/OGPOStep4');
 const OGPOStep5 = require('../pageObjects/OGPO/OGPOStep5');
+const TimeUtils = require('../../main/utils/time/timeUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathOGPO = () => {
   it('OGPO user path:', { scrollBehavior: false }, () => {
-    let beginDate;
-    let endDate;
     mainPage.clickOGPOButton();
 
     OGPOStep1.pageIsDisplayed();
@@ -104,16 +102,23 @@ exports.userPathOGPO = () => {
     OGPOStep3.clickSaveButton();
     OGPOStep3.clickNextButton();
 
+    let endDate;
+    let beginDate;
     OGPOStep4.pageIsDisplayed();
     OGPOStep4.getPeriodText()
       .should('be.equal', JSONLoader.testData.OGPOperiod);
     OGPOStep4.inputRandomBeginDate();
-    OGPOStep4.getBeginDateTitle().then((title) => { beginDate = title; });
-    OGPOStep4.getEndDateTitle()
-      .then((title) => {
-        endDate = title;
-        OGPOStep4.calculateEndDate().should('be.equal', endDate);
+    OGPOStep4.getBeginDateTitle().then((dateBegin) => {
+      beginDate = dateBegin;
+      const { finishDate } = TimeUtils.getDatesInterval(
+        ...JSONLoader.testData.timeIncrementOneYear,
+        { dateBegin },
+      );
+      OGPOStep4.getEndDateTitle().then((dateEnd) => {
+        endDate = dateEnd;
+        cy.wrap(dateEnd).should('be.equal', finishDate);
       });
+    });
     OGPOStep4.clickCalculatePremiumButton();
     OGPOStep4.getNextButtonElement().should('be.enabled');
     OGPOStep4.getSumToPay()
@@ -124,7 +129,8 @@ exports.userPathOGPO = () => {
     const clientFullName = `${JSONLoader.testData.clientLastName} ${
       JSONLoader.testData.clientFirstName} ${
       JSONLoader.testData.clientMiddleName}`;
-    OGPOStep5.getHolderText().should('be.equal', clientFullName);
+    OGPOStep5.getHolderText()
+      .should('be.equal', clientFullName);
     const insuredClientFullName = `${JSONLoader.testData.insuredClientLastName} ${
       JSONLoader.testData.insuredClientFirstName} ${
       JSONLoader.testData.insuredClientMiddleName}`;
@@ -133,35 +139,44 @@ exports.userPathOGPO = () => {
     const carFullName = `${JSONLoader.testData.carMark}, ${
       JSONLoader.testData.carModel}, ${
       JSONLoader.testData.carNumber}`;
-    OGPOStep5.getListOfCarsText().should('be.equal', carFullName);
-    OGPOStep5.getInsurancePeriodBeforeIssuingText().then((text) => {
-      cy.wrap(`${beginDate} - ${endDate}`).should('be.equal', text);
-    });
+    OGPOStep5.getListOfCarsText()
+      .should('be.equal', carFullName);
+    OGPOStep5.getInsurancePeriodBeforeIssuingText()
+      .then((text) => cy.wrap(`${beginDate} - ${endDate}`)
+        .should('be.equal', text));
     OGPOStep5.getInsurancePeriodBeforeIssuingText()
       .then((text) => cy.wrap(`${beginDate} - ${endDate}`)
         .should('be.equal', text));
     OGPOStep5.clickIssuePolicyButton();
 
-    OGPOStep5.getPolicyNumberText().should('contain', JSONLoader.testData.OGPOPolicyCodeNumber);
+    OGPOStep5.getPolicyNumberText()
+      .should('contain', JSONLoader.testData.OGPOPolicyCodeNumber);
     OGPOStep5.getStatusText()
       .should('be.equal', JSONLoader.testData.issuedStatus);
+    const { startDate } = TimeUtils.getDatesInterval(
+      ...JSONLoader.testData.timeIncrement,
+      { startNextDay: false },
+    );
     OGPOStep5.getSlicedCreationDate()
-      .should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
-    OGPOStep5.getInsurancePeriodAfterIssuingText().then((text) => {
-      cy.wrap(`${beginDate} - ${endDate}`).should('be.equal', text);
-    });
+      .should('be.equal', startDate);
     OGPOStep5.getInsurancePeriodAfterIssuingText()
       .then((text) => cy.wrap(`${beginDate} - ${endDate}`)
         .should('be.equal', text));
-    OGPOStep5.getHolderText().should('be.equal', clientFullName);
+    OGPOStep5.getInsurancePeriodAfterIssuingText()
+      .then((text) => cy.wrap(`${beginDate} - ${endDate}`)
+        .should('be.equal', text));
+    OGPOStep5.getHolderText()
+      .should('be.equal', clientFullName);
     OGPOStep5.getListOfInsuredPeopleText()
       .should('be.equal', insuredClientFullName);
-    OGPOStep5.getListOfCarsText().should('be.equal', carFullName);
+    OGPOStep5.getListOfCarsText()
+      .should('be.equal', carFullName);
     OGPOStep5.getPaymentCode()
       .then((code) => cy.setLocalStorage('paymentCode', code));
     OGPOStep5.getPolicyNumberText()
       .then((value) => cy.setLocalStorage('OGPOPolicyNumber', value));
     OGPOStep5.getInsurancePeriodAfterIssuingText()
       .then((value) => cy.setLocalStorage('OGPOPolicyInsurancePeriod', value));
+    cy.setLocalStorage('installmentPayment', false);
   });
 };

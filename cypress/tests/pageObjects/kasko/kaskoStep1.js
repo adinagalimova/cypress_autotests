@@ -1,10 +1,10 @@
 const BaseForm = require('../../../main/baseForm');
+const StrUtils = require('../../../main/utils/str/strUtils');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Switch = require('../../../main/elements/baseElementChildren/switch');
-const StrUtils = require('../../../main/utils/str/strUtils');
 
 class KaskoStep1 extends BaseForm {
   #agentManagerDropdown;

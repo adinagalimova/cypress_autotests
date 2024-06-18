@@ -1,10 +1,10 @@
-const moment = require('moment');
 const BaseForm = require('../../../main/baseForm');
+const TimeUtils = require('../../../main/utils/time/timeUtils');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const Randomizer = require('../../../main/utils/random/randomizer');
+const Label = require('../../../main/elements/baseElementChildren/label');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
-const Label = require('../../../main/elements/baseElementChildren/label');
 
 class OGPOStep4 extends BaseForm {
   #nextButton;
@@ -41,30 +41,23 @@ class OGPOStep4 extends BaseForm {
   }
 
   getSumToPay() {
-    return this.#sumToPayLabel.getText().then((text) => text.slice(0, -3));
+    return this.#sumToPayLabel.getText()
+      .then((text) => text.slice(0, -3));
   }
 
   inputRandomBeginDate() {
-    const dates = Randomizer
+    const { startDate, startMonthDifference } = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
-    const beginDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'begin date button');
+    const beginDateButton = new Button(new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`), 'begin date button');
     this.#beginDateCalendarButton.openCalendarAndFlipMonths(
       this.#calendarRightArrowButton,
-      dates.startMonthDifference,
+      startMonthDifference,
     );
     beginDateButton.clickElement();
   }
 
   getPeriodText() {
     return this.#periodDropdownButton.getText();
-  }
-
-  calculateEndDate() {
-    return this.getBeginDateTitle().then((value) => {
-      const endDate = moment(value, JSONLoader.testData.datesFormatFrontEnd)
-        .add(1, 'year').subtract(1, 'day').format(JSONLoader.testData.datesFormatFrontEnd);
-      return cy.wrap(endDate);
-    });
   }
 
   getBeginDateTitle() {

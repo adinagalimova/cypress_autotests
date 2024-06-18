@@ -1,8 +1,8 @@
 const BaseForm = require('../../../main/baseForm');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
-const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Switch = require('../../../main/elements/baseElementChildren/switch');
+const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 
 class KaskoStep5 extends BaseForm {
   #naturalPersonSwitch;

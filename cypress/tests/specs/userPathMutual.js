@@ -1,4 +1,3 @@
-const moment = require('moment');
 const OGPOPage = require('../pageObjects/OGPO/OGPOStep5');
 const mutualSteps = require('../pageObjects/mutual/mutualSteps');
 const mutualStep1 = require('../pageObjects/mutual/mutualStep1');
@@ -6,6 +5,7 @@ const mutualStep2 = require('../pageObjects/mutual/mutualStep2');
 const mutualStep3 = require('../pageObjects/mutual/mutualStep3');
 const mutualStep4 = require('../pageObjects/mutual/mutualStep4');
 const mutualStep5 = require('../pageObjects/mutual/mutualStep5');
+const TimeUtils = require('../../main/utils/time/timeUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathMutual = () => {
@@ -118,18 +118,20 @@ exports.userPathMutual = () => {
 
     mutualSteps.clickOGPOPolicyStepButton();
     mutualStep4.pageIsDisplayed();
-    mutualStep4.getOGPOPolicyNumberText()
-      .then((currentValue) => cy.getLocalStorage('OGPOPolicyNumber')
-        .then((storedValue) => cy.wrap(storedValue)
-          .should('be.equal', currentValue)));
+    cy.getLocalStorage('OGPOPolicyNumber')
+      .then((storedValue) => mutualStep4.getOGPOPolicyNumberText()
+        .should('be.equal', storedValue));
     mutualStep4.getOGPOPolicyStatusText()
       .should('be.equal', JSONLoader.testData.issuedStatus);
+    const { startDate } = TimeUtils.getDatesInterval(
+      ...JSONLoader.testData.timeIncrement,
+      { startNextDay: false },
+    );
     mutualStep4.getSlicedOGPOPolicyIssueDateText()
-      .should('be.equal', moment().format(JSONLoader.testData.datesFormatFrontEnd));
-    mutualStep4.getOGPOInsurancePeriodText()
-      .then((currentValue) => cy.getLocalStorage('OGPOPolicyInsurancePeriod')
-        .then((storedValue) => cy.wrap(storedValue)
-          .should('be.equal', currentValue)));
+      .should('be.equal', startDate);
+    cy.getLocalStorage('OGPOPolicyInsurancePeriod')
+      .then((storedValue) => mutualStep4.getOGPOInsurancePeriodText()
+        .should('be.equal', storedValue));
     const holderFullName = `${JSONLoader.testData.clientLastName} ${
       JSONLoader.testData.clientFirstName} ${
       JSONLoader.testData.clientMiddleName}`;
@@ -147,10 +149,9 @@ exports.userPathMutual = () => {
     mutualStep5.pageIsDisplayed();
     mutualStep5.getStatusText()
       .should('be.equal', JSONLoader.testData.draftStatus);
-    mutualStep5.getInsurancePeriodText()
-      .then((currentValue) => cy.getLocalStorage('OGPOPolicyInsurancePeriod')
-        .then((storedValue) => cy.wrap(storedValue)
-          .should('be.equal', currentValue)));
+    cy.getLocalStorage('OGPOPolicyInsurancePeriod')
+      .then((storedValue) => mutualStep5.getInsurancePeriodText()
+        .should('be.equal', storedValue));
     mutualStep5.getUnifiedCombinedLimitText()
       .should('be.equal', JSONLoader.testData.unifiedCombinedLimit);
     mutualStep5.getPremiumText()
@@ -161,5 +162,6 @@ exports.userPathMutual = () => {
       cy.setLocalStorage('paymentCode', code);
       cy.setLocalStorage('sumToPay', JSONLoader.testData.mutualPremium);
     });
+    cy.setLocalStorage('installmentPayment', false);
   });
 };

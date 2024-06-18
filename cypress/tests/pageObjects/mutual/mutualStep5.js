@@ -1,7 +1,7 @@
 const BaseForm = require('../../../main/baseForm');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../../main/elements/baseElementChildren/button');
 const Label = require('../../../main/elements/baseElementChildren/label');
+const Button = require('../../../main/elements/baseElementChildren/button');
 
 class MutualStep5 extends BaseForm {
   #statusLabel;
@@ -42,7 +42,8 @@ class MutualStep5 extends BaseForm {
   }
 
   getPremiumText() {
-    return this.#premiumLabel.getText().then((text) => text.slice(0, -3));
+    return this.#premiumLabel.getText()
+      .then((text) => text.slice(0, -3));
   }
 
   clickIssuePolicyButton() {

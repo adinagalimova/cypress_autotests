@@ -1,7 +1,7 @@
 const BaseForm = require('../../../main/baseForm');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../../main/elements/baseElementChildren/button');
 const Label = require('../../../main/elements/baseElementChildren/label');
+const Button = require('../../../main/elements/baseElementChildren/button');
 
 class OGPOStep5 extends BaseForm {
   #holderLabel;
@@ -60,7 +60,8 @@ class OGPOStep5 extends BaseForm {
   }
 
   getSlicedCreationDate() {
-    return this.#creationDateLabel.getText().then((text) => text.slice(0, 10));
+    return this.#creationDateLabel.getText()
+      .then((text) => text.slice(0, 10));
   }
 
   clickIssuePolicyButton() {
@@ -92,7 +93,8 @@ class OGPOStep5 extends BaseForm {
   }
 
   getSumToPay() {
-    return this.#sumToPayLabel.getText().then((text) => text.slice(0, -3));
+    return this.#sumToPayLabel.getText()
+      .then((text) => text.slice(0, -3));
   }
 
   getPaymentCode() {

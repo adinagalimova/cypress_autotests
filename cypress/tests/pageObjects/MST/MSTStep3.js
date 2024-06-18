@@ -1,9 +1,9 @@
 const BaseForm = require('../../../main/baseForm');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const Label = require('../../../main/elements/baseElementChildren/label');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
-const Label = require('../../../main/elements/baseElementChildren/label');
 
 class MSTStep3 extends BaseForm {
   #residencyCheckboxActive;

@@ -1,10 +1,11 @@
 const BaseForm = require('../../../main/baseForm');
-const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../../main/elements/baseElementChildren/button');
-const Label = require('../../../main/elements/baseElementChildren/label');
 const StrUtils = require('../../../main/utils/str/strUtils');
-const Randomizer = require('../../../main/utils/random/randomizer');
+const TimeUtils = require('../../../main/utils/time/timeUtils');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
+const Randomizer = require('../../../main/utils/random/randomizer');
+const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const Label = require('../../../main/elements/baseElementChildren/label');
+const Button = require('../../../main/elements/baseElementChildren/button');
 
 class KaskoStep6 extends BaseForm {
   #insurancePeriodDropdownButton;
@@ -34,7 +35,7 @@ class KaskoStep6 extends BaseForm {
 
   chooseInsurancePeriod() {
     this.#insurancePeriodDropdownButton.clickElement();
-    this.#insurancePeriodDropdownButton.clickArrowButtonRandomNumberOfTimes('up', 12);
+    this.#insurancePeriodDropdownButton.clickArrowButtonRandomNumberOfTimes({ direction: 'up', numberOfElements: 12 });
   }
 
   getPremiumElement() {
@@ -44,7 +45,7 @@ class KaskoStep6 extends BaseForm {
 
   choosePaymentType() {
     this.#paymentTypeDropdownButton.clickElement();
-    this.#paymentTypeDropdownButton.clickArrowButtonRandomNumberOfTimes('down', 2);
+    this.#paymentTypeDropdownButton.clickArrowButtonRandomNumberOfTimes({ direction: 'down', numberOfElements: 2 });
   }
 
   getPaymentType() {
@@ -53,17 +54,20 @@ class KaskoStep6 extends BaseForm {
 
   chooseInstallmentPaymentCount() {
     this.#installmentPaymentCountDropdownButton.clickElement();
-    this.#installmentPaymentCountDropdownButton.clickArrowButtonRandomNumberOfTimes('down', 12);
+    this.#installmentPaymentCountDropdownButton.clickArrowButtonRandomNumberOfTimes({ direction: 'down', numberOfElements: 12 });
   }
 
   chooseInstallmentFirstPaymentDate() {
-    const dates = Randomizer
+    const { startDate, startMonthDifference } = Randomizer
       .getRandomDatesIntervalFromTomorrow(
         ...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate,
       );
-    const installmentFirstPaymentDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'installment payment start date button');
+    const installmentFirstPaymentDateButton = new Button(
+      new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`),
+      'installment payment start date button',
+    );
     this.#installmentFirstPaymentCalendarButton
-      .openCalendarAndFlipMonths(this.#calendarRightArrowButton, dates.startMonthDifference);
+      .openCalendarAndFlipMonths(this.#calendarRightArrowButton, startMonthDifference);
     installmentFirstPaymentDateButton.clickElement();
   }
 

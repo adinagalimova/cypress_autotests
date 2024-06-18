@@ -1,10 +1,11 @@
 const BaseForm = require('../../../main/baseForm');
-const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
-const Button = require('../../../main/elements/baseElementChildren/button');
-const Label = require('../../../main/elements/baseElementChildren/label');
-const Textbox = require('../../../main/elements/baseElementChildren/textbox');
-const Randomizer = require('../../../main/utils/random/randomizer');
+const TimeUtils = require('../../../main/utils/time/timeUtils');
 const JSONLoader = require('../../../main/utils/data/JSONLoader');
+const Randomizer = require('../../../main/utils/random/randomizer');
+const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
+const Label = require('../../../main/elements/baseElementChildren/label');
+const Button = require('../../../main/elements/baseElementChildren/button');
+const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 
 class KaskoStep7 extends BaseForm {
   #holderLabel;
@@ -54,13 +55,16 @@ class KaskoStep7 extends BaseForm {
   }
 
   choosePolicyStartDate() {
-    const dates = Randomizer
+    const { startDate, startMonthDifference } = Randomizer
       .getRandomDatesIntervalFromTomorrow(
         ...JSONLoader.testData.timeIncrementForKaskoInstallmentPaymentFirstDate,
       );
-    const policyStartDateButton = new Button(new XPATH(`//td[@title="${dates.startDate}"]`), 'policy start date button');
+    const policyStartDateButton = new Button(
+      new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`),
+      'policy start date button',
+    );
     this.#policyStartDateCalendarButton
-      .openCalendarAndFlipMonths(this.#calendarRightArrowButton, dates.startMonthDifference);
+      .openCalendarAndFlipMonths(this.#calendarRightArrowButton, startMonthDifference);
     policyStartDateButton.clickElement();
   }
 

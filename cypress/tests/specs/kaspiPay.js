@@ -20,8 +20,5 @@ exports.kaspiPay = () => {
         cy.logger('[inf] ▶ paid (one-time payment)');
       }
     });
-    cy.setLocalStorage('installmentPayment', 'default null value');
-    cy.setLocalStorage('sumToPay', 'default null value');
-    cy.setLocalStorage('paymentCode', 'default null value');
   });
 };
