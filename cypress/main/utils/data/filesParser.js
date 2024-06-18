@@ -88,7 +88,7 @@ const checkEnvExists = (directory, extension) => {
 
 const generateTestClientsFile = async (filePath) => {
   const emptyObj = {};
-  fs.writeFileSync(filePath, JSON.stringify(emptyObj, null, 2), 'utf8');
+  if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, JSON.stringify(emptyObj, null, 2), 'utf8');
 };
 
 checkEnvExists(envDirectory, '.test');
