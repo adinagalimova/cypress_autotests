@@ -87,13 +87,13 @@ const checkEnvExists = (directory, extension) => {
   if (!files.length) throw new Error('[err]   .env.test file not exists in root directory!');
 };
 
-const generateTestFile = (filePath) => {
+const generateTestDataFile = (filePath) => {
   const emptyObj = {};
   if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, JSON.stringify(emptyObj, null, 2), 'utf8');
 };
 
 checkEnvExists(envDirectory, '.test');
 setConfigData(JSONDirectory, '.json');
-generateTestFile(testClientsFileLocation);
-generateTestFile(testCarsFileLocation);
+generateTestDataFile(testClientsFileLocation);
+generateTestDataFile(testCarsFileLocation);
 generateJSONLoader(loaderFileLocation, JSONDirectory, '.json');

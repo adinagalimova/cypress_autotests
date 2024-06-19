@@ -4,21 +4,15 @@ const { userPathOGPO } = require('./userPathOGPO');
 const { userPathMutual } = require('./userPathMutual');
 const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
-const Randomizer = require('../../main/utils/random/randomizer');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients);
-const cars = JSONLoader.testCars;
-const randomInsuredIndex = Randomizer.getRandomInteger(clients.length - 1);
-let randomHolderIndex;
-do {
-  randomHolderIndex = Randomizer.getRandomInteger(clients.length - 1);
-} while (randomHolderIndex === randomInsuredIndex);
-const randomCarIndex = Randomizer.getRandomInteger(cars.length - 1);
+const { holder, insured } = DataUtils.createRandomHolderAndInsuredStructures(clients);
+const car = DataUtils.createRandomCarStructure(JSONLoader.testCars);
 
 describe('OGPO & Mutual test suite:', () => {
   login();
-  userPathOGPO(clients[randomHolderIndex], clients[randomInsuredIndex], cars[randomCarIndex]);
+  userPathOGPO(holder, insured, car);
   kaspiPay();
-  userPathMutual(clients[randomHolderIndex], clients[randomInsuredIndex], cars[randomCarIndex]);
+  userPathMutual(holder, insured, car);
   kaspiPay();
 });

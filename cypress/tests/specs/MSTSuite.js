@@ -3,17 +3,12 @@ const { kaspiPay } = require('./kaspiPay');
 const { userPathMST } = require('./userPathMST');
 const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
-const Randomizer = require('../../main/utils/random/randomizer');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients, { isUnderSixtyYearsOld: true });
-const randomInsuredIndex = Randomizer.getRandomInteger(clients.length - 1);
-let randomHolderIndex;
-do {
-  randomHolderIndex = Randomizer.getRandomInteger(clients.length - 1);
-} while (randomHolderIndex === randomInsuredIndex);
+const { holder, insured } = DataUtils.createRandomHolderAndInsuredStructures(clients);
 
 describe('MST test suite:', () => {
   login();
-  userPathMST(clients[randomHolderIndex], clients[randomInsuredIndex]);
+  userPathMST(holder, insured);
   kaspiPay();
 });

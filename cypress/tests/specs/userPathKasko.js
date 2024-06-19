@@ -7,9 +7,8 @@ const kaskoStep5 = require('../pageObjects/kasko/kaskoStep5');
 const kaskoStep6 = require('../pageObjects/kasko/kaskoStep6');
 const kaskoStep7 = require('../pageObjects/kasko/kaskoStep7');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
-const TimeUtils = require('../../main/utils/time/timeUtils');
 
-exports.userPathKasko = (client) => {
+exports.userPathKasko = (holder) => {
   it('Kasko user path:', { scrollBehavior: false }, () => {
     mainPage.clickKaskoButton();
 
@@ -32,21 +31,21 @@ exports.userPathKasko = (client) => {
     kaskoStep2.clickRandomTariff();
 
     kaskoStep3.pageIsDisplayed();
-    kaskoStep3.inputIIN(client.iin.toString());
+    kaskoStep3.inputIIN(holder.iin);
     kaskoStep3.clickSearchClientButton();
-    const fullName = ''.concat(client.last_name, ' ', client.first_name, ' ', client.middle_name);
-    const firstAndLastName = ''.concat(client.last_name, ' ', client.first_name);
+    const fullName = ''.concat(holder.last_name, ' ', holder.first_name, ' ', holder.middle_name);
+    const firstAndLastName = ''.concat(holder.last_name, ' ', holder.first_name);
     kaskoStep3.getOrSetFullNameElement(fullName)
       .should('have.value', fullName);
     kaskoStep3.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[client.document_type_id.toString()]);
+      .should('be.equal', holder.document_type_id);
     kaskoStep3.getDocumentNumberElement()
-      .should('have.value', client.document_number);
+      .should('have.value', holder.document_number);
     kaskoStep3.getDocumentIssueDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(client.document_gived_date));
-    kaskoStep3.inputAddress(JSONLoader.testData.clientAddress);
-    kaskoStep3.inputPhone(JSONLoader.testData.clientPhoneForKASKO);
-    kaskoStep3.inputEmail(JSONLoader.testData.clientEmail);
+      .should('have.value', holder.document_gived_date.DMY);
+    kaskoStep3.inputAddress(holder.address);
+    kaskoStep3.inputPhone(holder.phoneTrimmed);
+    kaskoStep3.inputEmail(holder.email);
     kaskoStep3.randomlyClickPDLCheckbox();
     kaskoStep3.clickSaveButton();
 
@@ -73,7 +72,7 @@ exports.userPathKasko = (client) => {
 
     kaskoStep5.pageIsDisplayed();
     kaskoStep5.clickNaturalPersonSwitch();
-    kaskoStep5.inputIINBIN(client.iin.toString());
+    kaskoStep5.inputIINBIN(holder.iin);
     kaskoStep5.clickSearchBeneficiaryButton();
     kaskoStep5.getBeneficiaryFullNameElement()
       .should('contain.value', firstAndLastName);

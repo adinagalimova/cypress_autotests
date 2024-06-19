@@ -63,12 +63,13 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
         // no default
       }
     });
+
     MSTStep1.clickRandomSum();
     MSTStep1.getChosenSum()
       .then((chosenSum) => MSTStep1.getShownSum()
         .should('be.equal', chosenSum));
     MSTStep1.clickRandomAdditionalCheckboxes();
-    MSTStep1.inputDateOfBirth(TimeUtils.reformatDateFromYMDToDMY(insured.born));
+    MSTStep1.inputDateOfBirth(insured.born.DMY);
     MSTStep1.clickCalculate();
     MSTStep1.totalSumIsVisible();
     MSTStep1.clickContinue();
@@ -76,7 +77,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep2.pageIsDisplayed().should('be.true');
     MSTStep2.juridicalCheckboxOff().should('be.true');
     MSTStep2.residencyCheckboxOn().should('be.true');
-    MSTStep2.inputIIN(holder.iin.toString());
+    MSTStep2.inputIIN(holder.iin);
     MSTStep2.clickSearchClientButton();
     MSTStep2.getLastNameElement()
       .should('have.value', holder.last_name);
@@ -92,32 +93,32 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep2.getOrSetMiddleNameElement(holder.middle_name)
       .should('have.value', holder.middle_name);
     MSTStep2.getDateOfBirthElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.born));
+      .should('have.value', holder.born.DMY);
     MSTStep2.getResidencyCountryText()
-      .should('be.equal', JSONLoader.testData.clientCountry);
+      .should('be.equal', holder.country);
     MSTStep2.getRegionText()
-      .should('be.equal', JSONLoader.testData.clientRegion);
+      .should('be.equal', holder.region);
     MSTStep2.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[holder.document_type_id.toString()]);
+      .should('be.equal', holder.document_type_id);
     MSTStep2.getDocumentNumberElement()
       .should('have.value', holder.document_number);
     MSTStep2.getDocumentIssuedDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.document_gived_date));
-    MSTStep2.getOrSetDocumentIssuedByElement(JSONLoader.testData.clientDocumentIssueBy)
-      .should('have.value', JSONLoader.testData.clientDocumentIssueBy);
+      .should('have.value', holder.document_gived_date.DMY);
+    MSTStep2.getOrSetDocumentIssuedByElement(holder.document_gived_by)
+      .should('have.value', holder.document_gived_by);
     MSTStep2.getSexText()
-      .should('be.equal', JSONLoader.dictSexID[holder.sex_id]);
-    MSTStep2.getOrSetAddressElement(JSONLoader.testData.clientAddress)
-      .should('have.value', JSONLoader.testData.clientAddress);
-    MSTStep2.getOrSetEmailElement(JSONLoader.testData.clientEmail)
-      .should('have.value', JSONLoader.testData.clientEmail);
-    MSTStep2.inputPhoneNumber(JSONLoader.testData.clientPhoneForKASKO);
+      .should('be.equal', holder.sex_id);
+    MSTStep2.getOrSetAddressElement(holder.address)
+      .should('have.value', holder.address);
+    MSTStep2.getOrSetEmailElement(holder.email)
+      .should('have.value', holder.email);
+    MSTStep2.inputPhoneNumber(holder.phoneTrimmed);
     MSTStep2.PDLCheckboxOff().should('be.true');
     MSTStep2.clickSave();
 
     MSTStep3.pageIsDisplayed().should('be.true');
     MSTStep3.residencyCheckboxOn().should('be.true');
-    MSTStep3.inputIIN(insured.iin.toString());
+    MSTStep3.inputIIN(insured.iin);
     MSTStep3.clickSearchClientButton();
     MSTStep3.getLastNameElement()
       .should('have.value', insured.last_name);
@@ -130,26 +131,26 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep3.getOrSetMiddleNameElement(insured.middle_name)
       .should('have.value', insured.middle_name);
     MSTStep3.getDateOfBirthElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.born));
+      .should('have.value', insured.born.DMY);
     MSTStep3.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[insured.document_type_id.toString()]);
+      .should('be.equal', insured.document_type_id);
     MSTStep3.getDocumentNumberElement()
       .should('have.value', insured.document_number);
     MSTStep3.getDocumentIssuedDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.document_gived_date));
-    MSTStep3.getOrSetDocumentIssuedByElement(JSONLoader.testData.insuredClientDocumentIssueBy)
-      .should('have.value', JSONLoader.testData.insuredClientDocumentIssueBy);
+      .should('have.value', insured.document_gived_date.DMY);
+    MSTStep3.getOrSetDocumentIssuedByElement(insured.document_gived_by)
+      .should('have.value', insured.document_gived_by);
     MSTStep3.getSexText()
-      .should('be.equal', JSONLoader.dictSexID[insured.sex_id]);
-    MSTStep3.getOrSetAddressElement(JSONLoader.testData.insuredClientAddress)
-      .should('have.value', JSONLoader.testData.insuredClientAddress);
+      .should('be.equal', insured.sex_id);
+    MSTStep3.getOrSetAddressElement(insured.address)
+      .should('have.value', insured.address);
     MSTStep3.PDLCheckboxOff().should('be.true');
     MSTStep3.clickSave();
     MSTStep3.clickCalculate();
     MSTStep3.findElementTextByTitle('ФИО')
       .should('be.equal', `${insured.first_name} ${insured.last_name}`);
     MSTStep3.findElementTextByTitle('ИИН')
-      .should('be.equal', insured.iin.toString());
+      .should('be.equal', insured.iin);
     MSTStep3.getSumToPay()
       .then((sum) => cy.setLocalStorage('sumToPay', sum));
     MSTStep3.clickSetPolicy();

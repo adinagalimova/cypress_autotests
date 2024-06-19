@@ -20,7 +20,7 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep1.IPSwitchIsChecked().should('be.false');
     mutualStep1.residentSwitchIsChecked().should('be.true');
     mutualStep1.getIINText()
-      .should('be.equal', holder.iin.toString());
+      .should('be.equal', holder.iin);
     mutualStep1.getLastNameText()
       .should('be.equal', holder.last_name);
     mutualStep1.getFirstNameText()
@@ -28,23 +28,23 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep1.getMiddleNameText()
       .should('be.equal', holder.middle_name);
     mutualStep1.getDateOfBirthText()
-      .should('be.equal', TimeUtils.reformatDateFromYMDToDMY(holder.born));
+      .should('be.equal', holder.born.DMY);
     mutualStep1.getSexText()
-      .should('be.equal', JSONLoader.dictSexID[holder.sex_id]);
+      .should('be.equal', holder.sex_id);
     mutualStep1.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[holder.document_type_id.toString()]);
+      .should('be.equal', holder.document_type_id);
     mutualStep1.getDocumentNumberText()
       .should('be.equal', holder.document_number);
     mutualStep1.getDocumentIssueDateText()
-      .should('be.equal', TimeUtils.reformatDateFromYMDToDMY(holder.document_gived_date));
+      .should('be.equal', holder.document_gived_date.DMY);
     mutualStep1.getAddressText()
-      .should('be.equal', JSONLoader.testData.clientAddress);
+      .should('be.equal', holder.address);
     mutualStep1.getEmailText()
-      .should('be.equal', JSONLoader.testData.clientEmail);
+      .should('be.equal', holder.email);
     mutualStep1.getMobileNumberText()
-      .should('be.equal', JSONLoader.testData.clientPhoneFormatted);
+      .should('be.equal', holder.phoneFormatted);
     mutualStep1.getIsPDLText()
-      .should('be.equal', JSONLoader.testData.clientIsPDL);
+      .should('be.equal', holder.pdl);
 
     mutualSteps.clickInsuredStepButton();
     mutualStep2.pageIsDisplayed();
@@ -52,7 +52,7 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep2.IPSwitchIsChecked().should('be.false');
     mutualStep2.residentSwitchIsChecked().should('be.true');
     mutualStep2.getIINText()
-      .should('be.equal', insured.iin.toString());
+      .should('be.equal', insured.iin);
     mutualStep2.getLastNameText()
       .should('be.equal', insured.last_name);
     mutualStep2.getFirstNameText()
@@ -60,34 +60,34 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep2.getMiddleNameText()
       .should('be.equal', insured.middle_name);
     mutualStep2.getDateOfBirthText()
-      .should('be.equal', TimeUtils.reformatDateFromYMDToDMY(insured.born));
+      .should('be.equal', insured.born.DMY);
     mutualStep2.getSexText()
-      .should('be.equal', JSONLoader.dictSexID[insured.sex_id]);
+      .should('be.equal', insured.sex_id);
     mutualStep2.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[insured.document_type_id.toString()]);
+      .should('be.equal', insured.document_type_id);
     mutualStep2.getDocumentNumberText()
       .should('be.equal', insured.document_number);
     mutualStep2.getDocumentIssueDateText()
-      .should('be.equal', TimeUtils.reformatDateFromYMDToDMY(insured.document_gived_date));
+      .should('be.equal', insured.document_gived_date.DMY);
     const insuredFullName = `${insured.last_name} ${insured.first_name} ${insured.middle_name}`;
     mutualStep2.getInsuredLastnameTabText()
       .should('be.equal', insured.last_name);
     mutualStep2.getClassIDText()
       .should('be.equal', insured.bonus_malus);
     mutualStep2.getDriverLicenceTypeText()
-      .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceType);
+      .should('be.equal', insured.driver_certificate_type_id);
     mutualStep2.getDriverLicenceNumberText()
       .should('be.equal', insured.driving_license);
     mutualStep2.getDriverLicenceIssueDateText()
-      .should('be.equal', TimeUtils.reformatDateFromYMDToDMY(insured.date_issue_license));
+      .should('be.equal', insured.date_issue_license.DMY);
     mutualStep2.experienceLessThan2YearsSwitchIsChecked()
       .should('be.false');
     mutualStep2.getIsPensionerText()
-      .should('be.equal', JSONLoader.testData.insuredClientIsInvalid);
+      .should('be.equal', insured.invalid_bool);
     mutualStep2.getIsInvalidText()
-      .should('be.equal', JSONLoader.testData.insuredClientIsPensioner);
+      .should('be.equal', insured.pensioner_bool);
     mutualStep2.getIsPDLText()
-      .should('be.equal', JSONLoader.testData.insuredClientIsPDL);
+      .should('be.equal', insured.pdl);
 
     mutualSteps.clickCarStepButton();
     mutualStep3.pageIsDisplayed();
@@ -98,17 +98,17 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep3.getCarRegCertNumText()
       .should('be.equal', car.reg_cert_num);
     mutualStep3.getCarRegDateLabelText()
-      .should('be.equal', TimeUtils.reformatDateFromYMDToDMY(car.dt_reg_cert));
+      .should('be.equal', car.dt_reg_cert.DMY);
     mutualStep3.getCarRegionText()
-      .should('be.equal', JSONLoader.testData.carRegion);
+      .should('be.equal', car.region_id);
     mutualStep3.getCarVINText()
       .should('be.equal', car.vin);
     mutualStep3.getCarTypeText()
-      .should('be.equal', JSONLoader.testData.carType);
+      .should('be.equal', car.type_id);
     mutualStep3.getCarManufacturedYearText()
-      .should('be.equal', car.year.toString());
+      .should('be.equal', car.year);
     mutualStep3.getCarEngineVolumeText()
-      .should('be.equal', car.engine_volume.toString());
+      .should('be.equal', car.engine_volume);
     mutualStep3.getCarMarkText()
       .should('be.equal', car.mark);
     mutualStep3.getCarModelText()

@@ -15,7 +15,7 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep1.juridicalSwitchIsChecked().should('be.false');
     OGPOStep1.IPSwitchIsChecked().should('be.false');
     OGPOStep1.residentSwitchIsChecked().should('be.true');
-    OGPOStep1.inputIIN(holder.iin.toString());
+    OGPOStep1.inputIIN(holder.iin);
     OGPOStep1.clickSearchClientButton();
     OGPOStep1.getLastNameElement()
       .should('have.value', holder.last_name);
@@ -24,18 +24,18 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep1.getOrSetMiddleNameElement(holder.middle_name)
       .should('have.value', holder.middle_name);
     OGPOStep1.getDateOfBirthElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.born));
+      .should('have.value', holder.born.DMY);
     OGPOStep1.getSexText()
-      .should('be.equal', JSONLoader.dictSexID[holder.sex_id]);
+      .should('be.equal', holder.sex_id);
     OGPOStep1.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[holder.document_type_id.toString()]);
+      .should('be.equal', holder.document_type_id);
     OGPOStep1.getDocumentNumberElement()
       .should('have.value', holder.document_number);
     OGPOStep1.getDocumentIssueDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.document_gived_date));
-    OGPOStep1.inputAddress(JSONLoader.testData.clientAddress);
-    OGPOStep1.inputEmail(JSONLoader.testData.clientEmail);
-    OGPOStep1.inputPhone(JSONLoader.testData.clientPhone);
+      .should('have.value', holder.document_gived_date.DMY);
+    OGPOStep1.inputAddress(holder.address);
+    OGPOStep1.inputEmail(holder.email);
+    OGPOStep1.inputPhone(holder.phone);
     OGPOStep1.insuredSwitchIsChecked().should('be.true');
     OGPOStep1.clickInsuredSwitch();
     OGPOStep1.PDLSwitchIsChecked().should('be.false');
@@ -46,7 +46,7 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep2.juridicalSwitchIsChecked().should('be.false');
     OGPOStep2.IPSwitchIsChecked().should('be.false');
     OGPOStep2.residentSwitchIsChecked().should('be.true');
-    OGPOStep2.inputIIN(insured.iin.toString());
+    OGPOStep2.inputIIN(insured.iin);
     OGPOStep2.clickSearchClientButton();
     OGPOStep2.getLastNameElement()
       .should('have.value', insured.last_name);
@@ -55,23 +55,23 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep2.getOrSetMiddleNameElement(insured.middle_name)
       .should('have.value', insured.middle_name);
     OGPOStep2.getDateOfBirthElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.born));
+      .should('have.value', insured.born.DMY);
     OGPOStep2.getSexText()
-      .should('be.equal', JSONLoader.dictSexID[insured.sex_id]);
+      .should('be.equal', insured.sex_id);
     OGPOStep2.getDocumentTypeText()
-      .should('be.equal', JSONLoader.dictDocumentType[insured.document_type_id.toString()]);
+      .should('be.equal', insured.document_type_id);
     OGPOStep2.getDocumentNumberElement()
       .should('have.value', insured.document_number);
     OGPOStep2.getDocumentIssueDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.document_gived_date));
+      .should('have.value', insured.document_gived_date.DMY);
     OGPOStep2.getClassIDLabelText()
       .should('be.equal', insured.bonus_malus);
     OGPOStep2.getDriverLicenceTypeText()
-      .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceType);
+      .should('be.equal', insured.driver_certificate_type_id);
     OGPOStep2.getDriverLicenceNumberElement()
       .should('have.value', insured.driving_license);
     OGPOStep2.getDriverLicenceIssueDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.date_issue_license));
+      .should('have.value', insured.date_issue_license.DMY);
     OGPOStep2.experienceLessThan2YearsSwitchIsChecked().should('be.false');
     OGPOStep2.pensionerSwitchIsChecked().should('be.false');
     OGPOStep2.invalidSwitchIsChecked().should('be.false');
@@ -85,18 +85,18 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep3.inputVehicleDataWithDisabledVerification(
       car.reg_num,
       car.reg_cert_num,
-      TimeUtils.reformatDateFromYMDToDMY(car.dt_reg_cert),
+      car.dt_reg_cert.DMY,
     );
     OGPOStep3.getCarRegDateElement()
-      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(car.dt_reg_cert));
+      .should('have.value', car.dt_reg_cert.DMY);
     OGPOStep3.getCarRegionText()
-      .should('be.equal', JSONLoader.testData.carRegion);
+      .should('be.equal', car.region_id);
     OGPOStep3.getCarVINElement()
       .should('have.value', car.vin);
     OGPOStep3.getCarTypeText()
-      .should('be.equal', JSONLoader.testData.carType);
+      .should('be.equal', car.type_id);
     OGPOStep3.getCarManufacturedYearText()
-      .should('be.equal', car.year.toString());
+      .should('be.equal', car.year);
     OGPOStep3.getCarEngineVolumeElement()
       .should('have.value', car.engine_volume);
     OGPOStep3.getCarMarkElement()
