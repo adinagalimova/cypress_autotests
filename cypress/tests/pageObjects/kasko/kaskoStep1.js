@@ -1,6 +1,5 @@
 const BaseForm = require('../../../main/baseForm');
 const StrUtils = require('../../../main/utils/str/strUtils');
-const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
@@ -38,9 +37,7 @@ class KaskoStep1 extends BaseForm {
     this.#agentManagerDropdown = new Button(new XPATH('//input[@id=\'form_item_agent_id_1c\']'), 'agent manager dropdown');
     this.#agentManagerDropdownElement = new Button(new XPATH(`//div[@login='${Cypress.env().login}']`), 'agent manager dropdown element');
     this.#carMarkDropdown = new Button(new XPATH('//input[@id=\'form_item_mark_id\']'), 'car mark dropdown');
-    this.#carMarkDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(JSONLoader.testData.carMark)}']`), 'car mark dropdown element');
     this.#carModelDropdown = new Button(new XPATH('//input[@id=\'form_item_model_id\']'), 'car model dropdown');
-    this.#carModelDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(JSONLoader.testData.carModel)}']`), 'car model dropdown element');
     this.#carManufacturedYearTextbox = new Textbox(new XPATH('//input[@id=\'form_item_born\']'), 'car manufactured date textbox');
     this.#carEngineVolumeTextbox = new Textbox(new XPATH('//input[@id=\'form_item_car_volume\']'), 'car engine volume textbox');
     this.#insuranceSumTextbox = new Textbox(new XPATH('//input[@id=\'form_item_insurance_sum\']'), 'insurance sum textbox');
@@ -55,25 +52,27 @@ class KaskoStep1 extends BaseForm {
     this.#agentManagerDropdownElement.clickElement();
   }
 
-  chooseCarMark() {
+  chooseCarMark(carMark) {
     this.#carMarkDropdown.clickElement();
-    this.#carMarkDropdown.inputData(JSONLoader.testData.carMark);
+    this.#carMarkDropdown.inputData(carMark);
+    this.#carMarkDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(carMark)}']`), 'car mark dropdown element');
     this.#carMarkDropdownElement.clickElement();
   }
 
-  chooseCarModel() {
+  chooseCarModel(carModel) {
     this.#carModelDropdown.clickElement();
-    this.#carModelDropdown.inputData(JSONLoader.testData.carModel);
+    this.#carModelDropdown.inputData(carModel);
+    this.#carModelDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(carModel)}']`), 'car model dropdown element');
     this.#carModelDropdownElement.clickElement();
   }
 
-  inputCarManufacturedYear() {
-    this.#carManufacturedYearTextbox.inputData(JSONLoader.testData.carManufacturedYear);
+  inputCarManufacturedYear(carManufacturedYear) {
+    this.#carManufacturedYearTextbox.inputData(carManufacturedYear);
   }
 
-  inputCarEngineVolume() {
-    const carEngineVolume = (Number(JSONLoader.testData.carEngineVolume) / 1000).toFixed(1);
-    this.#carEngineVolumeTextbox.inputData(carEngineVolume, true);
+  inputCarEngineVolume(carEngineVolume) {
+    const carEngineVolumeToLiters = (Number(carEngineVolume) / 1000).toFixed(1);
+    this.#carEngineVolumeTextbox.inputData(carEngineVolumeToLiters, true);
   }
 
   inputInsuranceSumTextbox() {

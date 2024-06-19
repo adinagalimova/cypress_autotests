@@ -1,5 +1,4 @@
 const BaseForm = require('../../../main/baseForm');
-const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const Randomizer = require('../../../main/utils/random/randomizer');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
@@ -56,14 +55,7 @@ class KaskoStep3 extends BaseForm {
     this.#searchClientButton.clickElement();
   }
 
-  getOrSetFullNameElement() {
-    const fullName = ''.concat(
-      JSONLoader.testData.clientLastName,
-      ' ',
-      JSONLoader.testData.clientFirstName,
-      ' ',
-      JSONLoader.testData.clientMiddleName,
-    );
+  getOrSetFullNameElement(fullName) {
     if (this.#fullNameTextbox.getText !== fullName) {
       this.#fullNameTextbox.clearData();
       this.#fullNameTextbox.inputData(fullName);
