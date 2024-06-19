@@ -7,6 +7,7 @@ const JSONLoader = require('./utils/data/JSONLoader');
 const dictionaryAPI = require('../tests/API/dictionaryAPI');
 
 const testClientsFileLocation = path.join(__dirname, '../resources/data/testClients.json');
+const testCarsFileLocation = path.join(__dirname, '../resources/data/testCars.json');
 
 class BaseTest {
   static async beforeAll() {
@@ -16,6 +17,8 @@ class BaseTest {
     await dictionaryAPI.toggleVerification();
     const clients = await dictionaryAPI.fetchAllTestClients();
     fs.writeFileSync(testClientsFileLocation, JSON.stringify(clients.data, null, 2), 'utf8');
+    const cars = await dictionaryAPI.fetchAllTestCars();
+    fs.writeFileSync(testCarsFileLocation, JSON.stringify(cars.data, null, 2), 'utf8');
   }
 
   static async afterAll(results) {

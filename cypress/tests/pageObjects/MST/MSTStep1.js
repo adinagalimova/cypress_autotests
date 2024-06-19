@@ -106,12 +106,12 @@ class MSTStep1 extends BaseForm {
     return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
   }
 
-  clickThreeRandomCountries(countries) {
+  clickThreeRandomCountries(countries, count) {
     this.#countriesDropdownButton.chooseRandomElementsFromDropdownByText(
       this.#countriesDropdown,
       {
         valuesListPromise: countries,
-        count: JSONLoader.testData.MSTCountriesCount,
+        count,
         typeAndEnter: true,
       },
     );

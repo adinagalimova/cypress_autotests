@@ -7,7 +7,7 @@ const OGPOStep5 = require('../pageObjects/OGPO/OGPOStep5');
 const TimeUtils = require('../../main/utils/time/timeUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
-exports.userPathOGPO = () => {
+exports.userPathOGPO = (holder, insured, car) => {
   it('OGPO user path:', { scrollBehavior: false }, () => {
     mainPage.clickOGPOButton();
 
@@ -15,24 +15,24 @@ exports.userPathOGPO = () => {
     OGPOStep1.juridicalSwitchIsChecked().should('be.false');
     OGPOStep1.IPSwitchIsChecked().should('be.false');
     OGPOStep1.residentSwitchIsChecked().should('be.true');
-    OGPOStep1.inputIIN(JSONLoader.testData.clientIIN);
+    OGPOStep1.inputIIN(holder.iin.toString());
     OGPOStep1.clickSearchClientButton();
     OGPOStep1.getLastNameElement()
-      .should('have.value', JSONLoader.testData.clientLastName);
+      .should('have.value', holder.last_name);
     OGPOStep1.getFirstNameElement()
-      .should('have.value', JSONLoader.testData.clientFirstName);
-    OGPOStep1.getOrSetMiddleNameElement(JSONLoader.testData.clientMiddleName)
-      .should('have.value', JSONLoader.testData.clientMiddleName);
+      .should('have.value', holder.first_name);
+    OGPOStep1.getOrSetMiddleNameElement(holder.middle_name)
+      .should('have.value', holder.middle_name);
     OGPOStep1.getDateOfBirthElement()
-      .should('have.value', JSONLoader.testData.clientDateOfBirth);
+      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.born));
     OGPOStep1.getSexText()
-      .should('be.equal', JSONLoader.testData.clientSex);
+      .should('be.equal', JSONLoader.dictSexID[holder.sex_id]);
     OGPOStep1.getDocumentTypeText()
-      .should('be.equal', JSONLoader.testData.clientDocumentType);
+      .should('be.equal', JSONLoader.dictDocumentType[holder.document_type_id.toString()]);
     OGPOStep1.getDocumentNumberElement()
-      .should('have.value', JSONLoader.testData.clientDocumentNumber);
+      .should('have.value', holder.document_number);
     OGPOStep1.getDocumentIssueDateElement()
-      .should('have.value', JSONLoader.testData.clientDocumentIssueDate);
+      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.document_gived_date));
     OGPOStep1.inputAddress();
     OGPOStep1.inputEmail();
     OGPOStep1.inputPhone();
@@ -46,32 +46,32 @@ exports.userPathOGPO = () => {
     OGPOStep2.juridicalSwitchIsChecked().should('be.false');
     OGPOStep2.IPSwitchIsChecked().should('be.false');
     OGPOStep2.residentSwitchIsChecked().should('be.true');
-    OGPOStep2.inputIIN(JSONLoader.testData.insuredClientIIN);
+    OGPOStep2.inputIIN(insured.iin.toString());
     OGPOStep2.clickSearchClientButton();
     OGPOStep2.getLastNameElement()
-      .should('have.value', JSONLoader.testData.insuredClientLastName);
+      .should('have.value', insured.last_name);
     OGPOStep2.getFirstNameElement()
-      .should('have.value', JSONLoader.testData.insuredClientFirstName);
-    OGPOStep2.getOrSetMiddleNameElement(JSONLoader.testData.insuredClientMiddleName)
-      .should('have.value', JSONLoader.testData.insuredClientMiddleName);
+      .should('have.value', insured.first_name);
+    OGPOStep2.getOrSetMiddleNameElement(insured.middle_name)
+      .should('have.value', insured.middle_name);
     OGPOStep2.getDateOfBirthElement()
-      .should('have.value', JSONLoader.testData.insuredClientDateOfBirth);
+      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.born));
     OGPOStep2.getSexText()
-      .should('be.equal', JSONLoader.testData.insuredClientSex);
+      .should('be.equal', JSONLoader.dictSexID[insured.sex_id]);
     OGPOStep2.getDocumentTypeText()
-      .should('be.equal', JSONLoader.testData.insuredClientDocumentType);
+      .should('be.equal', JSONLoader.dictDocumentType[insured.document_type_id.toString()]);
     OGPOStep2.getDocumentNumberElement()
-      .should('have.value', JSONLoader.testData.insuredClientDocumentNumber);
+      .should('have.value', insured.document_number);
     OGPOStep2.getDocumentIssueDateElement()
-      .should('have.value', JSONLoader.testData.insuredClientDocumentIssueDate);
+      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.document_gived_date));
     OGPOStep2.getClassIDLabelText()
-      .should('be.equal', JSONLoader.testData.insuredClientClassID);
+      .should('be.equal', insured.bonus_malus);
     OGPOStep2.getDriverLicenceTypeText()
       .should('be.equal', JSONLoader.testData.insuredClientDriverLicenceType);
     OGPOStep2.getDriverLicenceNumberElement()
-      .should('have.value', JSONLoader.testData.insuredClientDriverLicenceNumber);
+      .should('have.value', insured.driving_license);
     OGPOStep2.getDriverLicenceIssueDateElement()
-      .should('have.value', JSONLoader.testData.insuredClientDriverLicenceIssueDate);
+      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(insured.date_issue_license));
     OGPOStep2.experienceLessThan2YearsSwitchIsChecked().should('be.false');
     OGPOStep2.pensionerSwitchIsChecked().should('be.false');
     OGPOStep2.invalidSwitchIsChecked().should('be.false');
@@ -80,25 +80,29 @@ exports.userPathOGPO = () => {
     OGPOStep2.clickNextButton();
 
     OGPOStep3.pageIsDisplayed();
-    OGPOStep3.inputVehicleData();
+    OGPOStep3.inputVehicleData(car.reg_num, car.reg_cert_num, car.vin);
     OGPOStep3.clickSearchVehicleButton();
-    OGPOStep3.inputVehicleDataWithDisabledVerification();
+    OGPOStep3.inputVehicleDataWithDisabledVerification(
+      car.reg_num,
+      car.reg_cert_num,
+      TimeUtils.reformatDateFromYMDToDMY(car.dt_reg_cert),
+    );
     OGPOStep3.getCarRegDateElement()
-      .should('have.value', JSONLoader.testData.carRegDate);
+      .should('have.value', TimeUtils.reformatDateFromYMDToDMY(car.dt_reg_cert));
     OGPOStep3.getCarRegionText()
       .should('be.equal', JSONLoader.testData.carRegion);
     OGPOStep3.getCarVINElement()
-      .should('have.value', JSONLoader.testData.carVIN);
+      .should('have.value', car.vin);
     OGPOStep3.getCarTypeText()
       .should('be.equal', JSONLoader.testData.carType);
     OGPOStep3.getCarManufacturedYearText()
-      .should('be.equal', JSONLoader.testData.carManufacturedYear);
+      .should('be.equal', car.year.toString());
     OGPOStep3.getCarEngineVolumeElement()
-      .should('have.value', JSONLoader.testData.carEngineVolume);
+      .should('have.value', car.engine_volume);
     OGPOStep3.getCarMarkElement()
-      .should('have.value', JSONLoader.testData.carMark);
+      .should('have.value', car.mark);
     OGPOStep3.getCarModelElement()
-      .should('have.value', JSONLoader.testData.carModel);
+      .should('have.value', car.model);
     OGPOStep3.clickSaveButton();
     OGPOStep3.clickNextButton();
 
@@ -126,19 +130,15 @@ exports.userPathOGPO = () => {
     OGPOStep4.clickNextButton();
 
     OGPOStep5.pageIsDisplayed();
-    const clientFullName = `${JSONLoader.testData.clientLastName} ${
-      JSONLoader.testData.clientFirstName} ${
-      JSONLoader.testData.clientMiddleName}`;
+    const clientFullName = `${holder.last_name} ${
+      holder.first_name} ${
+      holder.middle_name}`;
     OGPOStep5.getHolderText()
       .should('be.equal', clientFullName);
-    const insuredClientFullName = `${JSONLoader.testData.insuredClientLastName} ${
-      JSONLoader.testData.insuredClientFirstName} ${
-      JSONLoader.testData.insuredClientMiddleName}`;
+    const insuredClientFullName = `${insured.last_name} ${insured.first_name} ${insured.middle_name}`;
     OGPOStep5.getListOfInsuredPeopleText()
       .should('be.equal', insuredClientFullName);
-    const carFullName = `${JSONLoader.testData.carMark}, ${
-      JSONLoader.testData.carModel}, ${
-      JSONLoader.testData.carNumber}`;
+    const carFullName = `${car.mark}, ${car.model}, ${car.reg_num}`;
     OGPOStep5.getListOfCarsText()
       .should('be.equal', carFullName);
     OGPOStep5.getInsurancePeriodBeforeIssuingText()

@@ -67,20 +67,20 @@ class OGPOStep3 extends BaseForm {
     this.#nextButton.clickElement();
   }
 
-  inputVehicleData() {
+  inputVehicleData(carNumber, carRegistration, carVIN) {
     if (JSONLoader.configData.verification) {
-      this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
-      this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);
+      this.#regNumTextbox.inputData(carNumber);
+      this.#regCertNumTextbox.inputData(carRegistration);
     } else {
-      this.#carVINTextbox.inputData(JSONLoader.testData.carVIN);
+      this.#carVINTextbox.inputData(carVIN);
     }
   }
 
-  inputVehicleDataWithDisabledVerification() {
+  inputVehicleDataWithDisabledVerification(carNumber, carRegistration, carRegDate) {
     if (!JSONLoader.configData.verification) {
-      this.#regNumTextbox.inputData(JSONLoader.testData.carNumber);
-      this.#regCertNumTextbox.inputData(JSONLoader.testData.carRegistration);
-      this.#carRegDateTextbox.inputData(JSONLoader.testData.carRegDate);
+      this.#regNumTextbox.inputData(carNumber);
+      this.#regCertNumTextbox.inputData(carRegistration);
+      this.#carRegDateTextbox.inputData(carRegDate);
       this.#carRegionDropdownButton.clickElement();
       this.#carRegionDropdownElement.clickElement();
     }

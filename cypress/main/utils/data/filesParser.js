@@ -5,6 +5,7 @@ require('dotenv').config({ path: path.join(__dirname, '../../../../', '.env.test
 const envDirectory = path.join(__dirname, '../../../../');
 const loaderFileLocation = path.join(__dirname, 'JSONLoader.js');
 const testClientsFileLocation = path.join(__dirname, '../../../resources/data/testClients.json');
+const testCarsFileLocation = path.join(__dirname, '../../../resources/data/testCars.json');
 const JSONDirectory = path.join(__dirname, '../../../resources');
 
 const getFiles = (directory, extension) => {
@@ -77,7 +78,7 @@ const setConfigData = (directory, extension) => {
       console.log('  [err]   "GATEWAY_URL" .env variable not exists!');
     }
 
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 4), 'utf8');
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
   }
 };
 
@@ -86,12 +87,13 @@ const checkEnvExists = (directory, extension) => {
   if (!files.length) throw new Error('[err]   .env.test file not exists in root directory!');
 };
 
-const generateTestClientsFile = async (filePath) => {
+const generateTestFile = (filePath) => {
   const emptyObj = {};
   if (!fs.existsSync(filePath)) fs.writeFileSync(filePath, JSON.stringify(emptyObj, null, 2), 'utf8');
 };
 
 checkEnvExists(envDirectory, '.test');
 setConfigData(JSONDirectory, '.json');
-generateTestClientsFile(testClientsFileLocation);
+generateTestFile(testClientsFileLocation);
+generateTestFile(testCarsFileLocation);
 generateJSONLoader(loaderFileLocation, JSONDirectory, '.json');

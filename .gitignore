@@ -7,3 +7,4 @@ cypress/downloads/
 cypress/fixtures/
 cypress/runner-results/
 cypress/resources/data/testClients.json
+cypress/resources/data/testCars.json
