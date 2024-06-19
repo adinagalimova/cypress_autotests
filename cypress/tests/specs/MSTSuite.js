@@ -5,7 +5,7 @@ const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 const Randomizer = require('../../main/utils/random/randomizer');
 
-const clients = DataUtils.filterClients(JSONLoader.testClients);
+const clients = DataUtils.filterClients(JSONLoader.testClients, { isUnderSixtyYearsOld: true });
 const randomInsuredIndex = Randomizer.getRandomInteger(clients.length - 1);
 let randomHolderIndex;
 do {

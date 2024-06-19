@@ -151,7 +151,7 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep5.getPremiumText()
       .should('be.equal', JSONLoader.testData.mutualPremium);
     mutualStep5.clickIssuePolicyButton();
-    mutualStep5.getPolicyNumberText().should('contain', '219-');
+    mutualStep5.getPolicyNumberText().should('contain', JSONLoader.testData.mutualPolicyCodeNumber);
     mutualStep5.getPaymentCode().then((code) => {
       cy.setLocalStorage('paymentCode', code);
       cy.setLocalStorage('sumToPay', JSONLoader.testData.mutualPremium);
