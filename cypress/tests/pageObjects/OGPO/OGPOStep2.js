@@ -1,5 +1,4 @@
 const BaseForm = require('../../../main/baseForm');
-const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Label = require('../../../main/elements/baseElementChildren/label');
 const Switch = require('../../../main/elements/baseElementChildren/switch');
@@ -105,10 +104,6 @@ class OGPOStep2 extends BaseForm {
     return this.#residentSwitch.isChecked();
   }
 
-  insuredSwitchIsChecked() {
-    return this.#insuredSwitch.isChecked();
-  }
-
   PDLSwitchIsChecked() {
     return this.#PDLSwitch.isChecked();
   }
@@ -123,10 +118,6 @@ class OGPOStep2 extends BaseForm {
 
   invalidSwitchIsChecked() {
     return this.#invalidSwitch.isChecked();
-  }
-
-  getNextButtonElement() {
-    return this.#nextButton.getElement();
   }
 
   inputIIN(IIN) {
@@ -171,24 +162,6 @@ class OGPOStep2 extends BaseForm {
     return this.#documentIssueDateTextbox.getElement();
   }
 
-  inputAddress() {
-    this.#addressTextbox.scrollElementToView();
-    this.#addressTextbox.clearData();
-    this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
-  }
-
-  inputEmail() {
-    this.#emailTextbox.scrollElementToView();
-    this.#emailTextbox.clearData();
-    this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
-  }
-
-  inputPhone() {
-    this.#phoneTextbox.scrollElementToView();
-    this.#phoneTextbox.clearData();
-    this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
-  }
-
   clickSaveButton() {
     this.#saveButton.scrollElementToView();
     this.#saveButton.clickElement();
@@ -200,10 +173,6 @@ class OGPOStep2 extends BaseForm {
 
   clickSearchClientButton() {
     this.#searchClientButton.clickElement();
-  }
-
-  clickInsuredSwitch() {
-    this.#insuredSwitch.clickElement();
   }
 
   getClassIDLabelText() {

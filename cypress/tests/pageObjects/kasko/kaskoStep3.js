@@ -76,10 +76,6 @@ class KaskoStep3 extends BaseForm {
     return this.#documentIssueDateTextbox.getElement();
   }
 
-  getDocumentIssuedByElement() {
-    return this.#documentIssuedByTextbox.getElement();
-  }
-
   inputAddress(address) {
     this.#addressTextbox.scrollElementToView();
     this.#addressTextbox.clearData();

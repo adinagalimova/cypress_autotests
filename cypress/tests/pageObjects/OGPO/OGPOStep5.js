@@ -92,11 +92,6 @@ class OGPOStep5 extends BaseForm {
     return this.#insurancePeriodAfterIssuingLabel.getText();
   }
 
-  getSumToPay() {
-    return this.#sumToPayLabel.getText()
-      .then((text) => text.slice(0, -3));
-  }
-
   getPaymentCode() {
     return this.#paymentCodeLabel.getText();
   }

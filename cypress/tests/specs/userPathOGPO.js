@@ -33,9 +33,9 @@ exports.userPathOGPO = (holder, insured, car) => {
       .should('have.value', holder.document_number);
     OGPOStep1.getDocumentIssueDateElement()
       .should('have.value', TimeUtils.reformatDateFromYMDToDMY(holder.document_gived_date));
-    OGPOStep1.inputAddress();
-    OGPOStep1.inputEmail();
-    OGPOStep1.inputPhone();
+    OGPOStep1.inputAddress(JSONLoader.testData.clientAddress);
+    OGPOStep1.inputEmail(JSONLoader.testData.clientEmail);
+    OGPOStep1.inputPhone(JSONLoader.testData.clientPhone);
     OGPOStep1.insuredSwitchIsChecked().should('be.true');
     OGPOStep1.clickInsuredSwitch();
     OGPOStep1.PDLSwitchIsChecked().should('be.false');

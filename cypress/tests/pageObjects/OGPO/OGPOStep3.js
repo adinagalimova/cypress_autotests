@@ -54,10 +54,6 @@ class OGPOStep3 extends BaseForm {
     this.#carModelTextbox = new Textbox(new XPATH('//input[@id="form_item_model"]'), 'car model textbox');
   }
 
-  getNextButtonElement() {
-    return this.#nextButton.getElement();
-  }
-
   clickSaveButton() {
     this.#saveButton.scrollElementToView();
     this.#saveButton.clickElement();

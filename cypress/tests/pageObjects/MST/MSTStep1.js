@@ -164,10 +164,6 @@ class MSTStep1 extends BaseForm {
     );
   }
 
-  clickPurposeDropdown() {
-    this.#purposeDropdown.clickElement();
-  }
-
   clickRandomNumberOfDays() {
     this.#numberOfDaysElements.getElements().then((numberOfDaysElementsList) => {
       const randomIndex = Randomizer.getRandomInteger(numberOfDaysElementsList.length - 1);

@@ -1,5 +1,4 @@
 const BaseForm = require('../../../main/baseForm');
-const JSONLoader = require('../../../main/utils/data/JSONLoader');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Switch = require('../../../main/elements/baseElementChildren/switch');
@@ -91,10 +90,6 @@ class OGPOStep1 extends BaseForm {
     return this.#PDLSwitch.isChecked();
   }
 
-  getNextButtonElement() {
-    return this.#nextButton.getElement();
-  }
-
   inputIIN(IIN) {
     this.#juridicalSwitch.scrollElementToView();
     this.#IINTextbox.inputData(IIN);
@@ -137,22 +132,22 @@ class OGPOStep1 extends BaseForm {
     return this.#documentIssueDateTextbox.getElement();
   }
 
-  inputAddress() {
+  inputAddress(clientAddress) {
     this.#addressTextbox.scrollElementToView();
     this.#addressTextbox.clearData();
-    this.#addressTextbox.inputData(JSONLoader.testData.clientAddress);
+    this.#addressTextbox.inputData(clientAddress);
   }
 
-  inputEmail() {
+  inputEmail(clientEmail) {
     this.#emailTextbox.scrollElementToView();
     this.#emailTextbox.clearData();
-    this.#emailTextbox.inputData(JSONLoader.testData.clientEmail);
+    this.#emailTextbox.inputData(clientEmail);
   }
 
-  inputPhone() {
+  inputPhone(clientPhone) {
     this.#phoneTextbox.scrollElementToView();
     this.#phoneTextbox.clearData();
-    this.#phoneTextbox.inputData(JSONLoader.testData.clientPhone);
+    this.#phoneTextbox.inputData(clientPhone);
   }
 
   clickSaveButton() {

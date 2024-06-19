@@ -87,10 +87,6 @@ class MutualStep2 extends BaseForm {
     return this.#residentSwitch.isChecked();
   }
 
-  clickPolicyForDevelopmentButton() {
-    this.#policyForDevelopmentButton.clickElement();
-  }
-
   getIINText() {
     return this.#IINLabel.getText();
   }
