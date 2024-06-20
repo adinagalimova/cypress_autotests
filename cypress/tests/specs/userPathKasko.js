@@ -6,18 +6,17 @@ const kaskoStep4 = require('../pageObjects/kasko/kaskoStep4');
 const kaskoStep5 = require('../pageObjects/kasko/kaskoStep5');
 const kaskoStep6 = require('../pageObjects/kasko/kaskoStep6');
 const kaskoStep7 = require('../pageObjects/kasko/kaskoStep7');
-const JSONLoader = require('../../main/utils/data/JSONLoader');
 
-exports.userPathKasko = (holder) => {
+exports.userPathKasko = (holder, car) => {
   it('Kasko user path:', { scrollBehavior: false }, () => {
     mainPage.clickKaskoButton();
 
     kaskoStep1.pageIsDisplayed();
     kaskoStep1.chooseAgentManager();
-    kaskoStep1.chooseCarMark(JSONLoader.testData.carMark);
-    kaskoStep1.chooseCarModel(JSONLoader.testData.carModel);
-    kaskoStep1.inputCarManufacturedYear(JSONLoader.testData.carManufacturedYear);
-    kaskoStep1.inputCarEngineVolume(JSONLoader.testData.carEngineVolume);
+    kaskoStep1.chooseCarMark(car.mark.KASKO.set);
+    kaskoStep1.chooseCarModel(car.model.KASKO.set);
+    kaskoStep1.inputCarManufacturedYear(car.year);
+    kaskoStep1.inputCarEngineVolume(car.engine_volume);
     kaskoStep1.inputInsuranceSumTextbox();
     kaskoStep1.clickCalculateButton();
     let insuranceSum;
@@ -50,21 +49,21 @@ exports.userPathKasko = (holder) => {
     kaskoStep3.clickSaveButton();
 
     kaskoStep4.pageIsDisplayed();
-    kaskoStep4.inputCarRegNum(JSONLoader.testData.carNumber);
-    kaskoStep4.inputCarRegCertNum(JSONLoader.testData.carRegistration);
+    kaskoStep4.inputCarRegNum(car.reg_num);
+    kaskoStep4.inputCarRegCertNum(car.reg_cert_num);
     kaskoStep4.clickSearchCarButton();
     kaskoStep4.getCarMarkElement()
-      .should('have.value', JSONLoader.testData.carMark);
+      .should('have.value', car.mark.KASKO.get);
     kaskoStep4.getCarModelElement()
-      .should('have.value', JSONLoader.testData.carModel);
+      .should('have.value', car.model.KASKO.get);
     kaskoStep4.getCarManufacturedYearElement()
-      .should('have.value', JSONLoader.testData.carManufacturedYear);
+      .should('have.value', car.year);
     kaskoStep4.getCarVINElement()
-      .should('have.value', JSONLoader.testData.carVIN);
+      .should('have.value', car.vin);
     kaskoStep4.getCarRegionText()
-      .should('be.equal', JSONLoader.testData.carRegion);
+      .should('be.equal', car.region_id);
     kaskoStep4.getCarRegDateElement()
-      .should('have.value', JSONLoader.testData.carRegDate);
+      .should('have.value', car.dt_reg_cert.DMY);
     kaskoStep4.getInsuranceSumText()
       .then((insuranceSumValue) => cy.wrap(insuranceSumValue)
         .should('be.equal', insuranceSum));
@@ -99,13 +98,7 @@ exports.userPathKasko = (holder) => {
       .should('be.equal', fullName);
     kaskoStep7.getBeneficiaryLabelTextboxElement()
       .should('contain.text', firstAndLastName);
-    const carFullName = ''.concat(
-      JSONLoader.testData.carMark,
-      ' ',
-      JSONLoader.testData.carModel,
-      ', ',
-      JSONLoader.testData.carNumber,
-    );
+    const carFullName = ''.concat(car.mark.KASKO.get, ' ', car.model.KASKO.get, ', ', car.reg_num);
     kaskoStep7.getInsuredCarLabelText()
       .should('be.equal', carFullName);
     kaskoStep7.choosePolicyStartDate();

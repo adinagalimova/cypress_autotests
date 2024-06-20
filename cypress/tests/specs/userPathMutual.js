@@ -110,9 +110,9 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep3.getCarEngineVolumeText()
       .should('be.equal', car.engine_volume);
     mutualStep3.getCarMarkText()
-      .should('be.equal', car.mark);
+      .should('be.equal', car.mark.OGPO);
     mutualStep3.getCarModelText()
-      .should('be.equal', car.model);
+      .should('be.equal', car.model.OGPO);
 
     mutualSteps.clickOGPOPolicyStepButton();
     mutualStep4.pageIsDisplayed();
@@ -135,7 +135,7 @@ exports.userPathMutual = (holder, insured, car) => {
       .should('be.equal', holderFullName);
     mutualStep4.getOGPOListOfInsuredPeopleText()
       .should('be.equal', insuredFullName);
-    const listOfCars = `${car.mark}, ${car.model}, ${car.reg_num}`;
+    const listOfCars = `${car.mark.OGPO}, ${car.model.OGPO}, ${car.reg_num}`;
     mutualStep4.getOGPOListOfCarsText()
       .should('be.equal', listOfCars);
 

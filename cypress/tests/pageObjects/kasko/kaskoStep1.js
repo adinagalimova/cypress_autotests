@@ -1,5 +1,4 @@
 const BaseForm = require('../../../main/baseForm');
-const StrUtils = require('../../../main/utils/str/strUtils');
 const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
@@ -55,14 +54,14 @@ class KaskoStep1 extends BaseForm {
   chooseCarMark(carMark) {
     this.#carMarkDropdown.clickElement();
     this.#carMarkDropdown.inputData(carMark);
-    this.#carMarkDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(carMark)}']`), 'car mark dropdown element');
+    this.#carMarkDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${carMark}']`), 'car mark dropdown element');
     this.#carMarkDropdownElement.clickElement();
   }
 
   chooseCarModel(carModel) {
     this.#carModelDropdown.clickElement();
     this.#carModelDropdown.inputData(carModel);
-    this.#carModelDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${StrUtils.toTitleCase(carModel)}']`), 'car model dropdown element');
+    this.#carModelDropdownElement = new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${carModel}']`), 'car model dropdown element');
     this.#carModelDropdownElement.clickElement();
   }
 

@@ -6,9 +6,10 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients);
 const { holder } = DataUtils.createRandomHolderAndInsuredStructures(clients);
+const car = DataUtils.createRandomCarStructure(JSONLoader.testCars);
 
 describe('Kasko test suite', () => {
   login();
-  userPathKasko(holder);
+  userPathKasko(holder, car);
   kaspiPay();
 });

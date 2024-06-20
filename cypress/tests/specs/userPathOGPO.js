@@ -100,9 +100,9 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep3.getCarEngineVolumeElement()
       .should('have.value', car.engine_volume);
     OGPOStep3.getCarMarkElement()
-      .should('have.value', car.mark);
+      .should('have.value', car.mark.OGPO);
     OGPOStep3.getCarModelElement()
-      .should('have.value', car.model);
+      .should('have.value', car.model.OGPO);
     OGPOStep3.clickSaveButton();
     OGPOStep3.clickNextButton();
 
@@ -138,7 +138,7 @@ exports.userPathOGPO = (holder, insured, car) => {
     const insuredClientFullName = `${insured.last_name} ${insured.first_name} ${insured.middle_name}`;
     OGPOStep5.getListOfInsuredPeopleText()
       .should('be.equal', insuredClientFullName);
-    const carFullName = `${car.mark}, ${car.model}, ${car.reg_num}`;
+    const carFullName = `${car.mark.OGPO}, ${car.model.OGPO}, ${car.reg_num}`;
     OGPOStep5.getListOfCarsText()
       .should('be.equal', carFullName);
     OGPOStep5.getInsurancePeriodBeforeIssuingText()

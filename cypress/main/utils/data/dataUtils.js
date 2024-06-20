@@ -1,7 +1,8 @@
 const moment = require('moment');
 const { parseStringPromise } = require('xml2js');
-const TimeUtils = require('../time/timeUtils');
 const JSONLoader = require('./JSONLoader');
+const StrUtils = require('../str/strUtils');
+const TimeUtils = require('../time/timeUtils');
 const Randomizer = require('../random/randomizer');
 
 class DataUtils {
@@ -90,6 +91,20 @@ class DataUtils {
 
     resultCar.year = tempCar.year.toString();
     resultCar.engine_volume = tempCar.engine_volume.toString();
+
+    resultCar.model = {};
+    resultCar.model.OGPO = tempCar.model;
+    resultCar.model.KASKO = {};
+    resultCar.model.KASKO.get = tempCar.model;
+    resultCar.model.KASKO.set = tempCar.id !== 1
+      ? StrUtils.toTitleCase(tempCar.model)
+      : tempCar.model.slice(0, 3);
+
+    resultCar.mark = {};
+    resultCar.mark.OGPO = tempCar.mark;
+    resultCar.mark.KASKO = {};
+    resultCar.mark.KASKO.get = tempCar.mark;
+    resultCar.mark.KASKO.set = tempCar.id !== 1 ? StrUtils.toTitleCase(tempCar.mark) : tempCar.mark;
 
     resultCar.region_id = JSONLoader.testData.carRegion;
     resultCar.type_id = JSONLoader.testData.carType;
