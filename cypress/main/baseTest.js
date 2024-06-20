@@ -1,6 +1,6 @@
-const fs = require('fs');
 const path = require('path');
 const moment = require('moment-timezone');
+const { createWriteStream } = require('fs');
 const allureCommandline = require('allure-commandline');
 const Logger = require('./utils/log/logger');
 const JSONLoader = require('./utils/data/JSONLoader');
@@ -15,10 +15,12 @@ class BaseTest {
     await dictionaryAPI.setToken();
     await dictionaryAPI.toggleServer();
     await dictionaryAPI.toggleVerification();
-    const clients = await dictionaryAPI.fetchAllTestClients();
-    fs.writeFileSync(testClientsFileLocation, JSON.stringify(clients.data, null, 2), 'utf8');
     const cars = await dictionaryAPI.fetchAllTestCars();
-    fs.writeFileSync(testCarsFileLocation, JSON.stringify(cars.data, null, 2), 'utf8');
+    const clients = await dictionaryAPI.fetchAllTestClients();
+    let stream = createWriteStream(testCarsFileLocation, { autoClose: true });
+    stream.write(JSON.stringify(cars.data, null, 2));
+    stream = createWriteStream(testClientsFileLocation, { autoClose: true });
+    stream.write(JSON.stringify(clients.data, null, 2));
   }
 
   static async afterAll(results) {

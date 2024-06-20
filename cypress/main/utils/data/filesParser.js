@@ -94,6 +94,6 @@ const generateTestDataFile = (filePath) => {
 
 checkEnvExists(envDirectory, '.test');
 setConfigData(JSONDirectory, '.json');
-generateTestDataFile(testClientsFileLocation);
 generateTestDataFile(testCarsFileLocation);
+generateTestDataFile(testClientsFileLocation);
 generateJSONLoader(loaderFileLocation, JSONDirectory, '.json');

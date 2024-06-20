@@ -5,6 +5,7 @@ const { setupNodeEvents } = require('./support/setupNodeEvents');
 require('dotenv').config({ path: path.join(__dirname, '.env.test'), override: true });
 
 module.exports = defineConfig({
+  experimentalInteractiveRunEvents: true,
   chromeWebSecurity: false,
   morgan: false,
   screenshotOnRunFailure: true,
