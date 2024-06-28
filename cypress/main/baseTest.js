@@ -6,8 +6,8 @@ const Logger = require('./utils/log/logger');
 const JSONLoader = require('./utils/data/JSONLoader');
 const dictionaryAPI = require('../tests/API/dictionaryAPI');
 
-const testClientsFileLocation = path.join(__dirname, '../resources/data/testClients.json');
 const testCarsFileLocation = path.join(__dirname, '../resources/data/testCars.json');
+const testClientsFileLocation = path.join(__dirname, '../resources/data/testClients.json');
 
 class BaseTest {
   static async beforeAll() {
@@ -17,9 +17,9 @@ class BaseTest {
     await dictionaryAPI.toggleVerification();
     const cars = await dictionaryAPI.fetchAllTestCars();
     const clients = await dictionaryAPI.fetchAllTestClients();
-    let stream = createWriteStream(testCarsFileLocation, { autoClose: true });
+    let stream = createWriteStream(testCarsFileLocation);
     stream.write(JSON.stringify(cars.data, null, 2));
-    stream = createWriteStream(testClientsFileLocation, { autoClose: true });
+    stream = createWriteStream(testClientsFileLocation);
     stream.write(JSON.stringify(clients.data, null, 2));
   }
 

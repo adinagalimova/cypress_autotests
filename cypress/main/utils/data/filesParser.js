@@ -22,22 +22,16 @@ const getFiles = (directory, extension) => {
   return selectedFiles;
 };
 
-const generateRequires = (selectedFiles, directory) => selectedFiles.map((file) => {
+const generateClassInit = (selectedFiles, directory) => `class JSONLoader {\n${selectedFiles.map((file) => {
   const variableName = path.parse(file).name;
-  return `const ${variableName} = require('${path.join(directory, file)}');\n`;
-}).join('');
-
-const generateClassInit = (selectedFiles) => `\nclass JSONLoader {\n${selectedFiles.map((file) => {
-  const variableName = path.parse(file).name;
-  return `\tstatic get ${variableName}() {\n\t\treturn JSON.parse(JSON.stringify(${variableName}));\n\t}\n\n`;
+  return `\tstatic get ${variableName}() {\n\t\tconst ${variableName} = require('${path.join(directory, file)}');\n\t\treturn JSON.parse(JSON.stringify(${variableName}));\n\t}\n\n`;
 }).join('')}`;
 
 const generateJSONLoader = (filePath, directory, extension) => {
   const files = getFiles(directory, extension);
-  const requires = generateRequires(files, directory);
-  const classInit = generateClassInit(files);
+  const classInit = generateClassInit(files, directory);
   const classExport = '}\n\nmodule.exports = JSONLoader;';
-  fs.writeFileSync(filePath, requires + classInit + classExport);
+  fs.writeFileSync(filePath, classInit + classExport);
 };
 
 const setConfigData = (directory, extension) => {
