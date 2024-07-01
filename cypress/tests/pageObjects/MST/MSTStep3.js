@@ -58,7 +58,7 @@ class MSTStep3 extends BaseForm {
 
   constructor() {
     super(new XPATH('//th[text()="Премия(тг.)"]'), 'MST page part three');
-    this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()="Резидент"]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
+    this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()[contains(., "Резидент")]]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
     this.#IINTextbox = new Textbox(new XPATH('//input[@placeholder="Введите ИИН клиента"]'), 'iin textbox');
     this.#searchClientButton = new Button(new XPATH('//span[text()="Поиск"]'), 'search button');
     this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_last_name"]'), 'last name textbox');
