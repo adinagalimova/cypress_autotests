@@ -187,7 +187,13 @@ class OGPOStep2 extends BaseForm {
     return this.#driverLicenceNumberTextbox.getElement();
   }
 
-  getDriverLicenceIssueDateElement() {
+  getOrSetDriverLicenceIssueDateElement(driverLicenceIssueDate) {
+    this.#driverLicenceIssueDateTextbox.scrollElementToView();
+    if (this.#driverLicenceIssueDateTextbox.getText !== driverLicenceIssueDate) {
+      this.#driverLicenceIssueDateTextbox.clearData();
+      this.#driverLicenceIssueDateTextbox.inputData(driverLicenceIssueDate);
+    }
+
     return this.#driverLicenceIssueDateTextbox.getElement();
   }
 }

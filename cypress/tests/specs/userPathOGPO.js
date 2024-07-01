@@ -70,7 +70,7 @@ exports.userPathOGPO = (holder, insured, car) => {
       .should('be.equal', insured.driver_certificate_type_id);
     OGPOStep2.getDriverLicenceNumberElement()
       .should('have.value', insured.driving_license);
-    OGPOStep2.getDriverLicenceIssueDateElement()
+    OGPOStep2.getOrSetDriverLicenceIssueDateElement(insured.date_issue_license.DMY)
       .should('have.value', insured.date_issue_license.DMY);
     OGPOStep2.experienceLessThan2YearsSwitchIsChecked().should('be.false');
     OGPOStep2.pensionerSwitchIsChecked().should('be.false');
