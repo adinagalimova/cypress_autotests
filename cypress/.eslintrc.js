@@ -7,6 +7,7 @@ module.exports = {
     browser: true,
     mocha: true,
   },
+  ignorePatterns: ['main/utils/data/JSONLoader.js'],
   extends: [
     'airbnb-base',
     'plugin:cypress/recommended',
