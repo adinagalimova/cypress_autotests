@@ -98,7 +98,7 @@ class DataUtils {
     resultCar.model.KASKO.get = tempCar.model;
     resultCar.model.KASKO.set = tempCar.id !== 1
       ? StrUtils.toTitleCase(tempCar.model)
-      : tempCar.model.slice(0, 3);
+      : '5 серия';
 
     resultCar.mark = {};
     resultCar.mark.OGPO = tempCar.mark;
