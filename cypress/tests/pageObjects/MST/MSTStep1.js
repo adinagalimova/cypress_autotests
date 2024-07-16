@@ -57,7 +57,7 @@ class MSTStep1 extends BaseForm {
 
   constructor() {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
-    this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-19 ant-form-item-control")]'), 'agent dropdown');
+    this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-18 ant-form-item-control")]'), 'agent dropdown');
     this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
     this.#policyDurationElements = new Textbox(new XPATH('//div[@id="form_item_range"]/descendant::label'), 'policy duration elements');
     this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper-checked")]'), 'policy duration chosen one');
@@ -67,7 +67,7 @@ class MSTStep1 extends BaseForm {
     this.#purposeDropdown = new Button(new XPATH('//span[text()="Выберите цель поездки"]/parent::div'), 'purpose dropdown');
     this.#purposeElements = new Textbox(new XPATH('//div[@id="form_item_purpose_id_list"]/following::div/descendant::div[@aria-selected="false"]'), 'purpose elements');
     this.#beginDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата начала"]'), 'begin date calendar button');
-    this.#calendarRightArrowButton = new Button(new XPATH('//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::button[contains(@class, "ant-picker-header-next-btn")]'), 'calendar right arrow button');
+    this.#calendarRightArrowButton = new Button(new XPATH('(//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::button[contains(@class, "ant-picker-header-next-btn")])[2]'), 'calendar right arrow button');
     this.#endDateCalendarButton = new Button(new XPATH('//input[@placeholder="Дата окончания"]'), 'end date calendar button');
     this.#purposeEducation = new Textbox(new XPATH('//div[text()="Обучение"]'), 'purpose education');
     this.#numberOfDaysElements = new Textbox(new XPATH('//div[@id="form_item_insured_days"]/descendant::label'), 'number of days elements');
@@ -125,7 +125,7 @@ class MSTStep1 extends BaseForm {
     const { startDate, startMonthDifference } = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
     const beginDateButton = new Button(new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`), 'begin date button');
-    this.#beginDateCalendarButton.openCalendarAndFlipMonths(
+    this.#beginDateCalendarButton.openCalendarAndFlipMonthsMST(
       this.#calendarRightArrowButton,
       startMonthDifference,
     );
@@ -138,7 +138,7 @@ class MSTStep1 extends BaseForm {
     } = Randomizer
       .getRandomDatesIntervalFromTomorrow(...JSONLoader.testData.timeIncrement);
     const beginDateButton = new Button(new XPATH(`//td[@title="${TimeUtils.reformatDateFromDMYToYMD(startDate)}"]`), 'begin date button');
-    this.#beginDateCalendarButton.openCalendarAndFlipMonths(
+    this.#beginDateCalendarButton.openCalendarAndFlipMonthsMST(
       this.#calendarRightArrowButton,
       startMonthDifference,
     );
@@ -148,7 +148,7 @@ class MSTStep1 extends BaseForm {
       new XPATH(`//div[contains(@class, "ant-picker-dropdown") and not(contains(@style, "none"))]/descendant::td[@title="${TimeUtils.reformatDateFromDMYToYMD(finishDate)}"]`),
       'end date button',
     );
-    this.#endDateCalendarButton.openCalendarAndFlipMonths(
+    this.#endDateCalendarButton.flipMonthsMST(
       this.#calendarRightArrowButton,
       finishMonthDifference,
     );
@@ -185,11 +185,11 @@ class MSTStep1 extends BaseForm {
   }
 
   getBeginDateTitle() {
-    return this.#beginDateCalendarButton.getAttributeValue({ attrName: 'title' });
+    return this.#beginDateCalendarButton.getValue();
   }
 
   getEndDateTitle() {
-    return this.#endDateCalendarButton.getAttributeValue({ attrName: 'title' });
+    return this.#endDateCalendarButton.getValue();
   }
 
   getChosenSum() {

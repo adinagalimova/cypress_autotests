@@ -4,6 +4,7 @@ const Label = require('../../../main/elements/baseElementChildren/label');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
+const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 
 class MSTStep3 extends BaseForm {
   #residencyCheckboxActive;
@@ -32,7 +33,7 @@ class MSTStep3 extends BaseForm {
 
   #documentIssuedBy;
 
-  #sexDropdownButton;
+  #sexRadioButton;
 
   #address;
 
@@ -71,7 +72,7 @@ class MSTStep3 extends BaseForm {
     this.#documentNumber = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number textbox');
     this.#documentIssuedDate = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document issued date textbox');
     this.#documentIssuedBy = new Textbox(new XPATH('//input[@id="form_item_document_gived_by"]'), 'document issued by textbox');
-    this.#sexDropdownButton = new Textbox(new XPATH('//label[@title="Пол"]/following::span[@class="ant-select-selection-item"]'), 'sex');
+    this.#sexRadioButton = new RadioButton(new XPATH('//label[@title="Пол"]/following::span[@class="ant-radio ant-radio-checked"]/following-sibling::span'), 'sex');
     this.#address = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
     this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox") and not(contains(@class, "ant-checkbox-checked"))]'), 'pdl checkbox not active');
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
@@ -149,7 +150,7 @@ class MSTStep3 extends BaseForm {
   }
 
   getSexText() {
-    return this.#sexDropdownButton.getText();
+    return this.#sexRadioButton.getText();
   }
 
   getOrSetAddressElement(address) {

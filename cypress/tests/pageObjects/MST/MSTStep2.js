@@ -3,6 +3,7 @@ const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Checkbox = require('../../../main/elements/baseElementChildren/checkbox');
+const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 
 class MSTStep2 extends BaseForm {
   #juridicalCheckboxNotActive;
@@ -41,7 +42,7 @@ class MSTStep2 extends BaseForm {
 
   #documentIssuedBy;
 
-  #sexDropdownButton;
+  #sexRadioButton;
 
   #address;
 
@@ -55,7 +56,7 @@ class MSTStep2 extends BaseForm {
 
   constructor() {
     super(new XPATH('//span[text()=" Страхователь является застрахованным "]'), 'MST page part two');
-    this.#juridicalCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Юр. лицо "]/preceding::span[contains(@class, "ant-checkbox ") and not(contains(@class, "ant-checkbox-checked"))]'), 'juridical checkbox not active');
+    this.#juridicalCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Юридическое лицо "]/preceding::span[contains(@class, "ant-checkbox ") and not(contains(@class, "ant-checkbox-checked"))]'), 'juridical checkbox not active');
     this.#residencyCheckboxActive = new Checkbox(new XPATH('//span[text()=" Резидент "]/preceding::span[contains(@class, "ant-checkbox-checked")]'), 'residency checkbox active');
     this.#insuredCheckboxActive = new Checkbox(new XPATH('//span[text()=" Страхователь является застрахованным "]/parent::label/child::span[contains(@class, "ant-checkbox-checked")]'), 'insured checkbox active');
     this.#insuredCheckboxNotActive = new Checkbox(new XPATH('//span[text()=" Страхователь является застрахованным "]/parent::label/child::span[contains(@class, "ant-checkbox") and not(contains(@class, "ant-checkbox-checked"))]'), 'insured checkbox not active');
@@ -73,7 +74,7 @@ class MSTStep2 extends BaseForm {
     this.#documentNumber = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number textbox');
     this.#documentIssuedDate = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document issued date textbox');
     this.#documentIssuedBy = new Textbox(new XPATH('//input[@id="form_item_document_gived_by"]'), 'document issued by textbox');
-    this.#sexDropdownButton = new Textbox(new XPATH('//label[@title="Пол"]/following::span[@class="ant-select-selection-item"]'), 'sex');
+    this.#sexRadioButton = new RadioButton(new XPATH('//label[@title="Пол"]/following::span[@class="ant-radio ant-radio-checked"]/following-sibling::span'), 'sex');
     this.#address = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
     this.#email = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
     this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="Введите номер телефона"]'), 'phone number textbox');
@@ -169,7 +170,7 @@ class MSTStep2 extends BaseForm {
   }
 
   getSexText() {
-    return this.#sexDropdownButton.getText();
+    return this.#sexRadioButton.getText();
   }
 
   getOrSetAddressElement(address) {

@@ -231,6 +231,26 @@ class BaseElement {
     }
   }
 
+  // lazy method for new calendar component
+  // which includes 2 months per page instead of 1 like others
+  openCalendarAndFlipMonthsMST(rightArrowElement, monthIncrement) {
+    const monthIncrementMST = monthIncrement - 1;
+    this.getElement().clicks(3);
+    for (let i = 0; i < monthIncrementMST; i += 1) {
+      cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
+      this.getElement(rightArrowElement.#elementLocator).click();
+    }
+  }
+
+  // lazy method for new calendar component that doesn't open calendar at the start
+  flipMonthsMST(rightArrowElement, monthIncrement) {
+    const monthIncrementMST = monthIncrement - 1;
+    for (let i = 0; i < monthIncrementMST; i += 1) {
+      cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
+      this.getElement(rightArrowElement.#elementLocator).click();
+    }
+  }
+
   clickArrowButtonRandomNumberOfTimes({ direction, numberOfElements }) {
     this.elementIsVisible();
     const directionLowerCase = direction.toLowerCase();
