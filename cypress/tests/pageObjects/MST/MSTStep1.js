@@ -74,7 +74,7 @@ class MSTStep1 extends BaseForm {
     this.#sumDropdown = new Button(new XPATH('//span[text()="Выберите страховую сумму"]/parent::div'), 'sum dropdown');
     this.#sumElements = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="false"]'), 'sum elements');
     this.#additionalCheckboxLabel = new Label(new XPATH('//label[contains(@class, "ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item")]/descendant::span[not(@*)]'), 'additional checkbox');
-    this.#clientDateOfBirth = new Button(new XPATH('//input[@placeholder="Дата рождения"]'), 'client date of birth');
+    this.#clientDateOfBirth = new Button(new XPATH('//id="form_item_clients_0_born"]'), 'client date of birth');
     this.#chosenSum = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="true"]'), 'chosen sum');
     this.#sumField = new Button(new XPATH('//label[@title="Страховая сумма"]/parent::div/following::span[@class="ant-select-selection-item"]'), 'sum field');
     this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
