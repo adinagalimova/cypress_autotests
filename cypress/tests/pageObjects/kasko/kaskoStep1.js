@@ -50,7 +50,7 @@ class KaskoStep1 extends BaseForm {
   chooseAgentManager() {
     this.#agentManagerDropdown.clickElement();
     this.#agentManagerDropdownElements.getElements().then((users) => {
-      const randomIndex = Randomizer.getRandomInteger(users.length + 1, 1);
+      const randomIndex = Randomizer.getRandomInteger(users.length, 1);
       const user = new Button(new XPATH(`(//div[@class='rc-virtual-list-holder-inner']/div)[${randomIndex}]`), 'random tariff button');
       user.elementIsVisible();
       user.scrollElementToView();
