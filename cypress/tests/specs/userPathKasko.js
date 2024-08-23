@@ -42,6 +42,8 @@ exports.userPathKasko = (holder, car) => {
       .should('have.value', holder.document_number);
     kaskoStep3.getDocumentIssueDateElement()
       .should('have.value', holder.document_gived_date.DMY);
+    kaskoStep3.getOrSetDocumentIssuedByElement(holder.document_gived_by)
+      .should('be.equal', holder.document_gived_by);
     kaskoStep3.inputAddress(holder.address);
     kaskoStep3.inputPhone(holder.phoneTrimmed);
     kaskoStep3.inputEmail(holder.email);

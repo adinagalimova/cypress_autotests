@@ -19,7 +19,7 @@ class KaskoStep3 extends BaseForm {
 
   #documentIssueDateTextbox;
 
-  #documentIssuedByTextbox;
+  #documentIssuedByDropdownButton;
 
   #addressTextbox;
 
@@ -39,7 +39,7 @@ class KaskoStep3 extends BaseForm {
     this.#documentTypeDropdownButton = new Button(new XPATH('//input[@id="form_item_document_type_id"]/following::span[@class="ant-select-selection-item"]'), 'document type dropdown button');
     this.#documentNumberTextbox = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number textbox');
     this.#documentIssueDateTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document issue date textbox');
-    this.#documentIssuedByTextbox = new Textbox(new XPATH('//input[@id="form_item_document_gived_by"]'), 'document issued by textbox');
+    this.#documentIssuedByDropdownButton = new Button(new XPATH('//input[@id="form_item_document_gived_by"]/parent::span/parent::div'), 'document issued by dropdown button');
     this.#addressTextbox = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
     this.#phoneTextbox = new Textbox(new XPATH('//input[@id="form_item_phone"]'), 'phone textbox');
     this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
@@ -74,6 +74,17 @@ class KaskoStep3 extends BaseForm {
 
   getDocumentIssueDateElement() {
     return this.#documentIssueDateTextbox.getElement();
+  }
+
+  getOrSetDocumentIssuedByElement(documentGivedBy) {
+    return this.#documentIssuedByDropdownButton.getText().then((value) => {
+      if (value === documentGivedBy) {
+        return cy.wrap(value);
+      }
+      this.#documentIssuedByDropdownButton.clickElement();
+      new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${documentGivedBy}']`), 'document issued by dropdown element').clickElement();
+      return this.getOrSetDocumentIssuedByElement(documentGivedBy);
+    });
   }
 
   inputAddress(address) {
