@@ -31,7 +31,7 @@ class MSTStep3 extends BaseForm {
 
   #documentIssuedDate;
 
-  #documentIssuedBy;
+  #documentIssuedByDropdownButton;
 
   #sexRadioButton;
 
@@ -71,7 +71,7 @@ class MSTStep3 extends BaseForm {
     this.#documentTypeDropdownButton = new Textbox(new XPATH('//input[@id="form_item_document_type_id"]/following::span[@class="ant-select-selection-item"]'), 'document type');
     this.#documentNumber = new Textbox(new XPATH('//input[@id="form_item_document_number"]'), 'document number textbox');
     this.#documentIssuedDate = new Textbox(new XPATH('//input[@id="form_item_document_gived_date"]'), 'document issued date textbox');
-    this.#documentIssuedBy = new Textbox(new XPATH('//input[@id="form_item_document_gived_by"]'), 'document issued by textbox');
+    this.#documentIssuedByDropdownButton = new Button(new XPATH('//input[@id="form_item_document_gived_by"]/parent::span/parent::div'), 'document issued by dropdown button');
     this.#sexRadioButton = new RadioButton(new XPATH('//label[@title="Пол"]/following::span[@class="ant-radio ant-radio-checked"]/following-sibling::span'), 'sex');
     this.#address = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
     this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox") and not(contains(@class, "ant-checkbox-checked"))]'), 'pdl checkbox not active');
@@ -140,13 +140,16 @@ class MSTStep3 extends BaseForm {
     return this.#documentIssuedDate.getElement();
   }
 
-  getOrSetDocumentIssuedByElement(documentIssuedBy) {
-    if (this.#documentIssuedBy.getText !== documentIssuedBy) {
-      this.#documentIssuedBy.clearData();
-      this.#documentIssuedBy.inputData(documentIssuedBy);
-    }
-
-    return this.#documentIssuedBy.getElement();
+  getOrSetDocumentIssuedByElement(documentGivedBy) {
+    return this.#documentIssuedByDropdownButton.getText().then((value) => {
+      cy.logger(`[DEBUG] documentGivedBy: ${documentGivedBy}, value: ${value}`);
+      if (value === documentGivedBy) {
+        return cy.wrap(value);
+      }
+      this.#documentIssuedByDropdownButton.clickElement();
+      new Button(new XPATH(`//div[@class='ant-select-item-option-content' and text()='${documentGivedBy}']`), 'document issued by dropdown element').clickElement();
+      return this.getOrSetDocumentIssuedByElement(documentGivedBy);
+    });
   }
 
   getSexText() {

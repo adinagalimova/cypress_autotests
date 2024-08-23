@@ -69,6 +69,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
       .then((chosenSum) => MSTStep1.getShownSum()
         .should('be.equal', chosenSum));
     MSTStep1.clickRandomAdditionalCheckboxes();
+    MSTStep1.clickFranchiseAlertIfExists();
     MSTStep1.inputDateOfBirth(insured.born.DMY);
     MSTStep1.clickCalculate();
     MSTStep1.totalSumIsVisible();
@@ -105,7 +106,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep2.getDocumentIssuedDateElement()
       .should('have.value', holder.document_gived_date.DMY);
     MSTStep2.getOrSetDocumentIssuedByElement(holder.document_gived_by)
-      .should('have.value', holder.document_gived_by);
+      .should('be.equal', holder.document_gived_by);
     MSTStep2.getSexText()
       .should('be.equal', holder.sex_id);
     MSTStep2.getOrSetAddressElement(holder.address)
@@ -139,7 +140,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep3.getDocumentIssuedDateElement()
       .should('have.value', insured.document_gived_date.DMY);
     MSTStep3.getOrSetDocumentIssuedByElement(insured.document_gived_by)
-      .should('have.value', insured.document_gived_by);
+      .should('be.equal', insured.document_gived_by);
     MSTStep3.getSexText()
       .should('be.equal', insured.sex_id);
     MSTStep3.getOrSetAddressElement(insured.address)
