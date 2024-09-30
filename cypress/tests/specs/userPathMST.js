@@ -113,7 +113,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
       .should('have.value', holder.address);
     MSTStep2.getOrSetEmailElement(holder.email)
       .should('have.value', holder.email);
-    MSTStep2.inputPhoneNumber(holder.phoneTrimmed);
+    MSTStep2.inputPhoneNumber(holder.phone);
     MSTStep2.PDLCheckboxOff().should('be.true');
     MSTStep2.clickSave();
 

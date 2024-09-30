@@ -45,7 +45,7 @@ exports.userPathKasko = (holder, car) => {
     kaskoStep3.getOrSetDocumentIssuedByElement(holder.document_gived_by)
       .should('be.equal', holder.document_gived_by);
     kaskoStep3.inputAddress(holder.address);
-    kaskoStep3.inputPhone(holder.phoneTrimmed);
+    kaskoStep3.inputPhone(holder.phone);
     kaskoStep3.inputEmail(holder.email);
     kaskoStep3.randomlyClickPDLCheckbox();
     kaskoStep3.clickSaveButton();

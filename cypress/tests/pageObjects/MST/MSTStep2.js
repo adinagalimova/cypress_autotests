@@ -77,7 +77,7 @@ class MSTStep2 extends BaseForm {
     this.#sexRadioButton = new RadioButton(new XPATH('//label[@title="Пол"]/following::span[@class="ant-radio ant-radio-checked"]/following-sibling::span'), 'sex');
     this.#address = new Textbox(new XPATH('//input[@id="form_item_address"]'), 'address textbox');
     this.#email = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
-    this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="Введите номер телефона"]'), 'phone number textbox');
+    this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="+7 ### ### ## ##"]'), 'phone number textbox');
     this.#pdlCheckboxNotActive = new Checkbox(new XPATH('//input[@id="form_item_pdl"]/parent::span[contains(@class, "ant-checkbox") and not(contains(@class, "ant-checkbox-checked"))]'), 'pdl checkbox not active');
     this.#saveButton = new Button(new XPATH('//span[text()="Сохранить"]'), 'save button');
   }
