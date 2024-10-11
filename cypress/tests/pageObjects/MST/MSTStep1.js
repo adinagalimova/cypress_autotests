@@ -9,9 +9,9 @@ const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 
 class MSTStep1 extends BaseForm {
-  #agentDropdown;
+  // #agentDropdown;
 
-  #agentDropdownElements;
+  // #agentDropdownElements;
 
   #policyDurationElements;
 
@@ -37,6 +37,8 @@ class MSTStep1 extends BaseForm {
 
   #numberOfDaysElements;
 
+  #franchiseAlertOKButton;
+
   #sumDropdown;
 
   #sumElements;
@@ -57,8 +59,8 @@ class MSTStep1 extends BaseForm {
 
   constructor() {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
-    this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-18 ant-form-item-control")]'), 'agent dropdown');
-    this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
+    // this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-18 ant-form-item-control")]'), 'agent dropdown');
+    // this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
     this.#policyDurationElements = new Textbox(new XPATH('//div[@id="form_item_range"]/descendant::label'), 'policy duration elements');
     this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper-checked")]'), 'policy duration chosen one');
     this.#countriesDropdownButton = new Button(new XPATH('//span[text()="Выберите страны"]/parent::div'), 'countries dropdown button');
@@ -74,7 +76,8 @@ class MSTStep1 extends BaseForm {
     this.#sumDropdown = new Button(new XPATH('//span[text()="Выберите страховую сумму"]/parent::div'), 'sum dropdown');
     this.#sumElements = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="false"]'), 'sum elements');
     this.#additionalCheckboxLabel = new Label(new XPATH('//label[contains(@class, "ant-checkbox-wrapper ant-checkbox-wrapper-in-form-item")]/descendant::span[not(@*)]'), 'additional checkbox');
-    this.#clientDateOfBirth = new Button(new XPATH('//id="form_item_clients_0_born"]'), 'client date of birth');
+    this.#franchiseAlertOKButton = new Button(new XPATH('//span[text()=\'Осторожно! Посольство может не принять полис с франшизой!\']/following::span[text()=\'OK\']'), 'franchise alert OK button');
+    this.#clientDateOfBirth = new Button(new XPATH('//input[@id="form_item_clients_0_born"]'), 'client date of birth');
     this.#chosenSum = new Textbox(new XPATH('//div[@id="form_item_amount_sum_list"]/following::div/descendant::div[@aria-selected="true"]'), 'chosen sum');
     this.#sumField = new Button(new XPATH('//label[@title="Страховая сумма"]/parent::div/following::span[@class="ant-select-selection-item"]'), 'sum field');
     this.#calculateButton = new Button(new XPATH('//span[text()="Рассчитать"]'), 'calculate button');
@@ -82,19 +85,25 @@ class MSTStep1 extends BaseForm {
     this.#totalSum = new Textbox(new XPATH('//h3[text()=" Итого: "]'), 'total sum');
   }
 
-  clickAgent() {
-    this.#agentDropdown.clickElement();
-  }
+  // clickAgent() {
+  //   this.#agentDropdown.clickElement();
+  // }
 
-  clickFirstAgent() {
-    this.#agentDropdownElements.clickElement();
-  }
+  // clickFirstAgent() {
+  //   this.#agentDropdownElements.clickElement();
+  // }
 
   clickRandomDuration() {
     this.#policyDurationElements.getElements().then((durationsElementsList) => {
       const randomIndex = Randomizer.getRandomInteger(durationsElementsList.length - 1);
       const randomDurationElement = new Button(new TAG(durationsElementsList[randomIndex]), 'random duration element');
       randomDurationElement.clickElement();
+    });
+  };
+
+  clickFranchiseAlertIfExists() {
+    this.#franchiseAlertOKButton.elementIsExisting().then((value) => {
+      if (value) this.#franchiseAlertOKButton.clickElement();
     });
   }
 

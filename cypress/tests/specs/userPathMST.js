@@ -16,8 +16,8 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     }
 
     MSTStep1.pageIsDisplayed().should('be.true');
-    MSTStep1.clickAgent();
-    MSTStep1.clickFirstAgent();
+    // MSTStep1.clickAgent();
+    // MSTStep1.clickFirstAgent();
     MSTStep1.clickRandomDuration();
     if (options.parseAllCountriesFromPage) {
       countries = MSTStep1.getAllCountries();
