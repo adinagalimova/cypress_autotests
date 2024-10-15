@@ -12,7 +12,7 @@ exports.userPathKasko = (holder, car) => {
     mainPage.clickKaskoButton();
 
     kaskoStep1.pageIsDisplayed();
-    kaskoStep1.chooseAgentManager();
+    kaskoStep1.chooseAgent();
     kaskoStep1.chooseCarMark(car.mark.KASKO.set);
     kaskoStep1.chooseCarModel(car.model.KASKO.set);
     kaskoStep1.inputCarManufacturedYear(car.year);

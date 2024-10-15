@@ -3,12 +3,12 @@ const XPATH = require('../../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Switch = require('../../../main/elements/baseElementChildren/switch');
-const Randomizer = require('../../../main/utils/random/randomizer');
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
 
 class KaskoStep1 extends BaseForm {
-  #agentManagerDropdown;
+  #agentDropdown;
 
-  #agentManagerDropdownElements;
+  #agentDropdownElements;
 
   #carMarkDropdown;
 
@@ -34,8 +34,8 @@ class KaskoStep1 extends BaseForm {
 
   constructor() {
     super(new XPATH('//a[@href="/kasko"]'), 'Kasko step 1 page');
-    this.#agentManagerDropdown = new Button(new XPATH('//input[@id=\'form_item_agent_id_1c\']/parent::span/parent::div'), 'agent manager dropdown');
-    this.#agentManagerDropdownElements = new Button(new XPATH('//div[@class=\'rc-virtual-list-holder-inner\']/div'), 'agent manager dropdown elements');
+    this.#agentDropdown = new Button(new XPATH('//input[@id=\'form_item_agent_id_1c\']/parent::span/parent::div'), 'agent dropdown');
+    this.#agentDropdownElements = new Button(new XPATH('//div[@class=\'rc-virtual-list-holder-inner\']/div'), 'agent dropdown elements');
     this.#carMarkDropdown = new Button(new XPATH('//input[@id=\'form_item_mark_id\']'), 'car mark dropdown');
     this.#carModelDropdown = new Button(new XPATH('//input[@id=\'form_item_model_id\']'), 'car model dropdown');
     this.#carManufacturedYearTextbox = new Textbox(new XPATH('//input[@id=\'form_item_born\']'), 'car manufactured date textbox');
@@ -47,15 +47,14 @@ class KaskoStep1 extends BaseForm {
     this.#saveButton = new Button(new XPATH('//span[text()=\'Сохранить\']/parent::button'), 'save button');
   }
 
-  chooseAgentManager() {
-    this.#agentManagerDropdown.clickElement();
-    this.#agentManagerDropdownElements.getElements().then((users) => {
-      const randomIndex = Randomizer.getRandomInteger(users.length, 1);
-      const user = new Button(new XPATH(`(//div[@class='rc-virtual-list-holder-inner']/div)[${randomIndex}]`), 'random tariff button');
-      user.elementIsVisible();
-      user.scrollElementToView();
-      user.elementIsDisplayed();
-      user.clickElement();
+  chooseAgent() {
+    this.#agentDropdown.clickElement();
+    this.#agentDropdownElements.getElements().then(() => {
+      const agentButton = new Button(new XPATH(`//div[@login = '${JSONLoader.testData.agentLoginKASKO}']`), 'ЦСУ agent button');
+      agentButton.elementIsVisible();
+      agentButton.scrollElementToView();
+      agentButton.elementIsDisplayed();
+      agentButton.clickElement();
     });
   }
 
