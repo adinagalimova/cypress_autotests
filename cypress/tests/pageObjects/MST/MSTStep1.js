@@ -9,7 +9,6 @@ const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 
 class MSTStep1 extends BaseForm {
-
   #policyDurationElements;
 
   #policyDurationChosen;

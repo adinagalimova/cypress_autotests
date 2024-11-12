@@ -11,9 +11,9 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 exports.userPathOGPO = (holder, insured, car) => {
   it('OGPO user path:', { scrollBehavior: false }, () => {
     NodeEvents.resetClient(holder)
-    .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
+      .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
     NodeEvents.resetClient(insured)
-    .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
+      .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
 
     mainPage.clickOGPOButton();
 
@@ -32,9 +32,9 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep1.getDateOfBirthElement()
       .should('have.value', holder.born.DMY);
     OGPOStep1.getSexText()
-      .should('be.equal', holder.sex_id);
+      .should('be.equal', holder.sex);
     OGPOStep1.getDocumentTypeText()
-      .should('be.equal', holder.document_type_id);
+      .should('be.equal', holder.document_type);
     OGPOStep1.getDocumentNumberElement()
       .should('have.value', holder.document_number);
     OGPOStep1.getDocumentIssueDateElement()
@@ -63,9 +63,9 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep2.getDateOfBirthElement()
       .should('have.value', insured.born.DMY);
     OGPOStep2.getSexText()
-      .should('be.equal', insured.sex_id);
+      .should('be.equal', insured.sex);
     OGPOStep2.getDocumentTypeText()
-      .should('be.equal', insured.document_type_id);
+      .should('be.equal', insured.document_type);
     OGPOStep2.getDocumentNumberElement()
       .should('have.value', insured.document_number);
     OGPOStep2.getDocumentIssueDateElement()

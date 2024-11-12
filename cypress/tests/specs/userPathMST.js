@@ -5,9 +5,15 @@ const MSTStep3 = require('../pageObjects/MST/MSTStep3');
 const DataUtils = require('../../main/utils/data/dataUtils');
 const TimeUtils = require('../../main/utils/time/timeUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
+const NodeEvents = require('../../support/nodeEvents');
 
 exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: false }) => {
   it('MST user path:', { scrollBehavior: false }, () => {
+    NodeEvents.resetClient(holder)
+      .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
+    NodeEvents.resetClient(insured)
+      .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
+
     mainPage.clickMSTButton();
 
     let countries;
@@ -98,7 +104,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep2.getRegionText()
       .should('be.equal', holder.region);
     MSTStep2.getDocumentTypeText()
-      .should('be.equal', holder.document_type_id);
+      .should('be.equal', holder.document_type);
     MSTStep2.getDocumentNumberElement()
       .should('have.value', holder.document_number);
     MSTStep2.getDocumentIssuedDateElement()
@@ -106,7 +112,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep2.getOrSetDocumentIssuedByElement(holder.document_gived_by)
       .should('be.equal', holder.document_gived_by);
     MSTStep2.getSexText()
-      .should('be.equal', holder.sex_id);
+      .should('be.equal', holder.sex);
     MSTStep2.getOrSetAddressElement(holder.address)
       .should('have.value', holder.address);
     MSTStep2.getOrSetEmailElement(holder.email)
@@ -132,7 +138,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep3.getDateOfBirthElement()
       .should('have.value', insured.born.DMY);
     MSTStep3.getDocumentTypeText()
-      .should('be.equal', insured.document_type_id);
+      .should('be.equal', insured.document_type);
     MSTStep3.getDocumentNumberElement()
       .should('have.value', insured.document_number);
     MSTStep3.getDocumentIssuedDateElement()
@@ -140,7 +146,7 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     MSTStep3.getOrSetDocumentIssuedByElement(insured.document_gived_by)
       .should('be.equal', insured.document_gived_by);
     MSTStep3.getSexText()
-      .should('be.equal', insured.sex_id);
+      .should('be.equal', insured.sex);
     MSTStep3.getOrSetAddressElement(insured.address)
       .should('have.value', insured.address);
     MSTStep3.PDLCheckboxOff().should('be.true');

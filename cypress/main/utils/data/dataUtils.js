@@ -136,10 +136,10 @@ class DataUtils {
       .reformatDateFromYMDToDMY(tempHolder.date_issue_license);
 
     resultHolder.iin = tempHolder.iin.toString();
-    resultHolder.document_type_id = JSONLoader
+    resultHolder.document_type = JSONLoader
       .dictDocumentType[tempHolder.document_type_id.toString()];
 
-    resultHolder.sex_id = JSONLoader.dictSexID[tempHolder.sex_id];
+    resultHolder.sex = JSONLoader.dictSexID[tempHolder.sex_id];
     resultHolder.address = JSONLoader.testData.holderAddress;
     resultHolder.email = JSONLoader.testData.holderEmail;
     resultHolder.document_gived_by = JSONLoader.testData.holderDocumentGivedBy;
@@ -166,10 +166,10 @@ class DataUtils {
       .reformatDateFromYMDToDMY(tempInsured.date_issue_license);
 
     resultInsured.iin = tempInsured.iin.toString();
-    resultInsured.document_type_id = JSONLoader
+    resultInsured.document_type = JSONLoader
       .dictDocumentType[tempInsured.document_type_id.toString()];
 
-    resultInsured.sex_id = JSONLoader.dictSexID[tempInsured.sex_id];
+    resultInsured.sex = JSONLoader.dictSexID[tempInsured.sex_id];
     resultInsured.address = JSONLoader.testData.insuredAddress;
     resultInsured.email = JSONLoader.testData.insuredEmail;
     resultInsured.document_gived_by = JSONLoader.testData.insuredDocumentGivedBy;
@@ -179,6 +179,26 @@ class DataUtils {
     resultInsured.pensioner_bool = JSONLoader.testData.insuredIsPensioner;
 
     return { holder: resultHolder, insured: resultInsured };
+  }
+
+  static prepareSetClientRequestBody(getClientResponse, client) {
+    const requestBody = { ...getClientResponse.data.data };
+    requestBody.first_name = client.first_name;
+    requestBody.middle_name = client.middle_name;
+    requestBody.last_name = client.last_name;
+    requestBody.first_name_eng = client.first_name_eng;
+    requestBody.last_name_eng = client.last_name_eng;
+    requestBody.natural_person_bool = client.natural_person_bool;
+    requestBody.sex_id = client.sex_id;
+    requestBody.born = client.born.DMY;
+    requestBody.resident_bool = client.resident_bool;
+    requestBody.document_number = client.document_number;
+    requestBody.document_gived_date = client.document_gived_date.DMY;
+    requestBody.document_type_id = client.document_type_id;
+    requestBody.verify_bool = Number(JSONLoader.configData.verification);
+    requestBody.verify_type_id = requestBody.verify_bool ? 1 : 3;
+
+    return requestBody;
   }
 }
 

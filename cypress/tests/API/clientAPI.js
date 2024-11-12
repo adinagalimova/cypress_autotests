@@ -1,5 +1,5 @@
 const path = require('path');
-const authAPI = require("./authAPI");
+const authAPI = require('./authAPI');
 const BaseAPI = require('../../main/utils/API/baseAPI');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 require('dotenv').config({ path: path.join(__dirname, '../../../', '.env.test'), override: true });
@@ -27,8 +27,8 @@ class ClientAPI extends BaseAPI {
     const params = {
       iin: client.iin,
       natural_person_bool: client.natural_person_bool,
-      resident_bool: client.resident_bool
-    }
+      resident_bool: client.resident_bool,
+    };
 
     return this.#API.get(JSONLoader.APIEndpoints.client.getClient, params);
   }
