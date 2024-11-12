@@ -145,6 +145,7 @@ class MSTStep1 extends BaseForm {
     );
     this.#endDateCalendarButton.flipMonthsMST(
       this.#calendarRightArrowButton,
+      startMonthDifference,
       finishMonthDifference,
     );
     endDateButton.clickElement();
