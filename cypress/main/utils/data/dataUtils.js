@@ -4,7 +4,6 @@ const JSONLoader = require('./JSONLoader');
 const StrUtils = require('../str/strUtils');
 const TimeUtils = require('../time/timeUtils');
 const Randomizer = require('../random/randomizer');
-const clientAPI = require('../../../tests/API/clientAPI');
 
 class DataUtils {
   static async XMLToJSON(xml) {
@@ -78,10 +77,6 @@ class DataUtils {
       return true;
     });
 
-    if (!JSONLoader.configData.verification) {
-      await this.setVerifyBoolFalseForClients((filteredClients));
-    }
-
     return filteredClients;
   }
 
@@ -118,6 +113,7 @@ class DataUtils {
   }
 
   static createRandomHolderAndInsuredStructures(clientsArr) {
+    console.log(clientsArr)
     const randomHolderIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
     let randomInsuredIndex;
     do {
@@ -184,13 +180,6 @@ class DataUtils {
     resultInsured.pensioner_bool = JSONLoader.testData.insuredIsPensioner;
 
     return { holder: resultHolder, insured: resultInsured };
-  }
-
-  static async setVerifyBoolFalseForClients(clients) {
-    for (const client of clients) {
-      let getClientResponse = await clientAPI.getClient(client);
-
-    }
   }
 }
 

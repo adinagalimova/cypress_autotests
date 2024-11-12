@@ -4,11 +4,15 @@ const OGPOStep2 = require('../pageObjects/OGPO/OGPOStep2');
 const OGPOStep3 = require('../pageObjects/OGPO/OGPOStep3');
 const OGPOStep4 = require('../pageObjects/OGPO/OGPOStep4');
 const OGPOStep5 = require('../pageObjects/OGPO/OGPOStep5');
+const NodeEvents = require('../../support/nodeEvents');
 const TimeUtils = require('../../main/utils/time/timeUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathOGPO = (holder, insured, car) => {
   it('OGPO user path:', { scrollBehavior: false }, () => {
+    NodeEvents.resetClient(holder);
+    NodeEvents.resetClient(insured);
+
     mainPage.clickOGPOButton();
 
     OGPOStep1.pageIsDisplayed();
