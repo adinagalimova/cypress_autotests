@@ -10,8 +10,10 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 exports.userPathOGPO = (holder, insured, car) => {
   it('OGPO user path:', { scrollBehavior: false }, () => {
-    NodeEvents.resetClient(holder);
-    NodeEvents.resetClient(insured);
+    NodeEvents.resetClient(holder)
+    .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
+    NodeEvents.resetClient(insured)
+    .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
 
     mainPage.clickOGPOButton();
 

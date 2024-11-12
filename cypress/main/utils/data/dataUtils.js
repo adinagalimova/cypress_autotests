@@ -36,7 +36,7 @@ class DataUtils {
    * @param {boolean} options.hasDriverLicence
    * @param {boolean} options.isUnderSixtyYearsOld
    */
-  static async filterClients(clients, options = {}) {
+  static filterClients(clients, options = {}) {
     const { isResident } = options;
     const { hasPassport } = options;
     const { hasDriverLicence } = options;
@@ -113,7 +113,6 @@ class DataUtils {
   }
 
   static createRandomHolderAndInsuredStructures(clientsArr) {
-    console.log(clientsArr)
     const randomHolderIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
     let randomInsuredIndex;
     do {

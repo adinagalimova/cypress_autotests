@@ -30,21 +30,11 @@ class ClientAPI extends BaseAPI {
       resident_bool: client.resident_bool
     }
 
-    const response = await this.#API.get(JSONLoader.APIEndpoints.client.getClient, params);
-    console.log(response);
-    return response;
+    return this.#API.get(JSONLoader.APIEndpoints.client.getClient, params);
   }
 
   async setClient(client) {
-    const params = {
-      iin: client.iin,
-      natural_person_bool: client.natural_person_bool,
-      resident_bool: client.resident_bool
-    }
-
-    const response = await this.#API.get(JSONLoader.APIEndpoints.client.getClient, params);
-    console.log(response);
-    return response;
+    return this.#API.post(JSONLoader.APIEndpoints.client.setClient, client);
   }
 }
 

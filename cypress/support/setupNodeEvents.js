@@ -24,9 +24,7 @@ exports.setupNodeEvents = {
       async resetClient(client) {
         await clientAPI.setToken();
         const response = await clientAPI.getClient(client);
-        return [
-          await clientAPI.setClient(response.data.data)
-        ];
+        return clientAPI.setClient(response.data.data);
       },
     });
 

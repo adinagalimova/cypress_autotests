@@ -7,9 +7,9 @@ class NodeEvents {
   }
 
   static resetClient(client) {
-    return cy.task('resetClient', client).then((responses) => {
-      responses.forEach((response) => response.logs.forEach((log) => cy.logger(log)));
-      return cy.wrap(responses);
+    return cy.task('resetClient', client).then((response) => {
+      response.logs.forEach((log) => cy.logger(log));
+      return cy.wrap(response);
     });
   }
 }
