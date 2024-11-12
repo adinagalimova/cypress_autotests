@@ -142,7 +142,6 @@ class MSTStep3 extends BaseForm {
 
   getOrSetDocumentIssuedByElement(documentGivedBy) {
     return this.#documentIssuedByDropdownButton.getText().then((value) => {
-      cy.logger(`[DEBUG] documentGivedBy: ${documentGivedBy}, value: ${value}`);
       if (value === documentGivedBy) {
         return cy.wrap(value);
       }
