@@ -4,6 +4,7 @@ const JSONLoader = require('./JSONLoader');
 const StrUtils = require('../str/strUtils');
 const TimeUtils = require('../time/timeUtils');
 const Randomizer = require('../random/randomizer');
+const clientAPI = require('../../../tests/API/clientAPI');
 
 class DataUtils {
   static async XMLToJSON(xml) {
@@ -36,7 +37,7 @@ class DataUtils {
    * @param {boolean} options.hasDriverLicence
    * @param {boolean} options.isUnderSixtyYearsOld
    */
-  static filterClients(clients, options = {}) {
+  static async filterClients(clients, options = {}) {
     const { isResident } = options;
     const { hasPassport } = options;
     const { hasDriverLicence } = options;
@@ -76,6 +77,10 @@ class DataUtils {
 
       return true;
     });
+
+    if (!JSONLoader.configData.verification) {
+      await this.setVerifyBoolFalseForClients((filteredClients));
+    }
 
     return filteredClients;
   }
@@ -179,6 +184,13 @@ class DataUtils {
     resultInsured.pensioner_bool = JSONLoader.testData.insuredIsPensioner;
 
     return { holder: resultHolder, insured: resultInsured };
+  }
+
+  static async setVerifyBoolFalseForClients(clients) {
+    for (const client of clients) {
+      let getClientResponse = await clientAPI.getClient(client);
+
+    }
   }
 }
 

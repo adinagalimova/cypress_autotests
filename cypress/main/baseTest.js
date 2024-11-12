@@ -5,6 +5,7 @@ const allureCommandline = require('allure-commandline');
 const Logger = require('./utils/log/logger');
 const JSONLoader = require('./utils/data/JSONLoader');
 const dictionaryAPI = require('../tests/API/dictionaryAPI');
+const clientAPI = require('../tests/API/clientAPI');
 
 const testCarsFileLocation = path.join(__dirname, '../resources/data/testCars.json');
 const testClientsFileLocation = path.join(__dirname, '../resources/data/testClients.json');
@@ -12,6 +13,7 @@ const testClientsFileLocation = path.join(__dirname, '../resources/data/testClie
 class BaseTest {
   static async beforeAll() {
     moment.tz.setDefault(JSONLoader.configData.timezone);
+    await clientAPI.setToken();
     await dictionaryAPI.setToken();
     await dictionaryAPI.toggleServer();
     await dictionaryAPI.toggleVerification();

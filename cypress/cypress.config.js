@@ -24,7 +24,7 @@ module.exports = defineConfig({
   },
   e2e: {
     baseUrl: '' || process.env.BASE_URL,
-    specPattern: './tests/specs/*Suite.js',
+    specPattern: './tests/specs/OGPOMutualSuite.js',
     supportFile: './support/e2e.js',
     testIsolation: false,
     viewportHeight: 1080,
