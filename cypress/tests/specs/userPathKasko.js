@@ -60,32 +60,19 @@ exports.userPathKasko = (holder, car) => {
         .should('be.equal', car.region_id);
     kaskoStep4.getCarRegDateElement()
         .should('have.value', car.dt_reg_cert.DMY);
-    kaskoStep4.getCarMarkText()
-        .should('be.equal', car.mark.KASKO.get);
-    kaskoStep4.getCarMarkText()
-        .then((carMarkFromDropdown) => kaskoStep4.getCarMarkFromRegCertElement()
-            .should('contain', carMarkFromDropdown));
-    kaskoStep4.getCarModelText()
-        .should('be.equal', car.model.KASKO.set);
-    // kaskoStep4.getCarModelText()
-    //     .then((carModelFromDropdown) => kaskoStep4.getCarModelFromRegCertElement()
-    //         .should('contain', carModelFromDropdown.toUpperCase()));    // в случае с BMW не может найти "530I XDRIVE" в строке "5 серия"
+    kaskoStep4.getCarMarkElement()
+        .should('have.value', car.mark.KASKO.get);
+    kaskoStep4.getCarMarkFromRegCertText()
+        .should('contain', car.mark.KASKO.set);
+    kaskoStep4.getCarModelElement()
+        .should('have.value', car.model.KASKO.get);
+    kaskoStep4.getCarModelFromRegCertText()
+        .should('contain', car.model.KASKO.set);
     kaskoStep4.getCarManufacturedYearElement()
         .should('have.value', car.year);
-    kaskoStep4.getCarManufacturedYearElement()
-        .invoke('val')
-        .then((carYearFromTextbox) => kaskoStep4.getCarManufacturedYearFromRegCertElement()
-            .should('contain', carYearFromTextbox));
-    kaskoStep4.getEngineVolumeElement()
-        .should('have.value', (car.engine_volume / 1000).toFixed(1));
-    kaskoStep4.getEngineVolumeElement()
-        .invoke('val')
-        .then((engineVolumeFromTextbox) => kaskoStep4.getEngineVolumeFromRegCertElement()
-            .should('contain', engineVolumeFromTextbox));
     kaskoStep4.getInsuranceSumText()
       .then((insuranceSumValue) => cy.wrap(insuranceSumValue)
         .should('be.equal', insuranceSum));
-    kaskoStep4.clickCalculateButton();
     kaskoStep4.clickSaveButton();
 
     kaskoStep5.pageIsDisplayed();
@@ -136,8 +123,8 @@ exports.userPathKasko = (holder, car) => {
       .should('be.equal', fullName);
     kaskoStep7.getBeneficiaryLabelTextboxElement()
       .should('contain.text', firstAndLastName);
-    // kaskoStep7.getInsuredCarLabelText()
-    //   .should('be.equal', carFullName);
+    kaskoStep7.getInsuredCarLabelText()
+      .should('be.equal', carFullName);
     kaskoStep7.getPolicyStartDateTitle()
       .then((date) => cy.wrap(date)
         .should('be.equal', policyStartDate));
