@@ -30,9 +30,9 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep1.getDateOfBirthText()
       .should('be.equal', holder.born.DMY);
     mutualStep1.getSexText()
-      .should('be.equal', holder.sex_id);
+      .should('be.equal', holder.sex);
     mutualStep1.getDocumentTypeText()
-      .should('be.equal', holder.document_type_id);
+      .should('be.equal', holder.document_type);
     mutualStep1.getDocumentNumberText()
       .should('be.equal', holder.document_number);
     mutualStep1.getDocumentIssueDateText()
@@ -62,9 +62,9 @@ exports.userPathMutual = (holder, insured, car) => {
     mutualStep2.getDateOfBirthText()
       .should('be.equal', insured.born.DMY);
     mutualStep2.getSexText()
-      .should('be.equal', insured.sex_id);
+      .should('be.equal', insured.sex);
     mutualStep2.getDocumentTypeText()
-      .should('be.equal', insured.document_type_id);
+      .should('be.equal', insured.document_type);
     mutualStep2.getDocumentNumberText()
       .should('be.equal', insured.document_number);
     mutualStep2.getDocumentIssueDateText()
