@@ -6,9 +6,13 @@ const kaskoStep4 = require('../pageObjects/kasko/kaskoStep4');
 const kaskoStep5 = require('../pageObjects/kasko/kaskoStep5');
 const kaskoStep6 = require('../pageObjects/kasko/kaskoStep6');
 const kaskoStep7 = require('../pageObjects/kasko/kaskoStep7');
+const NodeEvents = require('../../support/nodeEvents');
 
 exports.userPathKasko = (holder, car) => {
   it('Kasko user path:', { scrollBehavior: false }, () => {
+    NodeEvents.resetClient(holder)
+      .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
+
     mainPage.clickKaskoButton();
 
     kaskoStep1.pageIsDisplayed();
@@ -37,7 +41,7 @@ exports.userPathKasko = (holder, car) => {
     kaskoStep3.getOrSetFullNameElement(fullName)
       .should('have.value', fullName);
     kaskoStep3.getDocumentTypeText()
-      .should('be.equal', holder.document_type_id);
+      .should('be.equal', holder.document_type);
     kaskoStep3.getDocumentNumberElement()
       .should('have.value', holder.document_number);
     kaskoStep3.getDocumentIssueDateElement()

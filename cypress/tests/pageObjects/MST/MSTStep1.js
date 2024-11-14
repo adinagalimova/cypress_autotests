@@ -9,10 +9,6 @@ const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 
 class MSTStep1 extends BaseForm {
-  // #agentDropdown;
-
-  // #agentDropdownElements;
-
   #policyDurationElements;
 
   #policyDurationChosen;
@@ -37,13 +33,13 @@ class MSTStep1 extends BaseForm {
 
   #numberOfDaysElements;
 
-  #franchiseAlertOKButton;
-
   #sumDropdown;
 
   #sumElements;
 
   #additionalCheckboxLabel;
+
+  #franchiseAlertOKButton;
 
   #clientDateOfBirth;
 
@@ -59,8 +55,6 @@ class MSTStep1 extends BaseForm {
 
   constructor() {
     super(new XPATH('//span[text()="на год"]'), 'MST page part one');
-    // this.#agentDropdown = new Button(new XPATH('//div[contains(@class, "ant-col ant-col-18 ant-form-item-control")]'), 'agent dropdown');
-    // this.#agentDropdownElements = new Textbox(new XPATH('//div[@class="ant-select-item-option-content"]'), 'agent dropdown elements');
     this.#policyDurationElements = new Textbox(new XPATH('//div[@id="form_item_range"]/descendant::label'), 'policy duration elements');
     this.#policyDurationChosen = new Textbox(new XPATH('//label[contains(@class,"ant-radio-button-wrapper-checked")]'), 'policy duration chosen one');
     this.#countriesDropdownButton = new Button(new XPATH('//span[text()="Выберите страны"]/parent::div'), 'countries dropdown button');
@@ -85,25 +79,11 @@ class MSTStep1 extends BaseForm {
     this.#totalSum = new Textbox(new XPATH('//h3[text()=" Итого: "]'), 'total sum');
   }
 
-  // clickAgent() {
-  //   this.#agentDropdown.clickElement();
-  // }
-
-  // clickFirstAgent() {
-  //   this.#agentDropdownElements.clickElement();
-  // }
-
   clickRandomDuration() {
     this.#policyDurationElements.getElements().then((durationsElementsList) => {
       const randomIndex = Randomizer.getRandomInteger(durationsElementsList.length - 1);
       const randomDurationElement = new Button(new TAG(durationsElementsList[randomIndex]), 'random duration element');
       randomDurationElement.clickElement();
-    });
-  };
-
-  clickFranchiseAlertIfExists() {
-    this.#franchiseAlertOKButton.elementIsExisting().then((value) => {
-      if (value) this.#franchiseAlertOKButton.clickElement();
     });
   }
 
@@ -124,6 +104,12 @@ class MSTStep1 extends BaseForm {
         typeAndEnter: true,
       },
     );
+  }
+
+  clickFranchiseAlertIfExists() {
+    this.#franchiseAlertOKButton.elementIsExisting().then((value) => {
+      if (value) this.#franchiseAlertOKButton.clickElement();
+    });
   }
 
   clickRandomPurpose() {
@@ -159,6 +145,7 @@ class MSTStep1 extends BaseForm {
     );
     this.#endDateCalendarButton.flipMonthsMST(
       this.#calendarRightArrowButton,
+      startMonthDifference,
       finishMonthDifference,
     );
     endDateButton.clickElement();
