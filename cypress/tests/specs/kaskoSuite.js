@@ -5,7 +5,7 @@ const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients);
-const { holder } = DataUtils.createRandomHolderAndInsuredStructures(clients);
+const { holder } = DataUtils.createRandomClientsStructures(clients);
 const car = DataUtils.createRandomCarStructure(JSONLoader.testCars);
 
 describe('Kasko test suite', () => {

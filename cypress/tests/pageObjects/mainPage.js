@@ -11,12 +11,16 @@ class MainPage extends BaseForm {
 
   #MSTButton;
 
+  #estateButton;
+
   constructor() {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
     this.#OGPOButton = new Button(new XPATH('//a[@href="/ogpo/create"]'), 'OGPO button');
     this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'Mutual button');
     this.#MSTButton = new Button(new XPATH('//a[@href="/mst/create"]'), 'MST button');
     this.#kaskoButton = new Button(new XPATH('//a[@href="/kasko/create"]'), 'kasko button');
+    this.#estateButton = new Button(new XPATH('//a[@href="/estate/create"]'), 'estate button');
+    // this.#quoteButton = new Button(new XPATH('//a[@href="/quotes/create"]'), 'Quote button');
   }
 
   clickOGPOButton() {
@@ -33,6 +37,15 @@ class MainPage extends BaseForm {
 
   clickMSTButton() {
     this.#MSTButton.clickElement();
+  }
+
+  clickEstateButton() {
+    this.#estateButton.clickElement();
+  }
+
+  clickQuoteButton() {
+    // this.#quoteButton.clickElement();
+    cy.visit('http://localhost:3000/quotes')
   }
 }
 

@@ -3,6 +3,7 @@
   "timeIncrementOneYear": [1, "year"],
   "timeIncrement180Days": [180, "days"],
   "timeIncrementForKaskoInstallmentPaymentFirstDate": [1, "months"],
+  "timeIncrementForEstateInstallmentPaymentFirstDate": [1, "months"],
   "datesFormatYMD": "YYYY-MM-DD",
   "datesFormatDMY": "DD.MM.YYYY",
   "responsePaid": "оплачен",
@@ -17,6 +18,7 @@
   "MSTPolicyCodeNumber": "802-",
   "mutualPolicyCodeNumber": "219-",
   "agentLoginKASKO": "Samat.kussainov@csu.org.kz",
+  "agentLoginESTATE": "Samat.kussainov@csu.org.kz",
 
   "carRegion": "Алматы",
   "carType": "Легковые",
@@ -24,6 +26,7 @@
   "holderCountry": "Казахстан",
   "holderRegion": "Алматинская область",
   "holderDocumentGivedBy": "МЮ РК",
+  "holderDocumentGivedByQuote": " Министерство юстиции Республики Казахстан ",
   "holderAddress": "Ул. Есенина, д. 10, кв. 3 Толя тест",
   "holderEmail": "a.anisimov@a-i.kz",
   "holderPhone": "77066682051",
@@ -39,5 +42,10 @@
   "insuredDriverLicenceType": "Права РК",
   "insuredIsInvalid": "Нет",
   "insuredIsPensioner": "Нет",
-  "insuredIsPDL": "Нет"
+  "insuredIsPDL": "Нет",
+
+  "beneficiaryDocumentGivedBy": "МВД РК",
+  "beneficiaryAddress": "Ул. Достык 232, кв. 7",
+  "beneficiaryEmail": "a.galimova@a-i.kz",
+  "beneficiaryPhone": "77066682051"
 }

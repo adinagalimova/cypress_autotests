@@ -22,6 +22,20 @@ class DataUtils {
     return cy.wrap(countries);
   }
 
+  static getSalesChannelsFromRequest(excludedCountriesArr) {
+    const salesChannels = [];
+    cy.intercept(
+        'sales-channels*',
+        (request) => request.continue((response) => response.body.forEach((salesChannel) => {
+          if (!excludedCountriesArr.includes(salesChannel.name)) salesChannels.push(salesChannel.name);
+        })),
+    );
+
+    return cy.wrap(salesChannels);
+  }
+
+
+
   /**
    * requires one mandatory argument: clients.
    * options contain optional parameters:
@@ -112,16 +126,26 @@ class DataUtils {
     return resultCar;
   }
 
-  static createRandomHolderAndInsuredStructures(clientsArr) {
+  static createRandomClientsStructures(clientsArr) {
     const randomHolderIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
     let randomInsuredIndex;
+    let randomBeneficiaryIndex;
+
     do {
       randomInsuredIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
     } while (randomInsuredIndex === randomHolderIndex);
+
+    do {
+      randomBeneficiaryIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
+    } while (randomBeneficiaryIndex === randomHolderIndex || randomBeneficiaryIndex === randomInsuredIndex);
+
     const tempHolder = clientsArr[randomHolderIndex];
     const tempInsured = clientsArr[randomInsuredIndex];
+    const tempBeneficiary = clientsArr[randomBeneficiaryIndex];
+
     const resultHolder = { ...tempHolder };
     const resultInsured = { ...tempInsured };
+    const resultBeneficiary = { ...tempBeneficiary };
 
     resultHolder.document_gived_date = {};
     resultHolder.document_gived_date.YMD = tempHolder.document_gived_date;
@@ -143,6 +167,7 @@ class DataUtils {
     resultHolder.address = JSONLoader.testData.holderAddress;
     resultHolder.email = JSONLoader.testData.holderEmail;
     resultHolder.document_gived_by = JSONLoader.testData.holderDocumentGivedBy;
+    resultHolder.document_gived_by_quote = JSONLoader.testData.holderDocumentGivedByQuote;
     resultHolder.pdl = JSONLoader.testData.holderIsPDL;
     resultHolder.driver_certificate_type_id = JSONLoader.testData.holderDriverLicenceType;
     resultHolder.invalid_bool = JSONLoader.testData.holderIsInvalid;
@@ -178,7 +203,31 @@ class DataUtils {
     resultInsured.invalid_bool = JSONLoader.testData.insuredIsInvalid;
     resultInsured.pensioner_bool = JSONLoader.testData.insuredIsPensioner;
 
-    return { holder: resultHolder, insured: resultInsured };
+    resultBeneficiary.document_gived_date = {};
+    resultBeneficiary.document_gived_date.YMD = tempBeneficiary.document_gived_date;
+    resultBeneficiary.document_gived_date.DMY = TimeUtils
+        .reformatDateFromYMDToDMY(tempBeneficiary.document_gived_date);
+    resultBeneficiary.born = {};
+    resultBeneficiary.born.YMD = tempBeneficiary.born;
+    resultBeneficiary.born.DMY = TimeUtils.reformatDateFromYMDToDMY(tempBeneficiary.born);
+    resultBeneficiary.date_issue_license = {};
+    resultBeneficiary.date_issue_license.YMD = tempBeneficiary.date_issue_license;
+    resultBeneficiary.date_issue_license.DMY = TimeUtils
+        .reformatDateFromYMDToDMY(tempBeneficiary.date_issue_license);
+
+    resultBeneficiary.iin = tempBeneficiary.iin.toString();
+    resultBeneficiary.document_type = JSONLoader
+        .dictDocumentType[tempBeneficiary.document_type_id.toString()];
+    resultBeneficiary.sex = JSONLoader.dictSexID[tempBeneficiary.sex_id];
+    resultBeneficiary.address = JSONLoader.testData.beneficiaryAddress;
+    resultBeneficiary.email = JSONLoader.testData.beneficiaryEmail;
+    resultBeneficiary.document_gived_by = JSONLoader.testData.beneficiaryDocumentGivedBy;
+    resultBeneficiary.pdl = JSONLoader.testData.beneficiaryIsPDL;
+    resultBeneficiary.driver_certificate_type_id = JSONLoader.testData.beneficiaryDriverLicenceType;
+    resultBeneficiary.invalid_bool = JSONLoader.testData.beneficiaryIsInvalid;
+    resultBeneficiary.pensioner_bool = JSONLoader.testData.beneficiaryIsPensioner;
+
+    return { holder: resultHolder, insured: resultInsured,  beneficiary: resultBeneficiary };
   }
 
   static prepareSetClientRequestBody(getClientResponse, client) {

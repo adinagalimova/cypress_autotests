@@ -192,6 +192,7 @@ class BaseElement {
           exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
+
         dropdownElement.chooseElementFromDropdown(randomElementText, typeAndEnter);
       }
     });
@@ -301,7 +302,9 @@ class BaseElement {
       cy.realPress('{esc}');
     } else {
       cy.logger(`[inf] ▶ click ${text}`);
-      this.getElements().contains(new RegExp(`${text}`, 'g')).click({ force: true });
+      this.getElements().as('elements');
+      this.getElements().contains(new RegExp(`${text}`, 'g')).should('exist');
+      cy.get('@elements').contains(new RegExp(`${text}`, 'g')).click({ force: true });
     }
   }
 }
