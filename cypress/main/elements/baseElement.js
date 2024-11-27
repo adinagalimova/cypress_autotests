@@ -16,14 +16,14 @@ class BaseElement {
     let elementLocator = locator;
     if (!elementLocator) elementLocator = this.#elementLocator;
     return elementLocator instanceof XPATH
-      ? cy.xpath(elementLocator.value).first()
-      : cy.get(elementLocator.value).first();
+        ? cy.xpath(elementLocator.value).first()
+        : cy.get(elementLocator.value).first();
   }
 
   getElements() {
     return this.#elementLocator instanceof XPATH
-      ? cy.xpath(this.#elementLocator.value)
-      : cy.get(this.#elementLocator.value);
+        ? cy.xpath(this.#elementLocator.value)
+        : cy.get(this.#elementLocator.value);
   }
 
   clickElement() {
@@ -143,9 +143,9 @@ class BaseElement {
     cy.logger(`[inf] ▶ check ${this.#elementName} is enabled:`);
     return this.getElement().isEnabled().then((isEnabled) => {
       cy.logger(
-        isEnabled
-          ? `[inf]   ${this.#elementName} is enabled`
-          : `[inf]   ${this.#elementName} is not enabled`,
+          isEnabled
+              ? `[inf]   ${this.#elementName} is enabled`
+              : `[inf]   ${this.#elementName} is not enabled`,
       );
       return cy.wrap(isEnabled);
     });
@@ -166,7 +166,7 @@ class BaseElement {
    * @param {BaseElement[]} options.exceptionElementsList
    */
   chooseRandomElementsFromDropdownByText(dropdownElement, options = {}) {
-    let valuesListPromise = options.valuesListPromise ?? null;
+    let valuesList = options.valuesList ?? null;
     const count = options.count ?? 1;
     const typeAndEnter = options.typeAndEnter ?? false;
     const exceptionElementsList = options.exceptionElementsList ?? [];
@@ -174,28 +174,37 @@ class BaseElement {
     this.getElement(this.#elementLocator).click();
 
     const exceptionsTextList = [];
+    const selectedElements = [];
+
     if (exceptionElementsList.length !== 0) {
       exceptionElementsList.forEach((element) => this.getElement(element.#elementLocator)
-        .then(($el) => exceptionsTextList.push($el.text())));
+          .then(($el) => exceptionsTextList.push($el.text())));
     }
 
-    if (!valuesListPromise) {
-      valuesListPromise = dropdownElement.getElementsListText({ propertyName: 'innerText' });
+    if (!valuesList) {
+      valuesList = dropdownElement.getElementsListText({ propertyName: 'innerText' }).then((elements) => {
+        valuesList = elements;
+        processValuesList(valuesList);
+      });
+    } else {
+      processValuesList(valuesList);
     }
 
-    valuesListPromise.then((elementsTextList) => {
+    function processValuesList(valuesList) {
       for (let counter = 0; counter < count; counter += 1) {
-        cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
-        cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
+        cy.logger(`[inf] ▶ click ${valuesList}`);
+        cy.logger(`[inf] ▶ get random element from ${valuesList}`);
         const randomElementText = Randomizer.getRandomElementByText(
-          elementsTextList,
-          exceptionsTextList,
+            valuesList,
+            exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
-
+        selectedElements.push(randomElementText);
         dropdownElement.chooseElementFromDropdown(randomElementText, typeAndEnter);
       }
-    });
+    }
+
+    return cy.wrap(selectedElements);
   }
 
   // requires one mandatory argument:
@@ -207,14 +216,14 @@ class BaseElement {
       const exceptionsTextList = [];
       if (exceptionsElements.length !== 0) {
         exceptionsElements.forEach((element) => this.getElement(element.#elementLocator)
-          .then(($el) => exceptionsTextList.push($el.text())));
+            .then(($el) => exceptionsTextList.push($el.text())));
       }
 
       for (let counter = 0; counter < count; counter += 1) {
         cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
         const randomElementText = Randomizer.getRandomElementByText(
-          elementsTextList,
-          exceptionsTextList,
+            elementsTextList,
+            exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
         cy.logger(`[inf] ▶ click ${randomElementText}`);
@@ -298,13 +307,13 @@ class BaseElement {
   chooseElementFromDropdown(text, typeAndEnter) {
     if (typeAndEnter) {
       cy.logger(`[inf] ▶ type and enter ${text}`);
-      this.enterData(text);
+      // return this.enterData(text);
       cy.realPress('{esc}');
+
+      return this.enterData(text);
     } else {
       cy.logger(`[inf] ▶ click ${text}`);
-      this.getElements().as('elements');
-      this.getElements().contains(new RegExp(`${text}`, 'g')).should('exist');
-      cy.get('@elements').contains(new RegExp(`${text}`, 'g')).click({ force: true });
+      this.getElements().contains(new RegExp(`${text}`, 'g')).click({ force: true });
     }
   }
 }

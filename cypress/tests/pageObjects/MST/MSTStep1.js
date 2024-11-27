@@ -80,7 +80,7 @@ class MSTStep1 extends BaseForm {
   }
 
   clickRandomDuration() {
-    this.#policyDurationElements.getElements().then((durationsElementsList) => {
+    return this.#policyDurationElements.getElements().then((durationsElementsList) => {
       const randomIndex = Randomizer.getRandomInteger(durationsElementsList.length - 1);
       const randomDurationElement = new Button(new TAG(durationsElementsList[randomIndex]), 'random duration element');
       randomDurationElement.clickElement();
@@ -91,15 +91,15 @@ class MSTStep1 extends BaseForm {
     return this.#policyDurationChosen.getText();
   }
 
-  getAllCountries() {
-    return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
-  }
+  // getAllCountries() {
+  //   return this.#countriesDropdownHighlighted.createListOfElements(this.#countriesDropdown);
+  // }
 
   clickNRandomCountries(countries, count) {
     this.#countriesDropdownButton.chooseRandomElementsFromDropdownByText(
       this.#countriesDropdown,
       {
-        valuesListPromise: countries,
+        valuesList: countries,
         count,
         typeAndEnter: true,
       },

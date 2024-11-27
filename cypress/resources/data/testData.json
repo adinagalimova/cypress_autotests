@@ -14,6 +14,7 @@
   "mutualPremium": "14999",
   "MSTExcludedCountries": ["Казахстан"],
   "MSTCountriesCount": 3,
+  "QuoteRisksCount": 3,
   "OGPOPolicyCodeNumber": "901-",
   "MSTPolicyCodeNumber": "802-",
   "mutualPolicyCodeNumber": "219-",

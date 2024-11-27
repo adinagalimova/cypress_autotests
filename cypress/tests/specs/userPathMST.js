@@ -7,7 +7,7 @@ const TimeUtils = require('../../main/utils/time/timeUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 const NodeEvents = require('../../support/nodeEvents');
 
-exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: false }) => {
+exports.userPathMST = (holder, insured = { parseAllCountriesFromPage: false }) => {
   it('MST user path:', { scrollBehavior: false }, () => {
     NodeEvents.resetClient(holder)
       .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
@@ -17,19 +17,20 @@ exports.userPathMST = (holder, insured, options = { parseAllCountriesFromPage: f
     mainPage.clickMSTButton();
 
     let countries;
-    if (!options.parseAllCountriesFromPage) {
-      countries = DataUtils.getCountriesFromRequest(JSONLoader.testData.MSTExcludedCountries);
-    }
+
+    DataUtils.getFromRequest('countries*', 'countries').then((responseBody) => {
+      const excludedCountriesArr = JSONLoader.testData.MSTExcludedCountries;
+      countries = responseBody
+          .filter(country => !excludedCountriesArr.includes(country.title))
+          .map(country => country.title);
+    });
 
     MSTStep1.pageIsDisplayed().should('be.true');
     // MSTStep1.clickAgent();
     // MSTStep1.clickFirstAgent();
-    MSTStep1.clickRandomDuration();
-    if (options.parseAllCountriesFromPage) {
-      countries = MSTStep1.getAllCountries();
-    }
 
-    MSTStep1.clickNRandomCountries(countries, JSONLoader.testData.MSTCountriesCount);
+    MSTStep1.clickRandomDuration().then(() => MSTStep1.clickNRandomCountries(countries, JSONLoader.testData.MSTCountriesCount));
+
     MSTStep1.getChosenDuration().then((duration) => {
       switch (duration) {
         case 'Одноразовая': {

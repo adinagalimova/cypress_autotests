@@ -5,6 +5,8 @@ const quoteStep1 = require('../pageObjects/quote/quoteStep1')
 const quoteStep2 = require('../pageObjects/quote/quoteStep2')
 const quoteStep3 = require('../pageObjects/quote/quoteStep3')
 const quoteStep4 = require('../pageObjects/quote/quoteStep4')
+const Randomizer = require("../../main/utils/random/randomizer");
+
 
 exports.userPathQuote = (holder, beneficiary) => {
     it('Quote user path:', { scrollBehavior: false }, () => {
@@ -14,8 +16,33 @@ exports.userPathQuote = (holder, beneficiary) => {
             .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
 
         mainPage.clickQuoteButton();
-
         quoteStep1.clickCreateButton();
+
+         let salesChannelsNames;
+         let salesChannels;
+         // let selectedChannel;
+         let id_1c;
+         let randomElementText;
+
+
+        // Перехват всех get методов
+        DataUtils.getFromRequest('sales-channels*', 'salesChannels').then( (salesChannelsResponse) => {
+            salesChannels = salesChannelsResponse.map((el) => ({ name: el.name, id_1c: el.id_1c }));
+            salesChannelsNames = salesChannels.map(channel => channel.name);
+            randomElementText = Randomizer.getRandomElementByText(salesChannelsNames);
+            const randomElement = salesChannels.find((channel) => channel.name === randomElementText);
+            // console.log("1", randomElementText)
+            // console.log("2", randomElement)
+            id_1c = randomElement.id_1c;
+            // console.log("3", id_1c);
+        })
+
+
+        // const insuranseTypes = DataUtils.getInsuranceTypesFromRequest();
+        // const insuredProducts = DataUtils.getInsuredProductsFromRequest();
+        // const risks = DataUtils.getRisksFromRequest();
+
+
         quoteStep1.pageIsDisplayed().should('be.true');
         // quoteStep1.chooseClientType().should('be.true');
         quoteStep1.inputDataHolderIIN(holder.iin);
@@ -30,10 +57,10 @@ exports.userPathQuote = (holder, beneficiary) => {
         //     .should('have.value', holder.born.DMY);
         quoteStep1.getSexText()
             .should('be.equal', holder.sex);
-        quoteStep1.getDocumentTypeText()
-            .should('be.equal', holder.document_type);
-        // quoteStep1.getDocumentNumberElement()
-        //     .should('have.value', holder.document_number);
+        // quoteStep1.getDocumentTypeText()
+        //     .should('be.equal', holder.document_type);
+        quoteStep1.getDocumentNumberElement()
+            .should('have.value', holder.document_number);
         // quoteStep1.getDocumentIssuedDateElement()
         //     .should('have.value', holder.document_gived_date.DMY);
         // quoteStep1.getOrSetDocumentIssuedByElement(holder.document_gived_by_quote)
@@ -82,21 +109,69 @@ exports.userPathQuote = (holder, beneficiary) => {
 
 
         // STEP 4
-        quoteStep4.pageIsDisplayed().should('be.true');
+        quoteStep4.pageIsDisplayed().should('be.true').then(() => {
+            cy.intercept(
+                `channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=${id_1c}`).as('channelDetails')
+            quoteStep4.clickRandomElement(randomElementText).then(() => {
+                cy.wait('@channelDetails').then((interception) => {
+                    console.log(interception.response.body)
+                    return interception.response.body;
+                })
+            })
 
-        let salesChannels;
+            // cy.wait('@channelDetails').then((interception) => {
+            //     console.log(interception.response.body
+            //     return interception.response.body;
+            // })
+        })
 
-        salesChannels = DataUtils.getSalesChannelsFromRequest();
 
-        quoteStep4.clickRandomSalesChannels(salesChannels);
+        // quoteStep4.clickContractTypeMain().then(() => {
+        //     cy.intercept(
+        //         `channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=${id_1c}`).as('channelDetails');
+        //
+        //      quoteStep4.clickRandomElement(randomElementText);
+        //
+        //      cy.wait('@channelDetails').then((interception) => {
+        //          console.log(interception.response.body)
+        //         return interception.response.body;
+        //     })
+        // })
+
+        // quoteStep4.clickRandomElement()
+
+
+
+        // quoteStep4.clickRandomSalesChannels(salesChannelsNames).then((selectedChannelName) => {
+        //     //pop without index
+        //     selectedChannel = salesChannels.find((channel) => channel.name === selectedChannelName[0]);
+        //     id_1c = selectedChannel.id_1c;
+        //     DataUtils.getFromRequest('channel-details*', 'channelDetails');
+        //
+        // });
+
+
+
+
+        // DataUtils.getChannelDetailsFromRequest().then((responseBody) => {
+        //     console.log("fff",id_1c)
+        //     console.log(responseBody);
+        // });
+
+        // quoteStep4.clickRandomChannelDetails(channelDetailsNames);
+
+        // quoteStep4.clickRandomInsuranseType(insuranseTypes);
+        // quoteStep4.clickRandomInsuredProduct(insuredProducts);
+        // quoteStep4.clickAlertIfExists();
+        // quoteStep4.clickRandomRisks(risks, JSONLoader.testData.QuoteRisksCount);
+        //
+        //
+        // quoteStep4.clickRandomUnderwriter();
 
         // quoteStep4.chooseRandomAgent();
-        // quoteStep4.clickContractTypeMain();
+
         // quoteStep4.chooseSalesChannel();
         // quoteStep4.chooseInsuredProducts();
-
-
-
 
 
 

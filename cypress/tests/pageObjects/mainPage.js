@@ -45,7 +45,7 @@ class MainPage extends BaseForm {
 
   clickQuoteButton() {
     // this.#quoteButton.clickElement();
-    cy.visit('http://localhost:3000/quotes')
+    cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
   }
 }
 

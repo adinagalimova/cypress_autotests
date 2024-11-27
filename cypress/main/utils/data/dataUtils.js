@@ -10,29 +10,74 @@ class DataUtils {
     return (await parseStringPromise(xml)).response;
   }
 
-  static getCountriesFromRequest(excludedCountriesArr) {
-    const countries = [];
-    cy.intercept(
-      'countries*',
-      (request) => request.continue((response) => response.body.forEach((country) => {
-        if (!excludedCountriesArr.includes(country.title)) countries.push(country.title);
-      })),
-    );
-
-    return cy.wrap(countries);
+  static getFromRequest(url, alias) {
+    cy.intercept(url).as(alias);
+    return cy.wait(`@${alias}`).then((interception) => {
+      return interception.response.body;
+    })
   }
 
-  static getSalesChannelsFromRequest(excludedCountriesArr) {
-    const salesChannels = [];
-    cy.intercept(
-        'sales-channels*',
-        (request) => request.continue((response) => response.body.forEach((salesChannel) => {
-          if (!excludedCountriesArr.includes(salesChannel.name)) salesChannels.push(salesChannel.name);
-        })),
-    );
+  // static getChannelDetailsFromRequest() {
+  //   const details = [];
+  //   cy.intercept(
+  //       'channel-details*',
+  //       (request) => request.continue((response) => response.body.forEach((detail) => {
+  //         details.push(detail.title);
+  //   })),
+  // ).as('channel');
+  //   return cy.wait('@channel')
+  //   // return cy.wrap(details);
+  // }
 
-    return cy.wrap(salesChannels);
+  static getChannelDetailsFromRequest() {
+    cy.intercept({
+      url: '`http://localhost:8000/api/dictionary/channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=1',
+      // query: {
+      //   'where[sales_channel_id_1c][value]': '1',
+      // },
+    }).as('channelDetails');
+
+    return cy.wait(`@channelDetails`).then((interception) => {
+      return interception.response.body;
+    })
   }
+
+  // static getInsuranceTypesFromRequest() {
+  //   const insuranseTypes = [];
+  //   cy.intercept(
+  //       'insurance-types*',
+  //       (request) => request.continue((response) => response.body.forEach((insuranseType) => {
+  //         insuranseTypes.push(insuranseType.title);
+  //       })),
+  //   );
+  //
+  //   return cy.wrap(insuranseTypes);
+  // }
+
+  // static getInsuredProductsFromRequest() {
+  //   const insuredProducts = [];
+  //   cy.intercept(
+  //       'products*',
+  //       (request) => request.continue((response) => response.body.forEach((insuredProduct) => {
+  //         insuredProducts.push(insuredProduct.title);
+  //       })),
+  //   );
+  //
+  //   return cy.wrap(insuredProducts);
+  // }
+
+  // static getRisksFromRequest() {
+  //   const risks = [];
+  //   cy.intercept(
+  //       'insurance-risks*',
+  //       (request) => request.continue((response) => response.body.forEach((risk) => {
+  //         risks.push(risk.title);
+  //       })),
+  //   );
+  //
+  //   return cy.wrap(risks);
+  // }
+
 
 
 
