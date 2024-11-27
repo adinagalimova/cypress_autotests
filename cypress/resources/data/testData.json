@@ -48,5 +48,6 @@
   "beneficiaryDocumentGivedBy": "МВД РК",
   "beneficiaryAddress": "Ул. Достык 232, кв. 7",
   "beneficiaryEmail": "a.galimova@a-i.kz",
-  "beneficiaryPhone": "77066682051"
+  "beneficiaryPhone": "77066682051",
+  "pathToTestPicture": "./resources/testPicture.jpg"
 }

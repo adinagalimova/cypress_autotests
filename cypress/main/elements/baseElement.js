@@ -316,6 +316,12 @@ class BaseElement {
       this.getElements().contains(new RegExp(`${text}`, 'g')).click({ force: true });
     }
   }
+
+  uploadFile(path) {
+    cy.logger(`[inf] ▶️ upload file with ${this.#elementName}`);
+    this.getElement().selectFile(path, { force: true });
+  }
+
 }
 
 module.exports = BaseElement;
