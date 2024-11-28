@@ -63,9 +63,11 @@ class QuoteStep4 extends BaseForm {
 //
 //         return result;
 // }
-    clickRandomSalesChannel(randomElementText) {
+    clickRandomElement(randomElementText) {
         this.#salesChannelsDropdown.clickElement();
-        this.#salesChannelsElements.chooseElementFromDropdown(randomElementText, { typeAndEnter: true });
+        return this.#salesChannelsElements.chooseElementFromDropdown(randomElementText,{
+            typeAndEnter: true,
+        });
     }
     // getRandomElement() {
     //     const result = this.#salesChannelsDropdown.chooseRandomElementsFromDropdownByText(this.#salesChannelsElements);
@@ -88,9 +90,17 @@ class QuoteStep4 extends BaseForm {
 
     // }
 
-    clickRandomChannelDetail(randomElementText) {
-        this.#channelDetailsDropdown.clickElement();
-        this.#channelDetailsElements.chooseElementFromDropdown(randomElementText, { typeAndEnter: true });
+
+
+    clickRandomChannelDetails(channelDetails, count) {
+        this.#channelDetailsDropdown.chooseRandomElementsFromDropdownByText(
+            this.#channelDetailsElements,
+            {
+                valuesList:channelDetails,
+                count,
+                typeAndEnter: true,
+            }
+        )
     }
 
     clickRandomInsuranseType(insuranseTypes, count) {
