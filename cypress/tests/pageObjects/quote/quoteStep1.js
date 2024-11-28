@@ -4,8 +4,11 @@ const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 
+
 class QuoteStep1 extends BaseForm {
     #quoteCreateButton
+    // #clientTypeCheckbox
+    // #choosenClientType
     #iinTextbox
     #searchClientButton
     #lastNameTextbox
@@ -25,7 +28,8 @@ class QuoteStep1 extends BaseForm {
     constructor() {
         super(new XPATH('//a[@href="/quotes"]'), 'Quote Page Step 1');
         this.#quoteCreateButton = new Button(new XPATH('//button[contains(@class, "ant-btn-primary")]'), 'quote create button');
-        // this.#clientTypeCheckbox = new Button(new XPATH('//div[@id="form_item_typeId"]/descendant::span[contains(@class,"checked")]'), 'client type checkbox');
+        // this.#clientTypeCheckbox = new Button(new XPATH('//div[@id="form_item_typeId"]/descendant::div'), 'client type checkbox');
+        // this.#choosenClientType = new Button(new XPATH('//div[@id="form_item_typeId"]/descendant::span[contains(@class,"ant-radio-checked")]'), 'choosen client type');
         this.#iinTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
         this.#searchClientButton = new Button(new XPATH('//button[contains(@class,"ant-input-search-button")]'), 'search client button');
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_lastName"]'), 'last name textbox');
@@ -46,7 +50,15 @@ class QuoteStep1 extends BaseForm {
         this.#quoteCreateButton.clickElement();
     }
     // chooseClientType() {
-    //     this.#clientTypeCheckbox.elementIsVisible();
+    //     return this.#clientTypeCheckbox.getElements().then((clientType) => {
+    //         const randomIndex = Randomizer.getRandomInteger(clientType.length - 1);
+    //         const randomElement = new Button(new TAG(clientType[randomIndex]), 'random franchise type element');
+    //         randomElement.clickElement();
+    //     });
+    // }
+
+    // getChosenClientType() {
+    //     return this.#choosenClientType.getText();
     // }
     inputDataHolderIIN(iin) {
         this.#iinTextbox.inputData(iin);
@@ -118,9 +130,5 @@ class QuoteStep1 extends BaseForm {
         this.#nextButton.clickElement();
     }
 }
-
-
-
-
 
 module.exports = new QuoteStep1();

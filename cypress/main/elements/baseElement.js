@@ -307,10 +307,8 @@ class BaseElement {
   chooseElementFromDropdown(text, typeAndEnter) {
     if (typeAndEnter) {
       cy.logger(`[inf] ▶ type and enter ${text}`);
-      // return this.enterData(text);
+      this.enterData(text);
       cy.realPress('{esc}');
-
-      return this.enterData(text);
     } else {
       cy.logger(`[inf] ▶ click ${text}`);
       this.getElements().contains(new RegExp(`${text}`, 'g')).click({ force: true });

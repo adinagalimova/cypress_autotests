@@ -42,10 +42,10 @@ class QuoteStep2 extends BaseForm {
         this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="+7 ### ### ## ##"]'), 'phone number textbox');
         this.#nextButton = new Button(new XPATH('//div/button[contains(@class,"ant-btn-primary")]'), 'next button');
     }
-    inputDataHolderIIN(iin) {
+    inputDataInsuredIIN(iin) {
         this.#iinTextbox.scrollElementToView();
         cy.wait(1000);
-        this.#iinTextbox.inputData(iin);
+        this.#iinTextbox.inputData(iin, { useCypressRealEvents: true });
     }
     clickSearchClientButton() {
         this.#searchClientButton.clickElement();
@@ -114,9 +114,5 @@ class QuoteStep2 extends BaseForm {
         this.#nextButton.clickElement();
     }
 }
-
-
-
-
 
 module.exports = new QuoteStep2();

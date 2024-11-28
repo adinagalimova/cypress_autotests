@@ -29,18 +29,18 @@ class DataUtils {
   //   // return cy.wrap(details);
   // }
 
-  static getChannelDetailsFromRequest() {
-    cy.intercept({
-      url: '`http://localhost:8000/api/dictionary/channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=1',
-      // query: {
-      //   'where[sales_channel_id_1c][value]': '1',
-      // },
-    }).as('channelDetails');
-
-    return cy.wait(`@channelDetails`).then((interception) => {
-      return interception.response.body;
-    })
-  }
+  // static getChannelDetailsFromRequest() {
+  //   cy.intercept({
+  //     url: '`http://localhost:8000/api/dictionary/channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=1',
+  //     // query: {
+  //     //   'where[sales_channel_id_1c][value]': '1',
+  //     // },
+  //   }).as('channelDetails');
+  //
+  //   return cy.wait(`@channelDetails`).then((interception) => {
+  //     return interception.response.body;
+  //   })
+  // }
 
   // static getInsuranceTypesFromRequest() {
   //   const insuranseTypes = [];
