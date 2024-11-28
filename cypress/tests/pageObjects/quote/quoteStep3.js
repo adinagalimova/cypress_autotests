@@ -33,6 +33,7 @@ class QuoteStep3 extends BaseForm {
         });
     }
 
+
     chooseFranchiseType() {
         return this.#franchiseType.getElements().then((type) => {
             const randomIndex = Randomizer.getRandomInteger(type.length - 1);

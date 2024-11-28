@@ -31,7 +31,6 @@ exports.userPathQuote = (holder, beneficiary) => {
         });
 
 
-
         // const insuranseTypes = DataUtils.getInsuranceTypesFromRequest();
         // const insuredProducts = DataUtils.getInsuredProductsFromRequest();
         // const risks = DataUtils.getRisksFromRequest();

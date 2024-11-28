@@ -110,6 +110,7 @@ class QuoteStep4 extends BaseForm {
         return this.#reinsuranceRequired.getText();
     }
 
+
     clickReinsuranceType() {
         return this.#reinsuranceType.getElements().then((reinsuranceType) => {
             const randomIndex = Randomizer.getRandomInteger(reinsuranceType.length - 1);
