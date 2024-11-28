@@ -132,6 +132,7 @@ exports.userPathQuote = (holder, beneficiary) => {
             if (text === "Требуется перестрахование") {
                 quoteStep4.clickReinsuranceType();
             }
+
         });
         quoteStep4.inputInsurancePeriod();
         quoteStep4.inputInsuranceAmount();
