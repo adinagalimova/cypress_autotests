@@ -6,7 +6,6 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 const TAG = require("../../../main/locators/baseLocatorChildren/TAG");
 
-
 class QuoteStep3 extends BaseForm {
     #franchiseOption
     #franchiseType
@@ -14,9 +13,8 @@ class QuoteStep3 extends BaseForm {
     #franchiseForLoss
     #additionalInformation
     #nextButton
-
     constructor() {
-        super(new XPATH('//a[@href="/quotes"]'), 'Quote Page Step 3');
+        super(new XPATH('//label[@for="form_item_option"]'), 'Quote Page Step 3');
         this.#franchiseOption = new RadioButton(new XPATH('//div[@id="form_item_option"]/descendant::label'), 'franchise type');
         this.#franchiseType = new RadioButton(new XPATH('//div[@id="form_item_typeId"]/descendant::label'), 'franchise type');
         this.#franchiseForDamage = new Textbox(new XPATH('//input[@id="form_item_damage"]'),'textbox for franchise for damage');
@@ -32,7 +30,6 @@ class QuoteStep3 extends BaseForm {
             randomElement.clickElement();
         });
     }
-
 
     chooseFranchiseType() {
         return this.#franchiseType.getElements().then((type) => {

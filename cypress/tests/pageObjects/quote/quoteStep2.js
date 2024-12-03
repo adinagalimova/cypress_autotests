@@ -5,7 +5,7 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 
 class QuoteStep2 extends BaseForm {
-    #quoteCreateButton
+    #residentCheckbox
     #iinTextbox
     #searchClientButton
     #lastNameTextbox
@@ -23,9 +23,8 @@ class QuoteStep2 extends BaseForm {
     #nextButton
 
     constructor() {
-        super(new XPATH('//a[@href="/quotes"]'), 'Quote Page Step 2');
-        this.#quoteCreateButton = new Button(new XPATH('//button[contains(@class, "ant-btn-primary")]'), 'quote create button');
-        // this.#clientTypeCheckbox = new Button(new XPATH('//div[@id="form_item_typeId"]/descendant::span[contains(@class,"checked")]'), 'client type checkbox');
+        super(new XPATH('//label[@for="form_item_typeId"]'), 'Quote Page Step 2');
+        this.#residentCheckbox = new Button(new XPATH('//input[@id="form_item_resident"]'), 'resident checkbox');
         this.#iinTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
         this.#searchClientButton = new Button(new XPATH('//button[contains(@class,"ant-input-search-button")]'), 'search client button');
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_lastName"]'), 'last name textbox');
@@ -42,20 +41,25 @@ class QuoteStep2 extends BaseForm {
         this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="+7 ### ### ## ##"]'), 'phone number textbox');
         this.#nextButton = new Button(new XPATH('//div/button[contains(@class,"ant-btn-primary")]'), 'next button');
     }
+
     inputDataInsuredIIN(iin) {
-        this.#iinTextbox.scrollElementToView();
-        cy.wait(1000);
+        this.#residentCheckbox.scrollElementToView();
+        cy.wait(2000);
         this.#iinTextbox.inputData(iin, { useCypressRealEvents: true });
     }
+
     clickSearchClientButton() {
         this.#searchClientButton.clickElement();
     }
+
     getLastNameElement() {
         return this.#lastNameTextbox.getElement();
     }
+
     getFirstNameElement() {
         return this.#firstNameTextbox.getElement();
     }
+
     getOrSetMiddleNameElement(middleName) {
         if (this.#middleNameTextbox.getText !== middleName) {
             this.#middleNameTextbox.clearData();
@@ -64,22 +68,28 @@ class QuoteStep2 extends BaseForm {
 
         return this.#middleNameTextbox.getElement();
     }
+
     getDateOfBirthElement() {
         return this.#dateOfBirth.getElement();
     }
+
     getSexText() {
         return this.#sexRadioButton.getText();
     }
+
     getDocumentTypeText() {
         this.#documentTypeDropdownButton.scrollElementToView();
         return this.#documentTypeDropdownButton.getText();
     }
+
     getDocumentNumberElement() {
         return this.#documentNumber.getElement();
     }
+
     getDocumentIssuedDateElement() {
         return this.#documentIssuedDate.getElement();
     }
+
     getOrSetDocumentIssuedByElement(holderDocumentGivedByQuote) { //МЮ РК
         return this.#documentIssuedByDropdownButton.getText().then((value) => { // Министертво
             if (value === holderDocumentGivedByQuote) {
@@ -90,6 +100,7 @@ class QuoteStep2 extends BaseForm {
             return this.getOrSetDocumentIssuedByElement(holderDocumentGivedByQuote);
         });
     }
+
     getOrSetAddressElement(address) {
         if (this.#address.getText !== address) {
             this.#address.clearData();
@@ -98,6 +109,7 @@ class QuoteStep2 extends BaseForm {
 
         return this.#address.getElement();
     }
+
     getOrSetEmailElement(email) {
         if (this.#email.getText !== email) {
             this.#email.clearData();
@@ -106,9 +118,11 @@ class QuoteStep2 extends BaseForm {
 
         return this.#email.getElement();
     }
+
     inputPhoneNumber(phoneNumber) {
         this.#phoneNumberTextbox.inputData(phoneNumber);
     }
+
     clickNextButton() {
         this.#nextButton.scrollElementToView();
         this.#nextButton.clickElement();

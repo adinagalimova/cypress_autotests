@@ -10,76 +10,20 @@ class DataUtils {
     return (await parseStringPromise(xml)).response;
   }
 
-  static getFromRequest(url, alias) {
-    cy.intercept(url).as(alias);
-    return cy.wait(`@${alias}`).then((interception) => {
-      return interception.response.body;
+  static getFromRequests(url1, alias1, url2, alias2) {
+    cy.intercept(url1).as(alias1);
+    cy.intercept(url2).as(alias2)
+    return cy.wait([`@${alias1}`,`@${alias2}`]).then(([interception1, interception2]) => {
+      return [interception1.response.body, interception2.response.body];
     })
   }
 
-  // static getChannelDetailsFromRequest() {
-  //   const details = [];
-  //   cy.intercept(
-  //       'channel-details*',
-  //       (request) => request.continue((response) => response.body.forEach((detail) => {
-  //         details.push(detail.title);
-  //   })),
-  // ).as('channel');
-  //   return cy.wait('@channel')
-  //   // return cy.wrap(details);
-  // }
-
-  // static getChannelDetailsFromRequest() {
-  //   cy.intercept({
-  //     url: '`http://localhost:8000/api/dictionary/channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=1',
-  //     // query: {
-  //     //   'where[sales_channel_id_1c][value]': '1',
-  //     // },
-  //   }).as('channelDetails');
-  //
-  //   return cy.wait(`@channelDetails`).then((interception) => {
-  //     return interception.response.body;
-  //   })
-  // }
-
-  // static getInsuranceTypesFromRequest() {
-  //   const insuranseTypes = [];
-  //   cy.intercept(
-  //       'insurance-types*',
-  //       (request) => request.continue((response) => response.body.forEach((insuranseType) => {
-  //         insuranseTypes.push(insuranseType.title);
-  //       })),
-  //   );
-  //
-  //   return cy.wrap(insuranseTypes);
-  // }
-
-  // static getInsuredProductsFromRequest() {
-  //   const insuredProducts = [];
-  //   cy.intercept(
-  //       'products*',
-  //       (request) => request.continue((response) => response.body.forEach((insuredProduct) => {
-  //         insuredProducts.push(insuredProduct.title);
-  //       })),
-  //   );
-  //
-  //   return cy.wrap(insuredProducts);
-  // }
-
-  // static getRisksFromRequest() {
-  //   const risks = [];
-  //   cy.intercept(
-  //       'insurance-risks*',
-  //       (request) => request.continue((response) => response.body.forEach((risk) => {
-  //         risks.push(risk.title);
-  //       })),
-  //   );
-  //
-  //   return cy.wrap(risks);
-  // }
-
-
-
+  static getFromRequest(url, alias) {
+    cy.intercept(url).as(alias);
+    return cy.wait([`@${alias}`]).then((interception) => {
+      return interception.response.body;
+    })
+  }
 
   /**
    * requires one mandatory argument: clients.

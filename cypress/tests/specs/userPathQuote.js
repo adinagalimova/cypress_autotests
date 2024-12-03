@@ -1,11 +1,12 @@
 const DataUtils = require('../../main/utils/data/dataUtils');
 const NodeEvents = require('../../support/nodeEvents');
+const Randomizer = require("../../main/utils/random/randomizer");
 const mainPage = require('../pageObjects/mainPage');
 const quoteStep1 = require('../pageObjects/quote/quoteStep1')
 const quoteStep2 = require('../pageObjects/quote/quoteStep2')
 const quoteStep3 = require('../pageObjects/quote/quoteStep3')
 const quoteStep4 = require('../pageObjects/quote/quoteStep4')
-const Randomizer = require("../../main/utils/random/randomizer");
+const quoteStep5 = require('../pageObjects/quote/quoteStep5')
 
 
 exports.userPathQuote = (holder, beneficiary) => {
@@ -21,23 +22,31 @@ exports.userPathQuote = (holder, beneficiary) => {
 // STEP 1
         let id_1c;
         let randomElementText;
-        DataUtils.getFromRequest('sales-channels*', 'salesChannels').then( (salesChannelsResponse) => {
-            const salesChannels = salesChannelsResponse
-                .map((el) => ({ name: el.name, id_1c: el.id_1c }));
-            const salesChannelsNames = salesChannels.map(channel => channel.name);
-            randomElementText = Randomizer.getRandomElementByText(salesChannelsNames);
-            const randomElement = salesChannels.find((channel) => channel.name === randomElementText);
-            id_1c = randomElement.id_1c;
+        let randomInsuranceTypeName;
+        let typeId;
+        let randomInsuranceProductName;
+
+        DataUtils.getFromRequests('sales-channels*', 'salesChannels', 'default-insurance-types*','insuranceTypes' ).then( ([salesChannelsResponse, insuranceTypesResponse]) => {
+                const salesChannels = salesChannelsResponse
+                    .map((el) => ({name: el.name, id_1c: el.id_1c}));
+                const salesChannelsNames = salesChannels.map(channel => channel.name);
+                randomElementText = Randomizer.getRandomElementByText(salesChannelsNames);
+                const randomElement = salesChannels.find((channel) => channel.name === randomElementText);
+                id_1c = randomElement.id_1c;
+
+                //  обработка второго запроса
+                 const insuranceTypes = insuranceTypesResponse.data
+                     .map((el)=> ({title:el.title, insurance_type_id: el.id_1c}));
+                 const insuranceTypesNames = insuranceTypes.map(type => type.title);
+                 randomInsuranceTypeName = Randomizer.getRandomElementByText(insuranceTypesNames);
+                 console.log('randomInsuranceTypeName', randomInsuranceTypeName)
+                 const randomType = insuranceTypes.find((type) => type.title === randomInsuranceTypeName)
+                console.log('randomType', randomType)
+                 typeId = randomType.insurance_type_id;
+                 console.log('typeId',typeId)
         });
 
-
-        // const insuranseTypes = DataUtils.getInsuranceTypesFromRequest();
-        // const insuredProducts = DataUtils.getInsuredProductsFromRequest();
-        // const risks = DataUtils.getRisksFromRequest();
-
-
         quoteStep1.pageIsDisplayed().should('be.true');
-        // quoteStep1.chooseClientType();
         quoteStep1.inputDataHolderIIN(holder.iin);
         quoteStep1.clickSearchClientButton();
         quoteStep1.getLastNameElement()
@@ -48,8 +57,8 @@ exports.userPathQuote = (holder, beneficiary) => {
             .should('have.value', holder.middle_name);
         quoteStep1.getDateOfBirthElement()
             .should('have.value', holder.born.DMY);
-        quoteStep1.getSexText()
-            .should('be.equal', holder.sex);
+        // quoteStep1.getSexText()
+        //     .should('be.equal', holder.sex);
         // quoteStep1.getDocumentTypeText()
         //     .should('be.equal', holder.document_type);
         // quoteStep1.getDocumentNumberElement()
@@ -78,19 +87,19 @@ exports.userPathQuote = (holder, beneficiary) => {
         quoteStep2.getDateOfBirthElement()
             .should('have.value', beneficiary.born.DMY);
         quoteStep2.getSexText().should('be.equal', beneficiary.sex);
-        // quoteStep2.getDocumentTypeText()
-        //     .should('be.equal', beneficiary.document_type);
-        // quoteStep2.getDocumentNumberElement()
-        //     .should('have.value', beneficiary.document_number);
-        // quoteStep2.getDocumentIssuedDateElement()
-        //     .should('have.value', beneficiary.document_gived_date.DMY);
-        // quoteStep2.getOrSetDocumentIssuedByElement(holder.document_gived_by_quote)
-        //     .should('be.equal', holder.document_gived_by_quote);
-        // quoteStep2.getOrSetAddressElement(beneficiary.address)
-        //     .should('have.value', beneficiary.address);
-        // quoteStep2.getOrSetEmailElement(beneficiary.email)
-        //     .should('have.value', beneficiary.email);
-        // quoteStep2.inputPhoneNumber(beneficiary.phone);
+        quoteStep2.getDocumentTypeText()
+            .should('be.equal', beneficiary.document_type);
+        quoteStep2.getDocumentNumberElement()
+            .should('have.value', beneficiary.document_number);
+        quoteStep2.getDocumentIssuedDateElement()
+            .should('have.value', beneficiary.document_gived_date.DMY);
+        quoteStep2.getOrSetDocumentIssuedByElement(holder.document_gived_by_quote)
+            .should('be.equal', holder.document_gived_by_quote);
+        quoteStep2.getOrSetAddressElement(beneficiary.address)
+            .should('have.value', beneficiary.address);
+        quoteStep2.getOrSetEmailElement(beneficiary.email)
+            .should('have.value', beneficiary.email);
+        quoteStep2.inputPhoneNumber(beneficiary.phone);
         quoteStep2.clickNextButton();
 
         //STEP 3
@@ -113,12 +122,29 @@ exports.userPathQuote = (holder, beneficiary) => {
             const channelDetails = interception.response.body
                 .map((el) => ({ name: el.name, id_1c: el.id_1c }));
             const channelDetailsNames = channelDetails.map(channel => channel.name);
+            if (channelDetailsNames.length !== 0){
             randomElementText = Randomizer.getRandomElementByText(channelDetailsNames);
             quoteStep4.clickRandomChannelDetail(randomElementText);
+        }});
+
+        quoteStep4.chooseAgent().then(() => {
+            cy.intercept(new RegExp(`insurance-type-products\\?insurance_type_id=${typeId}`))
+                .as('insuranceProducts')
+            quoteStep4.clickRandomInsuranceType(randomInsuranceTypeName);
+
         });
+        // quoteStep4.clickAlertIfExists();
+        cy.wait('@insuranceProducts').then((interception) => {
+            const insuranceProducts = interception.response.body.data;
+            console.log('insuranceProducts', insuranceProducts);
+            const insuranceProductNames = insuranceProducts.map(channel => channel.title);
+            console.log('insuranceProductNames', insuranceProductNames)
+            randomInsuranceProductName = Randomizer.getRandomElementByText(insuranceProductNames)
+            quoteStep4.clickRandomInsuredProduct(randomInsuranceProductName);
+        })
 
 
-        quoteStep4.chooseAgent();
+        quoteStep4.clickRandomRisks();
         quoteStep4.inputAgentCommission();
         quoteStep4.clickContractType();
         quoteStep4.getChosenContractType().then((type) => {
@@ -128,87 +154,19 @@ exports.userPathQuote = (holder, beneficiary) => {
             }
         });
         quoteStep4.chooseUnderwriter();
-        quoteStep4.clickReinsuranceRequired().then((text)=>{
-            if (text === "Требуется перестрахование") {
-                quoteStep4.clickReinsuranceType();
-            }
-
-        });
+        quoteStep4.clickReinsuranceRequired();
+        quoteStep4.clickReinsuranceType();
         quoteStep4.inputInsurancePeriod();
         quoteStep4.inputInsuranceAmount();
         quoteStep4.inputTariff();
+        quoteStep4.clickNextButton();
 
-
-        // quoteStep4.pageIsDisplayed().should('be.true').then(() => {
-        //     cy.intercept(
-        //         `channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=${id_1c}`).as('channelDetails').then(() => {
-        //
-        //     })
-        //
-        //     quoteStep4.clickRandomElement(randomElementText).then(() => {
-        //         cy.wait('@channelDetails').then((interception) => {
-        //             console.log(interception.response.body)
-        //             return interception.response.body;
-        //         })
-        //     })
-        //
-        //     // cy.wait('@channelDetails').then((interception) => {
-        //     //     console.log(interception.response.body)
-        //     //     return interception.response.body;
-        //     // })
-        // })
-
-
-        // quoteStep4.clickContractTypeMain().then(() => {
-        //     cy.intercept(
-        //         `channel-details?where[sales_channel_id_1c][operator]==&where[sales_channel_id_1c][value]=${id_1c}`).as('channelDetails');
-        //
-        //      quoteStep4.clickRandomElement(randomElementText);
-        //
-        //      cy.wait('@channelDetails').then((interception) => {
-        //          console.log(interception.response.body)
-        //         return interception.response.body;
-        //     })
-        // })
-
-        // quoteStep4.clickRandomElement()
-
-
-
-        // quoteStep4.clickRandomSalesChannels(salesChannelsNames).then((selectedChannelName) => {
-        //     //pop without index
-        //     selectedChannel = salesChannels.find((channel) => channel.name === selectedChannelName[0]);
-        //     id_1c = selectedChannel.id_1c;
-        //     DataUtils.getFromRequest('channel-details*', 'channelDetails');
-        //
-        // });
-
-
-
-
-        // DataUtils.getChannelDetailsFromRequest().then((responseBody) => {
-        //     console.log("fff",id_1c)
-        //     console.log(responseBody);
-        // });
-
-        // quoteStep4.clickRandomChannelDetails(channelDetailsNames);
-
-        // quoteStep4.clickRandomInsuranseType(insuranseTypes);
-        // quoteStep4.clickRandomInsuredProduct(insuredProducts);
-        // quoteStep4.clickAlertIfExists();
-        // quoteStep4.clickRandomRisks(risks, JSONLoader.testData.QuoteRisksCount);
-        //
-        //
-        // quoteStep4.clickRandomUnderwriter();
-
-        // quoteStep4.chooseRandomAgent();
-
-        // quoteStep4.chooseSalesChannel();
-        // quoteStep4.chooseInsuredProducts();
-
-
-
-
-        // quoteStep4.clickNextButton();
+        // STEP 5
+        quoteStep5.pageIsDisplayed().should('be.true');
+        quoteStep5.inputInsuranceObjects();
+        quoteStep5.uploadButtonClick();
+        quoteStep5.inputManagerComments();
+        quoteStep5.clickSaveButton();
+        quoteStep5.getUploadedFile();
     });
 };

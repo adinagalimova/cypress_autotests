@@ -111,12 +111,17 @@ class BaseElement {
   }
 
   enterData(data) {
+    console.log('data', data)
     cy.logger(`[inf] ▶ input ${this.#elementName} and submit`);
     this.getElement().type(`${data}{enter}`);
   }
 
   elementIsVisible() {
     return this.getElement().isVisible();
+  }
+
+  waitElementIsExisting() {
+    return cy.waitIsExisting(this.#elementLocator.value);
   }
 
   elementIsExisting() {
@@ -319,7 +324,6 @@ class BaseElement {
     cy.logger(`[inf] ▶️ upload file with ${this.#elementName}`);
     this.getElement().selectFile(path, { force: true });
   }
-
 }
 
 module.exports = BaseElement;
