@@ -177,8 +177,11 @@ exports.userPathOGPO = (holder, insured, car) => {
       .should('be.equal', insuredClientFullName);
     OGPOStep5.getListOfCarsText()
       .should('be.equal', carFullName);
+
     OGPOStep5.getPaymentCode()
       .then((code) => cy.setLocalStorage('paymentCode', code));
+
+
     OGPOStep5.getPolicyNumberText()
       .then((value) => cy.setLocalStorage('OGPOPolicyNumber', value));
     OGPOStep5.getInsurancePeriodAfterIssuingText()

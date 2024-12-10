@@ -21,6 +21,8 @@ module.exports = defineConfig({
     logLevel: 'INFO',
     login: process.env.AUTH_LOGIN,
     password: process.env.AUTH_PASSWORD,
+    login_underwriter: process.env.AUTH_LOGIN_UNDERWRITER,
+    password_underwriter: process.env.AUTH_PASSWORD_UNDERWRITER,
   },
   e2e: {
     baseUrl: '' || process.env.BASE_URL,

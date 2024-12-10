@@ -8,7 +8,9 @@ const TAG = require("../../../main/locators/baseLocatorChildren/TAG");
 
 class QuoteStep3 extends BaseForm {
     #franchiseOption
+    #choosedFranchiseOption
     #franchiseType
+    #choosedFranchiseType
     #franchiseForDamage
     #franchiseForLoss
     #additionalInformation
@@ -21,15 +23,15 @@ class QuoteStep3 extends BaseForm {
         this.#franchiseForLoss = new Textbox(new XPATH('//input[@id="form_item_loss"]'), 'textbox for franchise for loss');
         this.#additionalInformation = new Textbox(new XPATH('//textarea[@id="form_item_info"]'), 'textbox for additional information');
         this.#nextButton = new Button(new XPATH('//div/button[contains(@class,"ant-btn-primary")]'), 'next button');
+        this.#choosedFranchiseOption = new Button(new XPATH('//div[@id="form_item_option"]/descendant::span[contains(@class,"ant-radio-checked")]/following-sibling::span'), 'choosed franchise option');
+        this.#choosedFranchiseType = new Button(new XPATH('//div[@id="form_item_typeId"]/descendant::span[contains(@class,"ant-radio-checked")]/following-sibling::span'),'choosed franchise type');
+
     }
 
     chooseFranchiseOption() {
-        return this.#franchiseOption.getElements().then((option) => {
-            const randomIndex = Randomizer.getRandomInteger(option.length - 1);
-            const randomElement = new Button(new TAG(option[randomIndex]), 'random franchise type element');
-            randomElement.clickElement();
-        });
+        this.#franchiseOption.clickElement();
     }
+
 
     chooseFranchiseType() {
         return this.#franchiseType.getElements().then((type) => {
@@ -40,24 +42,40 @@ class QuoteStep3 extends BaseForm {
     }
 
     inputValueForDamageFranchise() {
-        this.#franchiseForDamage.inputData(Randomizer.getRandomInteger(9999, 100));
+       return this.#franchiseForDamage.inputData(Randomizer.getRandomInteger(40, 1));
     }
 
     inputValueForLossFranchise() {
-        this.#franchiseForLoss.inputData(Randomizer.getRandomInteger(9999,100));
+        this.#franchiseForLoss.inputData(Randomizer.getRandomInteger(40,1));
     }
 
     inputAdditionalInformation() {
-        this.#additionalInformation.inputData(''.concat(
-            Randomizer.getRandomString(true, true, true, true, false, 10, 50),
-            ' ',
-            'autotest',
-        ));
+        this.#additionalInformation.inputData('Франшиза применяется только в случае частичного ущерба (например, повреждение кузова, стекол, фар и т.д.).');
     }
 
     clickNextButton() {
         this.#nextButton.clickElement();
     }
+
+    checkValueFranchiseForDamage() {
+        return this.#franchiseForDamage.getValue();
+    }
+
+    checkValueFranchiseForLoss() {
+        return this.#franchiseForLoss.getValue();
+    }
+
+    changeFranchiseForDamage() {
+        this.#franchiseForDamage.clearData();
+        this.#franchiseForDamage.inputData(Randomizer.getRandomInteger(9999, 100));
+    }
+
+    changeFranchiseForLoss() {
+        this.#franchiseForLoss.clearData();
+        this.#franchiseForLoss.inputData(Randomizer.getRandomInteger(9999, 100));
+    }
+
+
 }
 
 module.exports = new QuoteStep3();

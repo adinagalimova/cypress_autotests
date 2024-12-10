@@ -111,7 +111,6 @@ class BaseElement {
   }
 
   enterData(data) {
-    console.log('data', data)
     cy.logger(`[inf] ▶ input ${this.#elementName} and submit`);
     this.getElement().type(`${data}{enter}`);
   }

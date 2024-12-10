@@ -12,6 +12,7 @@ class MainPage extends BaseForm {
   #MSTButton;
 
   #estateButton;
+  #logoutButton
 
   constructor() {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
@@ -21,6 +22,7 @@ class MainPage extends BaseForm {
     this.#kaskoButton = new Button(new XPATH('//a[@href="/kasko/create"]'), 'kasko button');
     this.#estateButton = new Button(new XPATH('//a[@href="/estate/create"]'), 'estate button');
     // this.#quoteButton = new Button(new XPATH('//a[@href="/quotes/create"]'), 'Quote button');
+    this.#logoutButton = new Button(new XPATH('//span[@aria-label="logout"]'), 'logout button');
   }
 
   clickOGPOButton() {
@@ -47,6 +49,10 @@ class MainPage extends BaseForm {
     // this.#quoteButton.clickElement();
     // cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
     cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false })
+  }
+
+  clickLogoutButton() {
+    this.#logoutButton.clickElement();
   }
 }
 

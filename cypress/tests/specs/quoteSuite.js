@@ -1,5 +1,8 @@
-const { login } = require('./login');
-const { userPathQuote } = require('./userPathQuote');
+const { login, loginUnderwriter} = require('./login');
+const { managerPathQuote } = require('./managerPathQuote');
+const { underwriterPathQuote } = require('./underwriterPathQuote');
+const { managerPathQuoteForRevision } = require('./managerPathQuoteForRevision');
+const { underwriterPathQuoteAfterRevision } = require('./underwriterPathQuoteAfterRevision');
 const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
@@ -8,5 +11,11 @@ const { holder, beneficiary} = DataUtils.createRandomClientsStructures(clients);
 
 describe('Quote test suite:', () => {
     login();
-    userPathQuote(holder, beneficiary);
+    managerPathQuote(holder, beneficiary);
+    loginUnderwriter();
+    underwriterPathQuote(holder, beneficiary);
+    login();
+    managerPathQuoteForRevision();
+    loginUnderwriter();
+    underwriterPathQuoteAfterRevision();
 });

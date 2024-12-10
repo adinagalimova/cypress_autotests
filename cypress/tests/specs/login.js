@@ -11,3 +11,15 @@ exports.login = () => {
     mainPage.pageIsDisplayed().should('be.true');
   });
 };
+
+exports.loginUnderwriter = () => {
+  it('Login into ADP as an underwriter:', { scrollBehavior: false }, () => {
+    mainPage.clickLogoutButton();
+    cy.clearAllCookies();
+    cy.open('/');
+    loginPage.pageIsDisplayed().should('be.true');
+    loginPage.fillLoginAndPasswordForUnderwriter();
+    loginPage.clickSubmitButton();
+    mainPage.pageIsDisplayed().should('be.true');
+  });
+}

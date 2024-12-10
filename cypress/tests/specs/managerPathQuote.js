@@ -8,9 +8,8 @@ const quoteStep3 = require('../pageObjects/quote/quoteStep3')
 const quoteStep4 = require('../pageObjects/quote/quoteStep4')
 const quoteStep5 = require('../pageObjects/quote/quoteStep5')
 
-
-exports.userPathQuote = (holder, beneficiary) => {
-    it('Quote user path:', { scrollBehavior: false }, () => {
+exports.managerPathQuote = (holder, beneficiary) => {
+    it('Quote manager path:', { scrollBehavior: false }, () => {
         NodeEvents.resetClient(holder)
             .then(async (response) => cy.wrap(response.status).should('be.equal', 200));
         NodeEvents.resetClient(beneficiary)
@@ -18,8 +17,8 @@ exports.userPathQuote = (holder, beneficiary) => {
 
         mainPage.clickQuoteButton();
         quoteStep1.clickCreateButton();
-
-// STEP 1
+    // MANAGER
+    // STEP 1
         let id_1c;
         let randomElementText;
         let randomInsuranceTypeName;
@@ -39,11 +38,8 @@ exports.userPathQuote = (holder, beneficiary) => {
                      .map((el)=> ({title:el.title, insurance_type_id: el.id_1c}));
                  const insuranceTypesNames = insuranceTypes.map(type => type.title);
                  randomInsuranceTypeName = Randomizer.getRandomElementByText(insuranceTypesNames);
-                 console.log('randomInsuranceTypeName', randomInsuranceTypeName)
                  const randomType = insuranceTypes.find((type) => type.title === randomInsuranceTypeName)
-                console.log('randomType', randomType)
                  typeId = randomType.insurance_type_id;
-                 console.log('typeId',typeId)
         });
 
         quoteStep1.pageIsDisplayed().should('be.true');
@@ -57,24 +53,24 @@ exports.userPathQuote = (holder, beneficiary) => {
             .should('have.value', holder.middle_name);
         quoteStep1.getDateOfBirthElement()
             .should('have.value', holder.born.DMY);
-        // quoteStep1.getSexText()
-        //     .should('be.equal', holder.sex);
-        // quoteStep1.getDocumentTypeText()
-        //     .should('be.equal', holder.document_type);
-        // quoteStep1.getDocumentNumberElement()
-        //     .should('have.value', holder.document_number);
-        // quoteStep1.getDocumentIssuedDateElement()
-        //     .should('have.value', holder.document_gived_date.DMY);
-        // quoteStep1.getOrSetDocumentIssuedByElement(holder.document_gived_by_quote)
-        //     .should('be.equal', holder.document_gived_by_quote);
-        // quoteStep1.getOrSetAddressElement(holder.address)
-        //     .should('have.value', holder.address);
-        // quoteStep1.getOrSetEmailElement(holder.email)
-        //     .should('have.value', holder.email);
-        // quoteStep1.inputPhoneNumber(holder.phone);
+        quoteStep1.getSexText()
+            .should('be.equal', holder.sex);
+        quoteStep1.getDocumentTypeText()
+            .should('be.equal', holder.document_type);
+        quoteStep1.getDocumentNumberElement()
+            .should('have.value', holder.document_number);
+        quoteStep1.getDocumentIssuedDateElement()
+            .should('have.value', holder.document_gived_date.DMY);
+        quoteStep1.getOrSetDocumentIssuedByElement(holder.document_gived_by_quote)
+            .should('be.equal', holder.document_gived_by_quote);
+        quoteStep1.getOrSetAddressElement(holder.address)
+            .should('have.value', holder.address);
+        quoteStep1.getOrSetEmailElement(holder.email)
+            .should('have.value', holder.email);
+        quoteStep1.inputPhoneNumber(holder.phone);
         quoteStep1.clickNextButton();
 
-// // STEP 2
+    //  STEP 2
         quoteStep2.pageIsDisplayed().should('be.true');
         quoteStep2.inputDataInsuredIIN(beneficiary.iin);
         quoteStep2.clickSearchClientButton();
@@ -105,9 +101,17 @@ exports.userPathQuote = (holder, beneficiary) => {
         //STEP 3
         quoteStep3.pageIsDisplayed().should('be.true');
         quoteStep3.chooseFranchiseOption();
-        quoteStep3.chooseFranchiseType();
         quoteStep3.inputValueForDamageFranchise();
         quoteStep3.inputValueForLossFranchise();
+        quoteStep3.chooseFranchiseType();
+        quoteStep3.checkValueFranchiseForDamage().then((value) => {
+            cy.setLocalStorage('ValueForDamageFranchise', value);
+            cy.saveLocalStorage();
+        });
+        quoteStep3.checkValueFranchiseForLoss().then((value) => {
+            cy.setLocalStorage('ValueForFranchiseLoss', value);
+            cy.saveLocalStorage();
+        })
         quoteStep3.inputAdditionalInformation();
         quoteStep3.clickNextButton();
 
@@ -131,20 +135,40 @@ exports.userPathQuote = (holder, beneficiary) => {
             cy.intercept(new RegExp(`insurance-type-products\\?insurance_type_id=${typeId}`))
                 .as('insuranceProducts')
             quoteStep4.clickRandomInsuranceType(randomInsuranceTypeName);
-
         });
-        // quoteStep4.clickAlertIfExists();
         cy.wait('@insuranceProducts').then((interception) => {
             const insuranceProducts = interception.response.body.data;
-            console.log('insuranceProducts', insuranceProducts);
             const insuranceProductNames = insuranceProducts.map(channel => channel.title);
-            console.log('insuranceProductNames', insuranceProductNames)
             randomInsuranceProductName = Randomizer.getRandomElementByText(insuranceProductNames)
             quoteStep4.clickRandomInsuredProduct(randomInsuranceProductName);
         })
 
-
         quoteStep4.clickRandomRisks();
+
+        quoteStep4.checkChosenAgent().then((value) => {
+            cy.setLocalStorage('agent', value);
+            cy.saveLocalStorage();
+        })
+        quoteStep4.checkSalesChannel().then((text) => {
+            cy.setLocalStorage('salesChannel', text);
+            cy.saveLocalStorage();
+        })
+        quoteStep4.checkChannelDetails().then((text) => {
+            cy.setLocalStorage('channelDetails', text);
+            cy.saveLocalStorage();
+        })
+        quoteStep4.checkInsuranceType().then((text) => {
+            cy.setLocalStorage('insuranceType', text);
+            cy.saveLocalStorage();
+        })
+        quoteStep4.checkInsuranceProduct().then((text) => {
+            cy.setLocalStorage('insuranceProduct', text);
+            cy.saveLocalStorage();
+        })
+        // quoteStep4.checkRisks().then((text) => {
+        //     cy.setLocalStorage('risks', text);
+        //     cy.saveLocalStorage();
+        // })
         quoteStep4.inputAgentCommission();
         quoteStep4.clickContractType();
         quoteStep4.getChosenContractType().then((type) => {
@@ -159,6 +183,18 @@ exports.userPathQuote = (holder, beneficiary) => {
         quoteStep4.inputInsurancePeriod();
         quoteStep4.inputInsuranceAmount();
         quoteStep4.inputTariff();
+        quoteStep4.checkInsurancePeriod().then((value) => {
+            cy.setLocalStorage('insurancePeriod', value);
+            cy.saveLocalStorage();
+        })
+        quoteStep4.checkInsuranceAmount().then((value) => {
+            cy.setLocalStorage('insuranceAmount', value);
+            cy.saveLocalStorage();
+        })
+        quoteStep4.checkTariff().then((value) => {
+            cy.setLocalStorage('tariff', value);
+            cy.saveLocalStorage();
+        })
         quoteStep4.clickNextButton();
 
         // STEP 5
@@ -168,5 +204,7 @@ exports.userPathQuote = (holder, beneficiary) => {
         quoteStep5.inputManagerComments();
         quoteStep5.clickSaveButton();
         quoteStep5.getUploadedFile();
+        quoteStep5.clickSubmitForReviewButton();
+        quoteStep5.clickLogoutButton();
     });
 };

@@ -22,6 +22,11 @@ class LoginPage extends BaseForm {
     this.#passwordTextbox.inputData(Cypress.env().password);
   }
 
+  fillLoginAndPasswordForUnderwriter() {
+    this.#loginTextbox.inputData(Cypress.env().login_underwriter);
+    this.#passwordTextbox.inputData(Cypress.env().password_underwriter);
+  }
+
   clickSubmitButton() {
     this.#submitButton.clickElement();
   }
