@@ -139,11 +139,11 @@ class QuoteStep4 extends BaseForm {
         // this.#risksDropdown.chooseRandomElementsFromDropdownByText(this.#risksElements,{
         //     typeAndEnter: true
         // });
+        // this.#risksDropdown.clearData();
+        this.#risksDropdown.clickElement();
         this.#risksDropdown.chooseRandomElementsFromDropdownByText(
             this.#risksElements,
-            {
-                typeAndEnter: true,
-            },
+
         );
     }
 
