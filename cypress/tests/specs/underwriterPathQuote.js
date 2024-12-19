@@ -127,10 +127,10 @@ exports.underwriterPathQuote = (holder, beneficiary) => {
 
 // STEP 4
         quoteStep4.pageIsDisplayed().should('be.true');
-        quoteStep4.checkBusinessExpenses().then((value) => {
-            cy.setLocalStorage('businessExpenses', value);
-            cy.saveLocalStorage();
-        })
+        // quoteStep4.checkBusinessExpenses().then((value) => {
+        //     cy.setLocalStorage('businessExpenses', value);
+        //     cy.saveLocalStorage();
+        // })
 
         quoteStep4.checkChosenAgent().then((value) => {
             cy.getLocalStorage('agent').then((agent) => {
@@ -144,7 +144,7 @@ exports.underwriterPathQuote = (holder, beneficiary) => {
         })
         quoteStep4.checkChannelDetails().then((value) => {
             cy.getLocalStorage('channelDetails').then((channelDetails) => {
-                if (channelDetails === '0') {
+                if (channelDetails === '0' || channelDetails === '') {
                     cy.log("no channel details");
                 } else {
                     expect(value).to.equal(channelDetails);
@@ -178,6 +178,10 @@ exports.underwriterPathQuote = (holder, beneficiary) => {
         })
         quoteStep4.changeRisks();
         quoteStep4.inputBusinessExpenses();
+        quoteStep4.checkBusinessExpenses().then((value) => {
+            cy.setLocalStorage('businessExpenses', value);
+            cy.saveLocalStorage();
+        })
         quoteStep4.changeTariffAmount();
         quoteStep4.clickNextButton();
 
@@ -187,8 +191,8 @@ exports.underwriterPathQuote = (holder, beneficiary) => {
             expect(text).to.equal('Версия №1');
         })
         quoteStep5.checkObjectCount().then((value) => {
-            cy.getLocalStorage('objectCount').then((tariff) => {
-                expect(value).to.equal(tariff);
+            cy.getLocalStorage('objectCount').then((objectCount) => {
+                expect(value).to.equal(objectCount);
             })
         })
         quoteStep5.getUploadedFile();

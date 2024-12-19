@@ -42,6 +42,7 @@ class QuoteStep4 extends BaseForm {
     #chosenInsuranceType
     #chosenInsuranceProduct
     #chosenRisks
+    #quotePage5Button
 
     constructor() {
         super(new XPATH('//label[@for="form_item_agentId"]'), 'Quote Page Step 4');
@@ -79,6 +80,7 @@ class QuoteStep4 extends BaseForm {
         this.#chosenInsuranceType = new Button(new XPATH('//input[@id="form_item_insuranceTypeId"]/parent::span/following-sibling::span'), 'chosen insurance type');
         this.#chosenInsuranceProduct = new Button(new XPATH('//input[@id="form_item_insuranceProductId"]/parent::span/following-sibling::span'), 'chosen insurance product');
         this.#chosenRisks = new Button(new XPATH('//div[@class="ant-select-selection-overflow-item"]/descendant::span[@class="ant-select-selection-item-content"]'), 'chosen risks')
+        this.#quotePage5Button = new Button(new XPATH('//div[@class="ant-steps-item-icon"]/child::span[text()="5"]'), 'quote page5 button');
     }
 
     chooseAgent() {
@@ -134,9 +136,15 @@ class QuoteStep4 extends BaseForm {
 
     clickRandomRisks() {
         this.#risksDropdown.scrollElementToView();
-        this.#risksDropdown.chooseRandomElementsFromDropdownByText(this.#risksElements,{
-            typeAndEnter: true
-        });
+        // this.#risksDropdown.chooseRandomElementsFromDropdownByText(this.#risksElements,{
+        //     typeAndEnter: true
+        // });
+        this.#risksDropdown.chooseRandomElementsFromDropdownByText(
+            this.#risksElements,
+            {
+                typeAndEnter: true,
+            },
+        );
     }
 
     inputInsurancePeriod() {
@@ -150,7 +158,7 @@ class QuoteStep4 extends BaseForm {
     }
 
     inputTariff() {
-        this.#tariff.inputData(Randomizer.getRandomInteger());
+        this.#tariff.inputData(Randomizer.getRandomInteger(15,2));
     }
 
     clickRandomSalesChannel(randomElementText) {
@@ -224,6 +232,9 @@ class QuoteStep4 extends BaseForm {
         return this.#businessExpensesTextbox.getValue();
     }
 
+    clickQuotePage5Button() {
+        this.#quotePage5Button.clickElement();
+    }
 
     changeTariffAmount() {
         this.#tariff.clearData();

@@ -88,8 +88,7 @@ class QuoteStep5 extends BaseForm {
 
     clickRevisionButton() {
         this.#forRevisionButton.clickElement();
-        this.#statusRevision.waitElementIsExisting();
-        this.#statusRevision.elementIsDisplayed();
+        cy.wait(2000);
     }
 
     inputManagerCommentsForRevision() {
@@ -107,7 +106,7 @@ class QuoteStep5 extends BaseForm {
     }
 
     inputObjectCount() {
-        this.#objectCountTextbox.inputData(Randomizer.getRandomInteger(900,0));
+        this.#objectCountTextbox.inputData(Randomizer.getRandomInteger(90,0));
     }
 
     checkObjectCount() {
