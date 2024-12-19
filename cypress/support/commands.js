@@ -13,6 +13,17 @@ Cypress.Commands.add('open', (url, options) => {
 
 Cypress.Commands.add('isVisible', { prevSubject: true }, (subject) => Cypress.dom.isVisible(subject));
 
+Cypress.Commands.add('waitIsEnabled', { prevSubject: true }, (subject) => {
+  return cy.waitUntil(() => new Cypress.Promise((resolve) => {
+    Cypress.$(() => {
+      resolve(Cypress.$(subject).prop('disabled') === false);
+    });
+  }), {
+    timeout: Cypress.config('defaultCommandTimeout'),
+    interval: 500,
+  });
+});
+
 Cypress.Commands.add('isExisting', { prevSubject: false }, (subject) => cy.document().then((document) => {
   const convertLocator = (locator) => {
     const nodeList = [];

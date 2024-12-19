@@ -47,8 +47,8 @@ class MainPage extends BaseForm {
 
   clickQuoteButton() {
     // this.#quoteButton.clickElement();
-    // cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
-    cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false })
+    cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
+    // cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false })
   }
 
   clickLogoutButton() {

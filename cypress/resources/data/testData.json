@@ -46,8 +46,18 @@
   "insuredIsPDL": "Нет",
 
   "beneficiaryDocumentGivedBy": "МВД РК",
+  "beneficiaryDocumentGivedByQuote": " Министерство внутренних дел Республики Казахстан ",
   "beneficiaryAddress": "Ул. Достык 232, кв. 7",
   "beneficiaryEmail": "a.galimova@a-i.kz",
   "beneficiaryPhone": "77066682051",
-  "pathToTestPicture": "./resources/testPicture.jpg"
+  "pathToTestPicture": "./resources/testPicture.jpg",
+
+  "additionalInformationForFranchise": "Франшиза применяется только в случае частичного ущерба (например, повреждение кузова, стекол, фар и т.д.).",
+  "insuranceObjectsInformation": "Автомобиль 1:\nМарка/модель: Toyota Camry\nГод выпуска: 2022\nVIN: XXXXXXXXXXXXXX\nРыночная стоимость: 10 500 000 тг.",
+  "managerComment": "Особые условия:\nВключить покрытие на территории стран СНГ.\nУчет износа запчастей при расчете возмещения не требуется.",
+  "underwriterComment": "Изменены значения в полях франшизы по повреждению, франшизы по утрате, а также добавлены риски и значение РВД.",
+  "managerCommentAfterRevision": "Внесенные изменения приняты. Прошу принять заявку на рассмотрение",
+
+  "salesChannelsInterceptRegex": "channel-details\\?where\\[sales_channel_id_1c\\]\\[operator\\]==&where\\[sales_channel_id_1c\\]\\[value\\]=${id_1c}",
+  "insuranceTypesInterceptRegex": "insurance-type-products\\?insurance_type_id=${typeId}"
 }

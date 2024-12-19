@@ -5,12 +5,11 @@ const Button = require('../../../main/elements/baseElementChildren/button');
 const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 const TAG = require("../../../main/locators/baseLocatorChildren/TAG");
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
 
 class QuoteStep3 extends BaseForm {
     #franchiseOption
-    #choosedFranchiseOption
     #franchiseType
-    #choosedFranchiseType
     #franchiseForDamage
     #franchiseForLoss
     #additionalInformation
@@ -23,15 +22,11 @@ class QuoteStep3 extends BaseForm {
         this.#franchiseForLoss = new Textbox(new XPATH('//input[@id="form_item_loss"]'), 'textbox for franchise for loss');
         this.#additionalInformation = new Textbox(new XPATH('//textarea[@id="form_item_info"]'), 'textbox for additional information');
         this.#nextButton = new Button(new XPATH('//div/button[contains(@class,"ant-btn-primary")]'), 'next button');
-        this.#choosedFranchiseOption = new Button(new XPATH('//div[@id="form_item_option"]/descendant::span[contains(@class,"ant-radio-checked")]/following-sibling::span'), 'choosed franchise option');
-        this.#choosedFranchiseType = new Button(new XPATH('//div[@id="form_item_typeId"]/descendant::span[contains(@class,"ant-radio-checked")]/following-sibling::span'),'choosed franchise type');
-
     }
 
     chooseFranchiseOption() {
         this.#franchiseOption.clickElement();
     }
-
 
     chooseFranchiseType() {
         return this.#franchiseType.getElements().then((type) => {
@@ -50,7 +45,7 @@ class QuoteStep3 extends BaseForm {
     }
 
     inputAdditionalInformation() {
-        this.#additionalInformation.inputData('Франшиза применяется только в случае частичного ущерба (например, повреждение кузова, стекол, фар и т.д.).');
+        this.#additionalInformation.inputData(JSONLoader.testData.additionalInformationForFranchise);
     }
 
     clickNextButton() {
@@ -67,15 +62,13 @@ class QuoteStep3 extends BaseForm {
 
     changeFranchiseForDamage() {
         this.#franchiseForDamage.clearData();
-        this.#franchiseForDamage.inputData(Randomizer.getRandomInteger(9999, 100));
+        this.#franchiseForDamage.inputData(Randomizer.getRandomInteger(40, 1));
     }
 
     changeFranchiseForLoss() {
         this.#franchiseForLoss.clearData();
-        this.#franchiseForLoss.inputData(Randomizer.getRandomInteger(9999, 100));
+        this.#franchiseForLoss.inputData(Randomizer.getRandomInteger(40, 1));
     }
-
-
 }
 
 module.exports = new QuoteStep3();

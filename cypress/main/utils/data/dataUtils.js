@@ -211,6 +211,7 @@ class DataUtils {
     resultBeneficiary.address = JSONLoader.testData.beneficiaryAddress;
     resultBeneficiary.email = JSONLoader.testData.beneficiaryEmail;
     resultBeneficiary.document_gived_by = JSONLoader.testData.beneficiaryDocumentGivedBy;
+    resultBeneficiary.document_gived_by_quote = JSONLoader.testData.beneficiaryDocumentGivedByQuote;
     resultBeneficiary.pdl = JSONLoader.testData.beneficiaryIsPDL;
     resultBeneficiary.driver_certificate_type_id = JSONLoader.testData.beneficiaryDriverLicenceType;
     resultBeneficiary.invalid_bool = JSONLoader.testData.beneficiaryIsInvalid;

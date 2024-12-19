@@ -1,4 +1,4 @@
-const { login, loginUnderwriter} = require('./login');
+const { login } = require('./login');
 const { managerPathQuote } = require('./managerPathQuote');
 const { underwriterPathQuote } = require('./underwriterPathQuote');
 const { managerPathQuoteForRevision } = require('./managerPathQuoteForRevision');
@@ -8,14 +8,16 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients, { isUnderSixtyYearsOld: true });
 const { holder, beneficiary} = DataUtils.createRandomClientsStructures(clients);
+const  {loginManager , passwordManager} = Cypress.env().manager_credentials;
+const {loginUnder, passwordUnder} = Cypress.env().underwriter_credentials;
 
 describe('Quote test suite:', () => {
-    login();
+    login(loginManager, passwordManager);
     managerPathQuote(holder, beneficiary);
-    loginUnderwriter();
+    login(loginUnder, passwordUnder);
     underwriterPathQuote(holder, beneficiary);
-    login();
+    login(loginManager, passwordManager);
     managerPathQuoteForRevision();
-    loginUnderwriter();
+    login(loginUnder, passwordUnder);
     underwriterPathQuoteAfterRevision();
 });

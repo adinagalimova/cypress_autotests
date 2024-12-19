@@ -85,6 +85,11 @@ class BaseElement {
     this.getElement().scrollIntoView({ offset: { top: -150, left: 0 } });
   }
 
+  scrollToBottom() {
+    cy.logger('[inf] ▶ scroll to bottom');
+    cy.scrollTo('bottom');
+  }
+
   clearData() {
     cy.logger(`[inf] ▶ clear ${this.#elementName}`);
     this.getElement().clear();
@@ -122,6 +127,19 @@ class BaseElement {
   waitElementIsExisting() {
     return cy.waitIsExisting(this.#elementLocator.value);
   }
+
+  waitElementIsEnabled() {
+    cy.logger(`[inf] ▶️ wait ${this.#elementName} is enabled:`);
+    return this.getElement().waitIsEnabled().then((isEnabled) => {
+      cy.logger(
+          isEnabled
+              ? `[inf]   ${this.#elementName} is enabled`
+              : `[inf]   ${this.#elementName} is not enabled`,
+      );
+      return cy.wrap(isEnabled);
+    });
+  }
+
 
   elementIsExisting() {
     return cy.isExisting(this.#elementLocator.value);

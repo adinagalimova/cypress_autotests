@@ -6,9 +6,14 @@ exports.managerPathQuoteForRevision =  () => {
     it('Quote manager path for revision:', { scrollBehavior: false }, () => {
     mainPage.clickQuoteButton();
     quoteStep1.clickEditQuoteButton();
+    quoteStep5.clickQuotePage4Button();
+    quoteStep4.checkBusinessExpenses().then((valueBusinessExpenses) => {
+        cy.getLocalStorage('businessExpenses').then((businessExpenses) => {
+            expect(valueBusinessExpenses).to.equal(businessExpenses);
+        })
+    })
     quoteStep5.inputManagerCommentsForRevision();
     quoteStep5.clickSubmitForReviewButton();
     quoteStep5.clickLogoutButton();
-
     })
 }

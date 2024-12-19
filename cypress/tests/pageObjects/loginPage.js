@@ -17,10 +17,16 @@ class LoginPage extends BaseForm {
     this.#passwordTextbox = new Textbox(new XPATH('//input[@id="form_item_password"]'), 'password');
   }
 
-  fillLoginAndPassword() {
-    this.#loginTextbox.inputData(Cypress.env().login);
-    this.#passwordTextbox.inputData(Cypress.env().password);
+  // fillLoginAndPassword(login, password) {
+  //   this.#loginTextbox.inputData(Cypress.env().login);
+  //   this.#passwordTextbox.inputData(Cypress.env().password);
+  // }
+
+  fillLoginAndPassword(login, password) {
+    this.#loginTextbox.inputData(login);
+    this.#passwordTextbox.inputData(password);
   }
+
 
   fillLoginAndPasswordForUnderwriter() {
     this.#loginTextbox.inputData(Cypress.env().login_underwriter);

@@ -46,7 +46,6 @@ class QuoteStep4 extends BaseForm {
     constructor() {
         super(new XPATH('//label[@for="form_item_agentId"]'), 'Quote Page Step 4');
         this.#agentDropdown = new Button(new XPATH('//input[@id="form_item_agentId"]'), 'agent dropdown');
-
         this.#agentDropdownElements = new Button(new XPATH('//div[contains(@title,"ТОВАРИЩЕСТВО")]'), 'agent dropdown elements');
         this.#agentCommission = new Textbox(new XPATH('//input[@id="form_item_agentCommission"]'), 'agent commission');
         this.#contractType = new RadioButton(new XPATH('//div[@id="form_item_contractTypeId"]/child::label'), 'contract type radiobutton');
@@ -114,8 +113,8 @@ class QuoteStep4 extends BaseForm {
 
     chooseUnderwriter() {
         this.#underwriterDropdown.scrollElementToView();
-        const underwriter = 'Уланов Евгений Николаевич';
-        // const underwriter = 'ВОРОНКОВА АЛИНА АНДРЕЕВНА';
+        // const underwriter = 'Уланов Евгений Николаевич';
+        const underwriter = 'ВОРОНКОВА АЛИНА АНДРЕЕВНА';
         this.#underwriterDropdown.chooseElementFromDropdown(underwriter,{
             typeAndEnter: true
         });
@@ -145,7 +144,9 @@ class QuoteStep4 extends BaseForm {
     }
 
     inputInsuranceAmount() {
-        this.#insuranceAmount.inputData(Randomizer.getRandomInteger(900,0));
+        this.#insuranceAmount.chooseElementFromDropdown('1000000', { typeAndEnter: true });
+        // this.#insuranceAmount.clickElement();
+        // this.#insuranceAmount.inputData('1000000');
     }
 
     inputTariff() {
@@ -216,8 +217,13 @@ class QuoteStep4 extends BaseForm {
         return this.#tariff.getValue();
     }
     inputBusinessExpenses() {
-            this.#businessExpensesTextbox.inputData(Randomizer.getRandomInteger(900,0));
+            this.#businessExpensesTextbox.inputData(Randomizer.getRandomInteger(40,1));
     }
+
+    checkBusinessExpenses() {
+        return this.#businessExpensesTextbox.getValue();
+    }
+
 
     changeTariffAmount() {
         this.#tariff.clearData();

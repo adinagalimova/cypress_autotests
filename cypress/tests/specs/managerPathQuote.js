@@ -1,6 +1,7 @@
 const DataUtils = require('../../main/utils/data/dataUtils');
 const NodeEvents = require('../../support/nodeEvents');
 const Randomizer = require("../../main/utils/random/randomizer");
+const JSONLoader = require('../../main/utils/data/JSONLoader');
 const mainPage = require('../pageObjects/mainPage');
 const quoteStep1 = require('../pageObjects/quote/quoteStep1')
 const quoteStep2 = require('../pageObjects/quote/quoteStep2')
@@ -23,7 +24,6 @@ exports.managerPathQuote = (holder, beneficiary) => {
         let randomElementText;
         let randomInsuranceTypeName;
         let typeId;
-        let randomInsuranceProductName;
 
         DataUtils.getFromRequests('sales-channels*', 'salesChannels', 'default-insurance-types*','insuranceTypes' ).then( ([salesChannelsResponse, insuranceTypesResponse]) => {
                 const salesChannels = salesChannelsResponse
@@ -33,7 +33,6 @@ exports.managerPathQuote = (holder, beneficiary) => {
                 const randomElement = salesChannels.find((channel) => channel.name === randomElementText);
                 id_1c = randomElement.id_1c;
 
-                //  обработка второго запроса
                  const insuranceTypes = insuranceTypesResponse.data
                      .map((el)=> ({title:el.title, insurance_type_id: el.id_1c}));
                  const insuranceTypesNames = insuranceTypes.map(type => type.title);
@@ -89,13 +88,13 @@ exports.managerPathQuote = (holder, beneficiary) => {
             .should('have.value', beneficiary.document_number);
         quoteStep2.getDocumentIssuedDateElement()
             .should('have.value', beneficiary.document_gived_date.DMY);
-        quoteStep2.getOrSetDocumentIssuedByElement(holder.document_gived_by_quote)
-            .should('be.equal', holder.document_gived_by_quote);
+        quoteStep2.getOrSetDocumentIssuedByElement(beneficiary.document_gived_by_quote)
+            .should('be.equal', beneficiary.document_gived_by_quote);
         quoteStep2.getOrSetAddressElement(beneficiary.address)
             .should('have.value', beneficiary.address);
         quoteStep2.getOrSetEmailElement(beneficiary.email)
             .should('have.value', beneficiary.email);
-        quoteStep2.inputPhoneNumber(beneficiary.phone);
+        quoteStep2.inputPhoneNumber(holder.phone);
         quoteStep2.clickNextButton();
 
         //STEP 3
@@ -117,11 +116,10 @@ exports.managerPathQuote = (holder, beneficiary) => {
 
         // STEP 4
         quoteStep4.pageIsDisplayed().should('be.true').then(() => {
-            cy.intercept(new RegExp(`channel-details\\?where\\[sales_channel_id_1c\\]\\[operator\\]==&where\\[sales_channel_id_1c\\]\\[value\\]=${id_1c}`))
-                .as('channelDetails')
+            const regex= new RegExp(JSONLoader.testData.salesChannelsInterceptRegex.replace('${id_1c}', id_1c));
+            cy.intercept(regex).as('channelDetails')
             quoteStep4.clickRandomSalesChannel(randomElementText);
         });
-
         cy.wait('@channelDetails').then((interception) => {
             const channelDetails = interception.response.body
                 .map((el) => ({ name: el.name, id_1c: el.id_1c }));
@@ -130,21 +128,18 @@ exports.managerPathQuote = (holder, beneficiary) => {
             randomElementText = Randomizer.getRandomElementByText(channelDetailsNames);
             quoteStep4.clickRandomChannelDetail(randomElementText);
         }});
-
         quoteStep4.chooseAgent().then(() => {
-            cy.intercept(new RegExp(`insurance-type-products\\?insurance_type_id=${typeId}`))
-                .as('insuranceProducts')
+            const regex= new RegExp(JSONLoader.testData.insuranceTypesInterceptRegex.replace('${typeId}', typeId));
+            cy.intercept(regex).as('insuranceProducts')
             quoteStep4.clickRandomInsuranceType(randomInsuranceTypeName);
         });
         cy.wait('@insuranceProducts').then((interception) => {
             const insuranceProducts = interception.response.body.data;
             const insuranceProductNames = insuranceProducts.map(channel => channel.title);
-            randomInsuranceProductName = Randomizer.getRandomElementByText(insuranceProductNames)
+            const randomInsuranceProductName = Randomizer.getRandomElementByText(insuranceProductNames)
             quoteStep4.clickRandomInsuredProduct(randomInsuranceProductName);
         })
-
         quoteStep4.clickRandomRisks();
-
         quoteStep4.checkChosenAgent().then((value) => {
             cy.setLocalStorage('agent', value);
             cy.saveLocalStorage();
@@ -165,10 +160,6 @@ exports.managerPathQuote = (holder, beneficiary) => {
             cy.setLocalStorage('insuranceProduct', text);
             cy.saveLocalStorage();
         })
-        // quoteStep4.checkRisks().then((text) => {
-        //     cy.setLocalStorage('risks', text);
-        //     cy.saveLocalStorage();
-        // })
         quoteStep4.inputAgentCommission();
         quoteStep4.clickContractType();
         quoteStep4.getChosenContractType().then((type) => {
@@ -200,8 +191,13 @@ exports.managerPathQuote = (holder, beneficiary) => {
         // STEP 5
         quoteStep5.pageIsDisplayed().should('be.true');
         quoteStep5.inputInsuranceObjects();
+        quoteStep5.inputObjectCount();
         quoteStep5.uploadButtonClick();
         quoteStep5.inputManagerComments();
+        quoteStep5.checkObjectCount().then((value) => {
+            cy.setLocalStorage('objectCount', value);
+            cy.saveLocalStorage();
+        })
         quoteStep5.clickSaveButton();
         quoteStep5.getUploadedFile();
         quoteStep5.clickSubmitForReviewButton();

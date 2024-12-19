@@ -44,8 +44,6 @@ class QuoteStep1 extends BaseForm {
         this.#emailTextbox = new Textbox(new XPATH('//input[@id="form_item_email"]'), 'email textbox');
         this.#phoneNumberTextbox = new Textbox(new XPATH('//input[@placeholder="+7 ### ### ## ##"]'), 'phone number textbox');
         this.#nextButton = new Button(new XPATH('//div/button[contains(@class,"ant-btn-primary")]'), 'next button');
-
-        //underwriter
         this.#editQuoteButton = new Button(new XPATH('//td[@class="ant-table-cell"]/child::a'), 'edit quote button');
     }
     clickCreateButton() {

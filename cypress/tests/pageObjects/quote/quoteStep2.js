@@ -5,7 +5,7 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const RadioButton = require('../../../main/elements/baseElementChildren/radioButton');
 
 class QuoteStep2 extends BaseForm {
-    #residentCheckbox
+    #pageLabel
     #iinTextbox
     #searchClientButton
     #lastNameTextbox
@@ -24,7 +24,7 @@ class QuoteStep2 extends BaseForm {
 
     constructor() {
         super(new XPATH('//label[@for="form_item_typeId"]'), 'Quote Page Step 2');
-        this.#residentCheckbox = new Button(new XPATH('//input[@id="form_item_resident"]'), 'resident checkbox');
+        this.#pageLabel= new Button(new XPATH('//div[@class="ant-steps-item-title" and text()="Бенефициар"]'), 'page label');
         this.#iinTextbox = new Textbox(new XPATH('//input[@id="form_item_iin"]'), 'IIN textbox');
         this.#searchClientButton = new Button(new XPATH('//button[contains(@class,"ant-input-search-button")]'), 'search client button');
         this.#lastNameTextbox = new Textbox(new XPATH('//input[@id="form_item_lastName"]'), 'last name textbox');
@@ -43,8 +43,10 @@ class QuoteStep2 extends BaseForm {
     }
 
     inputDataInsuredIIN(iin) {
-        this.#residentCheckbox.scrollElementToView();
+        this.#pageLabel.scrollElementToView();
         cy.wait(3000)
+        this.#iinTextbox.waitElementIsExisting();
+        this.#iinTextbox.elementIsDisplayed();
         this.#iinTextbox.inputData(iin)
     }
 
