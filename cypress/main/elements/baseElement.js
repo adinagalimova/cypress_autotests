@@ -95,9 +95,9 @@ class BaseElement {
     this.getElement().clear();
   }
 
-  inputData(data, useCypressRealEvents = false) {
+  inputData(data, options = { useCypressRealEvents: false }) {
     cy.logger(`[inf] ▶ input ${this.#elementName}`);
-    if (useCypressRealEvents === true) {
+    if (options.useCypressRealEvents) {
       this.getElement().click();
       cy.realType(data);
     } else {
@@ -275,13 +275,11 @@ class BaseElement {
   }
 
   // lazy method for new calendar component that doesn't open calendar at the start
-  flipMonthsMST(rightArrowElement, startMonthDifference, finishMonthDifference) {
-    if (startMonthDifference < finishMonthDifference) {
-      const startToFinishMonthDifference = finishMonthDifference - startMonthDifference;
-      for (let i = 0; i < startToFinishMonthDifference; i += 1) {
-        cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
-        this.getElement(rightArrowElement.#elementLocator).click();
-      }
+  flipMonthsMST(rightArrowElement, monthIncrement) {
+    const monthIncrementMST = monthIncrement - 1;
+    for (let i = 0; i < monthIncrementMST; i += 1) {
+      cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
+      this.getElement(rightArrowElement.#elementLocator).click();
     }
   }
 
