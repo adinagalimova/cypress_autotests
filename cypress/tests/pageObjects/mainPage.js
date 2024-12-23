@@ -1,6 +1,7 @@
 const BaseForm = require('../../main/baseForm');
 const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
+const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 class MainPage extends BaseForm {
   #OGPOButton;
@@ -47,8 +48,11 @@ class MainPage extends BaseForm {
 
   clickQuoteButton() {
     // this.#quoteButton.clickElement();
-    cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
-    // cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false })
+    if (JSONLoader.configData.environment === 'localhost') {
+      cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
+    } else if (JSONLoader.configData.environment === 'dev') {
+      cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false })
+    }
   }
 
   clickLogoutButton() {

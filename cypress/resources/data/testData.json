@@ -57,6 +57,7 @@
   "managerComment": "Особые условия:\nВключить покрытие на территории стран СНГ.\nУчет износа запчастей при расчете возмещения не требуется.",
   "underwriterComment": "Изменены значения в полях франшизы по повреждению, франшизы по утрате, а также добавлены риски и значение РВД.",
   "managerCommentAfterRevision": "Внесенные изменения приняты. Прошу принять заявку на рассмотрение",
+  "underwriterName": "Уланов Евгений Николаевич",
 
   "salesChannelsInterceptRegex": "channel-details\\?where\\[sales_channel_id_1c\\]\\[operator\\]==&where\\[sales_channel_id_1c\\]\\[value\\]=${id_1c}",
   "insuranceTypesInterceptRegex": "insurance-type-products\\?insurance_type_id=${typeId}"

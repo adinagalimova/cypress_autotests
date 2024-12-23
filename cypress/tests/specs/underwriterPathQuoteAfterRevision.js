@@ -10,8 +10,5 @@ exports.underwriterPathQuoteAfterRevision =  () => {
             expect(text).to.equal('Версия №2');
         })
         quoteStep5.clickAcceptButton();
-
-
-
     })
 }

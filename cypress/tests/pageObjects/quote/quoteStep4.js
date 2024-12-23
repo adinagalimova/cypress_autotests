@@ -6,6 +6,7 @@ const Textbox = require('../../../main/elements/baseElementChildren/textbox');
 const Randomizer = require("../../../main/utils/random/randomizer");
 const TAG = require("../../../main/locators/baseLocatorChildren/TAG");
 const Label = require('../../../main/elements/baseElementChildren/label');
+const JSONLoader = require('../../../main/utils/data/JSONLoader');
 
 class QuoteStep4 extends BaseForm {
     #agentDropdown
@@ -115,9 +116,7 @@ class QuoteStep4 extends BaseForm {
 
     chooseUnderwriter() {
         this.#underwriterDropdown.scrollElementToView();
-        // const underwriter = 'Уланов Евгений Николаевич';
-        const underwriter = 'ВОРОНКОВА АЛИНА АНДРЕЕВНА';
-        this.#underwriterDropdown.chooseElementFromDropdown(underwriter,{
+        this.#underwriterDropdown.chooseElementFromDropdown(JSONLoader.testData.underwriterName,{
             typeAndEnter: true
         });
     }
@@ -136,14 +135,9 @@ class QuoteStep4 extends BaseForm {
 
     clickRandomRisks() {
         this.#risksDropdown.scrollElementToView();
-        // this.#risksDropdown.chooseRandomElementsFromDropdownByText(this.#risksElements,{
-        //     typeAndEnter: true
-        // });
-        // this.#risksDropdown.clearData();
         this.#risksDropdown.clickElement();
         this.#risksDropdown.chooseRandomElementsFromDropdownByText(
             this.#risksElements,
-
         );
     }
 
@@ -153,8 +147,6 @@ class QuoteStep4 extends BaseForm {
 
     inputInsuranceAmount() {
         this.#insuranceAmount.chooseElementFromDropdown('1000000', { typeAndEnter: true });
-        // this.#insuranceAmount.clickElement();
-        // this.#insuranceAmount.inputData('1000000');
     }
 
     inputTariff() {
@@ -240,8 +232,6 @@ class QuoteStep4 extends BaseForm {
         this.#tariff.clearData();
         this.#tariff.inputData(Randomizer.getRandomInteger());
     }
-
-
 }
 
 module.exports = new QuoteStep4();
