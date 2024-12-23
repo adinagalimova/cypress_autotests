@@ -90,9 +90,9 @@ class BaseElement {
     this.getElement().clear();
   }
 
-  inputData(data, useCypressRealEvents = false) {
+  inputData(data, options = { useCypressRealEvents: false }) {
     cy.logger(`[inf] ▶ input ${this.#elementName}`);
-    if (useCypressRealEvents === true) {
+    if (options.useCypressRealEvents) {
       this.getElement().click();
       cy.realType(data);
     } else {
@@ -115,12 +115,21 @@ class BaseElement {
     this.getElement().type(`${data}{enter}`);
   }
 
+  uploadFile(path) {
+    cy.logger(`[inf] ▶ upload file with ${this.#elementName}`);
+    this.getElement().selectFile(path, { force: true });
+  }
+
   elementIsVisible() {
     return this.getElement().isVisible();
   }
 
   elementIsExisting() {
     return cy.isExisting(this.#elementLocator.value);
+  }
+
+  waitElementIsExisting() {
+    return cy.waitIsExisting(this.#elementLocator.value);
   }
 
   elementIsDisplayed() {
@@ -139,9 +148,37 @@ class BaseElement {
     });
   }
 
+  waitElementIsDisplayed() {
+    cy.logger(`[inf] ▶ wait ${this.#elementName} is displayed:`);
+    return this.waitElementIsExisting().then((isExisting) => {
+      const notDisplayedLog = `[inf]   ${this.#elementName} is not displayed`;
+      if (isExisting) {
+        return this.elementIsVisible().then((isVisible) => {
+          cy.logger(isVisible ? `[inf]   ${this.#elementName} is displayed` : notDisplayedLog);
+          return cy.wrap(isVisible);
+        });
+      }
+
+      cy.logger(notDisplayedLog);
+      return cy.wrap(isExisting);
+    });
+  }
+
   elementIsEnabled() {
     cy.logger(`[inf] ▶ check ${this.#elementName} is enabled:`);
     return this.getElement().isEnabled().then((isEnabled) => {
+      cy.logger(
+        isEnabled
+          ? `[inf]   ${this.#elementName} is enabled`
+          : `[inf]   ${this.#elementName} is not enabled`,
+      );
+      return cy.wrap(isEnabled);
+    });
+  }
+
+  waitElementIsEnabled() {
+    cy.logger(`[inf] ▶ wait ${this.#elementName} is enabled:`);
+    return this.getElement().waitIsEnabled().then((isEnabled) => {
       cy.logger(
         isEnabled
           ? `[inf]   ${this.#elementName} is enabled`

@@ -58,18 +58,22 @@ exports.userPathKasko = (holder, car) => {
     kaskoStep4.inputCarRegNum(car.reg_num);
     kaskoStep4.inputCarRegCertNum(car.reg_cert_num);
     kaskoStep4.clickSearchCarButton();
-    kaskoStep4.getCarMarkElement()
-      .should('have.value', car.mark.KASKO.get);
-    kaskoStep4.getCarModelElement()
-      .should('have.value', car.model.KASKO.get);
-    kaskoStep4.getCarManufacturedYearElement()
-      .should('have.value', car.year);
     kaskoStep4.getCarVINElement()
       .should('have.value', car.vin);
     kaskoStep4.getCarRegionText()
       .should('be.equal', car.region_id);
     kaskoStep4.getCarRegDateElement()
       .should('have.value', car.dt_reg_cert.DMY);
+    kaskoStep4.getCarMarkElement()
+      .should('have.value', car.mark.KASKO.get);
+    kaskoStep4.getCarMarkFromRegCertText()
+      .should('contain', car.mark.KASKO.set);
+    kaskoStep4.getCarModelElement()
+      .should('have.value', car.model.KASKO.get);
+    kaskoStep4.getCarModelFromRegCertText()
+      .should('contain', car.model.KASKO.set);
+    kaskoStep4.getCarManufacturedYearElement()
+      .should('have.value', car.year);
     kaskoStep4.getInsuranceSumText()
       .then((insuranceSumValue) => cy.wrap(insuranceSumValue)
         .should('be.equal', insuranceSum));

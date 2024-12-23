@@ -1,4 +1,5 @@
 {
+  "pathToTestPicture": "./resources/testPicture.jpg",
   "timeIncrement": [2, "months"],
   "timeIncrementOneYear": [1, "year"],
   "timeIncrement180Days": [180, "days"],

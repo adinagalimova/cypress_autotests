@@ -11,12 +11,15 @@ class MainPage extends BaseForm {
 
   #MSTButton;
 
+  #VMSButton;
+
   constructor() {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
     this.#OGPOButton = new Button(new XPATH('//a[@href="/ogpo/create"]'), 'OGPO button');
     this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'Mutual button');
     this.#MSTButton = new Button(new XPATH('//a[@href="/mst/create"]'), 'MST button');
     this.#kaskoButton = new Button(new XPATH('//a[@href="/kasko/create"]'), 'kasko button');
+    this.#VMSButton = new Button(new XPATH('//a[@href="/vms/create"]'), 'VMS button');
   }
 
   clickOGPOButton() {
@@ -33,6 +36,10 @@ class MainPage extends BaseForm {
 
   clickMSTButton() {
     this.#MSTButton.clickElement();
+  }
+
+  clickVMSButton() {
+    this.#VMSButton.clickElement();
   }
 }
 
