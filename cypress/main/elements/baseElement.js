@@ -132,6 +132,18 @@ class BaseElement {
     return cy.waitIsExisting(this.#elementLocator.value);
   }
 
+  waitElementIsEnabled() {
+    cy.logger(`[inf] ▶️ wait ${this.#elementName} is enabled:`);
+    return this.getElement().waitIsEnabled().then((isEnabled) => {
+      cy.logger(
+        isEnabled
+          ? `[inf]   ${this.#elementName} is enabled`
+          : `[inf]   ${this.#elementName} is not enabled`,
+      );
+      return cy.wrap(isEnabled);
+    });
+  }
+
   elementIsDisplayed() {
     cy.logger(`[inf] ▶ check ${this.#elementName} is displayed:`);
     return this.elementIsExisting().then((isExisting) => {
