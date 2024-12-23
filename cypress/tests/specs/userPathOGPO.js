@@ -181,7 +181,6 @@ exports.userPathOGPO = (holder, insured, car) => {
     OGPOStep5.getPaymentCode()
       .then((code) => cy.setLocalStorage('paymentCode', code));
 
-
     OGPOStep5.getPolicyNumberText()
       .then((value) => cy.setLocalStorage('OGPOPolicyNumber', value));
     OGPOStep5.getInsurancePeriodAfterIssuingText()

@@ -10,7 +10,7 @@ module.exports = {
   ignorePatterns: [
     'main/utils/data/JSONLoader.js',
     'artifacts/',
-    'node_modules/'
+    'node_modules/',
   ],
   extends: [
     'airbnb-base',

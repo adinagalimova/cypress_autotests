@@ -20,13 +20,13 @@ module.exports = defineConfig({
     allureAvoidLoggingCommands: JSONLoader.configData.allureAvoidLoggingCommands,
     logLevel: 'INFO',
     manager_credentials: {
-      "loginManager": process.env.AUTH_LOGIN,
-      "passwordManager": process.env.AUTH_PASSWORD
+      loginManager: process.env.AUTH_LOGIN,
+      passwordManager: process.env.AUTH_PASSWORD,
     },
     underwriter_credentials: {
-      "loginUnder": process.env.AUTH_LOGIN_UNDERWRITER,
-      "passwordUnder": process.env.AUTH_PASSWORD_UNDERWRITER
-    }
+      loginUnder: process.env.AUTH_LOGIN_UNDERWRITER,
+      passwordUnder: process.env.AUTH_PASSWORD_UNDERWRITER,
+    },
   },
   e2e: {
     baseUrl: '' || process.env.BASE_URL,

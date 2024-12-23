@@ -21,15 +21,16 @@ exports.userPathMST = (holder, insured = { parseAllCountriesFromPage: false }) =
     DataUtils.getFromRequest('countries*', 'countries').then((responseBody) => {
       const excludedCountriesArr = JSONLoader.testData.MSTExcludedCountries;
       countries = responseBody
-          .filter(country => !excludedCountriesArr.includes(country.title))
-          .map(country => country.title);
+        .filter((country) => !excludedCountriesArr.includes(country.title))
+        .map((country) => country.title);
     });
 
     MSTStep1.pageIsDisplayed().should('be.true');
     // MSTStep1.clickAgent();
     // MSTStep1.clickFirstAgent();
 
-    MSTStep1.clickRandomDuration().then(() => MSTStep1.clickNRandomCountries(countries, JSONLoader.testData.MSTCountriesCount));
+    MSTStep1.clickRandomDuration()
+      .then(() => MSTStep1.clickNRandomCountries(countries, JSONLoader.testData.MSTCountriesCount));
 
     MSTStep1.getChosenDuration().then((duration) => {
       switch (duration) {

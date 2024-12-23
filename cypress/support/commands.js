@@ -13,16 +13,14 @@ Cypress.Commands.add('open', (url, options) => {
 
 Cypress.Commands.add('isVisible', { prevSubject: true }, (subject) => Cypress.dom.isVisible(subject));
 
-Cypress.Commands.add('waitIsEnabled', { prevSubject: true }, (subject) => {
-  return cy.waitUntil(() => new Cypress.Promise((resolve) => {
-    Cypress.$(() => {
-      resolve(Cypress.$(subject).prop('disabled') === false);
-    });
-  }), {
-    timeout: Cypress.config('defaultCommandTimeout'),
-    interval: 500,
+Cypress.Commands.add('waitIsEnabled', { prevSubject: true }, (subject) => cy.waitUntil(() => new Cypress.Promise((resolve) => {
+  Cypress.$(() => {
+    resolve(Cypress.$(subject).prop('disabled') === false);
   });
-});
+}), {
+  timeout: Cypress.config('defaultCommandTimeout'),
+  interval: 500,
+}));
 
 Cypress.Commands.add('isExisting', { prevSubject: false }, (subject) => cy.document().then((document) => {
   const convertLocator = (locator) => {
@@ -72,7 +70,6 @@ Cypress.Commands.add('waitIsExisting', { prevSubject: false }, (subject) => cy.d
     interval: 500,
   });
 }));
-
 
 Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes("Cannot read properties of null (reading 'focus')")) return false;

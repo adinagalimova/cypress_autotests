@@ -6,7 +6,7 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients, { isUnderSixtyYearsOld: true });
 const { holder, insured } = DataUtils.createRandomClientsStructures(clients);
-const {loginManager , passwordManager} = Cypress.env().manager_credentials;
+const { loginManager, passwordManager } = Cypress.env().manager_credentials;
 
 describe('MST test suite:', () => {
   login(loginManager, passwordManager);

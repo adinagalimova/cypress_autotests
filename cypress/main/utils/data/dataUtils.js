@@ -12,17 +12,13 @@ class DataUtils {
 
   static getFromRequests(url1, alias1, url2, alias2) {
     cy.intercept(url1).as(alias1);
-    cy.intercept(url2).as(alias2)
-    return cy.wait([`@${alias1}`,`@${alias2}`]).then(([interception1, interception2]) => {
-      return [interception1.response.body, interception2.response.body];
-    })
+    cy.intercept(url2).as(alias2);
+    return cy.wait([`@${alias1}`, `@${alias2}`]).then(([interception1, interception2]) => [interception1.response.body, interception2.response.body]);
   }
 
   static getFromRequest(url, alias) {
     cy.intercept(url).as(alias);
-    return cy.wait([`@${alias}`]).then((interception) => {
-      return interception.response.body;
-    })
+    return cy.wait([`@${alias}`]).then((interception) => interception.response.body);
   }
 
   /**
@@ -126,7 +122,8 @@ class DataUtils {
 
     do {
       randomBeneficiaryIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
-    } while (randomBeneficiaryIndex === randomHolderIndex || randomBeneficiaryIndex === randomInsuredIndex);
+    } while (randomBeneficiaryIndex === randomHolderIndex
+      || randomBeneficiaryIndex === randomInsuredIndex);
 
     const tempHolder = clientsArr[randomHolderIndex];
     const tempInsured = clientsArr[randomInsuredIndex];
@@ -195,18 +192,18 @@ class DataUtils {
     resultBeneficiary.document_gived_date = {};
     resultBeneficiary.document_gived_date.YMD = tempBeneficiary.document_gived_date;
     resultBeneficiary.document_gived_date.DMY = TimeUtils
-        .reformatDateFromYMDToDMY(tempBeneficiary.document_gived_date);
+      .reformatDateFromYMDToDMY(tempBeneficiary.document_gived_date);
     resultBeneficiary.born = {};
     resultBeneficiary.born.YMD = tempBeneficiary.born;
     resultBeneficiary.born.DMY = TimeUtils.reformatDateFromYMDToDMY(tempBeneficiary.born);
     resultBeneficiary.date_issue_license = {};
     resultBeneficiary.date_issue_license.YMD = tempBeneficiary.date_issue_license;
     resultBeneficiary.date_issue_license.DMY = TimeUtils
-        .reformatDateFromYMDToDMY(tempBeneficiary.date_issue_license);
+      .reformatDateFromYMDToDMY(tempBeneficiary.date_issue_license);
 
     resultBeneficiary.iin = tempBeneficiary.iin.toString();
     resultBeneficiary.document_type = JSONLoader
-        .dictDocumentType[tempBeneficiary.document_type_id.toString()];
+      .dictDocumentType[tempBeneficiary.document_type_id.toString()];
     resultBeneficiary.sex = JSONLoader.dictSexID[tempBeneficiary.sex_id];
     resultBeneficiary.address = JSONLoader.testData.beneficiaryAddress;
     resultBeneficiary.email = JSONLoader.testData.beneficiaryEmail;
@@ -217,7 +214,7 @@ class DataUtils {
     resultBeneficiary.invalid_bool = JSONLoader.testData.beneficiaryIsInvalid;
     resultBeneficiary.pensioner_bool = JSONLoader.testData.beneficiaryIsPensioner;
 
-    return { holder: resultHolder, insured: resultInsured,  beneficiary: resultBeneficiary };
+    return { holder: resultHolder, insured: resultInsured, beneficiary: resultBeneficiary };
   }
 
   static prepareSetClientRequestBody(getClientResponse, client) {

@@ -16,14 +16,14 @@ class BaseElement {
     let elementLocator = locator;
     if (!elementLocator) elementLocator = this.#elementLocator;
     return elementLocator instanceof XPATH
-        ? cy.xpath(elementLocator.value).first()
-        : cy.get(elementLocator.value).first();
+      ? cy.xpath(elementLocator.value).first()
+      : cy.get(elementLocator.value).first();
   }
 
   getElements() {
     return this.#elementLocator instanceof XPATH
-        ? cy.xpath(this.#elementLocator.value)
-        : cy.get(this.#elementLocator.value);
+      ? cy.xpath(this.#elementLocator.value)
+      : cy.get(this.#elementLocator.value);
   }
 
   clickElement() {
@@ -85,7 +85,7 @@ class BaseElement {
     this.getElement().scrollIntoView({ offset: { top: -150, left: 0 } });
   }
 
-  scrollToBottom() {
+  scrollToBottom() { // eslint-disable-line class-methods-use-this
     cy.logger('[inf] ▶ scroll to bottom');
     cy.scrollTo('bottom');
   }
@@ -132,14 +132,13 @@ class BaseElement {
     cy.logger(`[inf] ▶️ wait ${this.#elementName} is enabled:`);
     return this.getElement().waitIsEnabled().then((isEnabled) => {
       cy.logger(
-          isEnabled
-              ? `[inf]   ${this.#elementName} is enabled`
-              : `[inf]   ${this.#elementName} is not enabled`,
+        isEnabled
+          ? `[inf]   ${this.#elementName} is enabled`
+          : `[inf]   ${this.#elementName} is not enabled`,
       );
       return cy.wrap(isEnabled);
     });
   }
-
 
   elementIsExisting() {
     return cy.isExisting(this.#elementLocator.value);
@@ -165,9 +164,9 @@ class BaseElement {
     cy.logger(`[inf] ▶ check ${this.#elementName} is enabled:`);
     return this.getElement().isEnabled().then((isEnabled) => {
       cy.logger(
-          isEnabled
-              ? `[inf]   ${this.#elementName} is enabled`
-              : `[inf]   ${this.#elementName} is not enabled`,
+        isEnabled
+          ? `[inf]   ${this.#elementName} is enabled`
+          : `[inf]   ${this.#elementName} is not enabled`,
       );
       return cy.wrap(isEnabled);
     });
@@ -200,8 +199,22 @@ class BaseElement {
 
     if (exceptionElementsList.length !== 0) {
       exceptionElementsList.forEach((element) => this.getElement(element.#elementLocator)
-          .then(($el) => exceptionsTextList.push($el.text())));
+        .then(($el) => exceptionsTextList.push($el.text())));
     }
+
+    const processValuesList = (listOfValues) => {
+      for (let counter = 0; counter < count; counter += 1) {
+        cy.logger(`[inf] ▶ click ${listOfValues}`);
+        cy.logger(`[inf] ▶ get random element from ${listOfValues}`);
+        const randomElementText = Randomizer.getRandomElementByText(
+          listOfValues,
+          exceptionsTextList,
+        );
+        exceptionsTextList.push(randomElementText);
+        selectedElements.push(randomElementText);
+        dropdownElement.chooseElementFromDropdown(randomElementText, typeAndEnter);
+      }
+    };
 
     if (!valuesList) {
       valuesList = dropdownElement.getElementsListText({ propertyName: 'innerText' }).then((elements) => {
@@ -210,20 +223,6 @@ class BaseElement {
       });
     } else {
       processValuesList(valuesList);
-    }
-
-    function processValuesList(valuesList) {
-      for (let counter = 0; counter < count; counter += 1) {
-        cy.logger(`[inf] ▶ click ${valuesList}`);
-        cy.logger(`[inf] ▶ get random element from ${valuesList}`);
-        const randomElementText = Randomizer.getRandomElementByText(
-            valuesList,
-            exceptionsTextList,
-        );
-        exceptionsTextList.push(randomElementText);
-        selectedElements.push(randomElementText);
-        dropdownElement.chooseElementFromDropdown(randomElementText, typeAndEnter);
-      }
     }
 
     return cy.wrap(selectedElements);
@@ -238,14 +237,14 @@ class BaseElement {
       const exceptionsTextList = [];
       if (exceptionsElements.length !== 0) {
         exceptionsElements.forEach((element) => this.getElement(element.#elementLocator)
-            .then(($el) => exceptionsTextList.push($el.text())));
+          .then(($el) => exceptionsTextList.push($el.text())));
       }
 
       for (let counter = 0; counter < count; counter += 1) {
         cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
         const randomElementText = Randomizer.getRandomElementByText(
-            elementsTextList,
-            exceptionsTextList,
+          elementsTextList,
+          exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
         cy.logger(`[inf] ▶ click ${randomElementText}`);

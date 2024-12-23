@@ -13,7 +13,8 @@ class MainPage extends BaseForm {
   #MSTButton;
 
   #estateButton;
-  #logoutButton
+
+  #logoutButton;
 
   constructor() {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
@@ -46,12 +47,12 @@ class MainPage extends BaseForm {
     this.#estateButton.clickElement();
   }
 
-  clickQuoteButton() {
+  clickQuoteButton() { // eslint-disable-line class-methods-use-this
     // this.#quoteButton.clickElement();
     if (JSONLoader.configData.environment === 'localhost') {
-      cy.open('http://localhost:3000/quotes', { failOnStatusCode: false })
+      cy.open('http://localhost:3000/quotes', { failOnStatusCode: false });
     } else if (JSONLoader.configData.environment === 'dev') {
-      cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false })
+      cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false });
     }
   }
 

@@ -33,9 +33,8 @@ class KaskoStep7 extends BaseForm {
     this.#holderLabel = new Label(new XPATH('//label[@title=\'Страхователь\']//following::span'), 'holder label');
     this.#beneficiaryLabel = new Label(new XPATH('//label[@title=\'Выгодоприобретатель\']//following::span'), 'beneficiary label');
     this.#insuredCarLabel = new Label(new XPATH('//label[@title=\'Застрахованный ТС\']//following::span'), 'insured car label');
-    
-    this.#policyStartDateCalendarButton = new Button(new XPATH('//input[@id="form_item_insurance_start_date"]'), 'policy start date calendar button');
 
+    this.#policyStartDateCalendarButton = new Button(new XPATH('//input[@id="form_item_insurance_start_date"]'), 'policy start date calendar button');
 
     this.#calendarRightArrowButton = new Button(new XPATH('//button[contains(@class, "ant-picker-header-next-btn")]'), 'right calendar arrow button');
     this.#additionalInfoTextbox = new Textbox(new XPATH('//textarea[@id=\'form_item_additional_info\']'), 'additional info textbox');
