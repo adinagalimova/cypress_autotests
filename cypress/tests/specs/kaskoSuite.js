@@ -7,9 +7,10 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 const clients = DataUtils.filterClients(JSONLoader.testClients);
 const { holder } = DataUtils.createRandomHolderAndInsuredStructures(clients);
 const car = DataUtils.createRandomCarStructure(JSONLoader.testCars);
+const { loginManager, passwordManager } = Cypress.env().manager_credentials;
 
 describe('Kasko test suite', () => {
-  login();
+  login(loginManager, passwordManager);
   userPathKasko(holder, car);
   kaspiPay();
 });

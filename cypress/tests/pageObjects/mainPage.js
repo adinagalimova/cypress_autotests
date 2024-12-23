@@ -20,6 +20,7 @@ class MainPage extends BaseForm {
     this.#MSTButton = new Button(new XPATH('//a[@href="/mst/create"]'), 'MST button');
     this.#kaskoButton = new Button(new XPATH('//a[@href="/kasko/create"]'), 'kasko button');
     this.#VMSButton = new Button(new XPATH('//a[@href="/vms/create"]'), 'VMS button');
+    // this.#quoteButton = new Button(new XPATH('//a[@href="/quotes/create"]'), 'Quote button');
   }
 
   clickOGPOButton() {
@@ -40,6 +41,15 @@ class MainPage extends BaseForm {
 
   clickVMSButton() {
     this.#VMSButton.clickElement();
+  }
+
+  clickQuoteButton() { // eslint-disable-line class-methods-use-this
+    // this.#quoteButton.clickElement();
+    if (JSONLoader.configData.environment === 'localhost') {
+      cy.open('http://localhost:3000/quotes', { failOnStatusCode: false });
+    } else if (JSONLoader.configData.environment === 'dev') {
+      cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false });
+    }
   }
 }
 

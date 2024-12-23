@@ -132,18 +132,6 @@ class BaseElement {
     return cy.waitIsExisting(this.#elementLocator.value);
   }
 
-  waitElementIsEnabled() {
-    cy.logger(`[inf] ▶️ wait ${this.#elementName} is enabled:`);
-    return this.getElement().waitIsEnabled().then((isEnabled) => {
-      cy.logger(
-        isEnabled
-          ? `[inf]   ${this.#elementName} is enabled`
-          : `[inf]   ${this.#elementName} is not enabled`,
-      );
-      return cy.wrap(isEnabled);
-    });
-  }
-
   elementIsDisplayed() {
     cy.logger(`[inf] ▶ check ${this.#elementName} is displayed:`);
     return this.elementIsExisting().then((isExisting) => {
@@ -215,7 +203,7 @@ class BaseElement {
    * @param {BaseElement[]} options.exceptionElementsList
    */
   chooseRandomElementsFromDropdownByText(dropdownElement, options = {}) {
-    let valuesListPromise = options.valuesListPromise ?? null;
+    let valuesList = options.valuesList ?? null;
     const count = options.count ?? 1;
     const typeAndEnter = options.typeAndEnter ?? false;
     const exceptionElementsList = options.exceptionElementsList ?? [];
@@ -223,27 +211,37 @@ class BaseElement {
     this.getElement(this.#elementLocator).click();
 
     const exceptionsTextList = [];
+    const selectedElements = [];
+
     if (exceptionElementsList.length !== 0) {
       exceptionElementsList.forEach((element) => this.getElement(element.#elementLocator)
-        .then(($el) => exceptionsTextList.push($el.text())));
+          .then(($el) => exceptionsTextList.push($el.text())));
     }
 
-    if (!valuesListPromise) {
-      valuesListPromise = dropdownElement.getElementsListText({ propertyName: 'innerText' });
-    }
-
-    valuesListPromise.then((elementsTextList) => {
+    const processValuesList = (listOfValues) => {
       for (let counter = 0; counter < count; counter += 1) {
-        cy.logger(`[inf] ▶ click ${dropdownElement.#elementName}`);
-        cy.logger(`[inf] ▶ get random element from ${this.#elementName}`);
+        cy.logger(`[inf] ▶ click ${listOfValues}`);
+        cy.logger(`[inf] ▶ get random element from ${listOfValues}`);
         const randomElementText = Randomizer.getRandomElementByText(
-          elementsTextList,
-          exceptionsTextList,
+            listOfValues,
+            exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
+        selectedElements.push(randomElementText);
         dropdownElement.chooseElementFromDropdown(randomElementText, typeAndEnter);
       }
-    });
+    };
+
+    if (!valuesList) {
+      valuesList = dropdownElement.getElementsListText({ propertyName: 'innerText' }).then((elements) => {
+        valuesList = elements;
+        processValuesList(valuesList);
+      });
+    } else {
+      processValuesList(valuesList);
+    }
+
+    return cy.wrap(selectedElements);
   }
 
   // requires one mandatory argument:

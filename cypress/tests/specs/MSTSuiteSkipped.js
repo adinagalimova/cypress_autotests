@@ -6,9 +6,10 @@ const JSONLoader = require('../../main/utils/data/JSONLoader');
 
 const clients = DataUtils.filterClients(JSONLoader.testClients, { isUnderSixtyYearsOld: true });
 const { holder, insured } = DataUtils.createRandomHolderAndInsuredStructures(clients);
+const { loginManager, passwordManager } = Cypress.env().manager_credentials;
 
 describe('MST test suite:', () => {
-  login();
+  login(loginManager, passwordManager);
   userPathMST(holder, insured);
   kaspiPay();
 });
