@@ -6,7 +6,7 @@ const { underwriterPathQuoteAfterRevision } = require('./underwriterPathQuoteAft
 const DataUtils = require('../../main/utils/data/dataUtils');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
-const clients = DataUtils.filterClients(JSONLoader.testClients, { isUnderSixtyYearsOld: true });
+const clients = DataUtils.filterClients(JSONLoader.testClients, { hasPassport: false });
 const { holder, beneficiary } = DataUtils.createRandomClientsStructures(clients);
 const { loginManager, passwordManager } = Cypress.env().manager_credentials;
 const { loginUnder, passwordUnder } = Cypress.env().underwriter_credentials;

@@ -59,6 +59,6 @@
   "managerCommentAfterRevision": "Внесенные изменения приняты. Прошу принять заявку на рассмотрение",
   "underwriterName": "Уланов Евгений Николаевич",
 
-  "salesChannelsInterceptRegex": "channel-details\\?where\\[sales_channel_id_1c\\]\\[operator\\]==&where\\[sales_channel_id_1c\\]\\[value\\]=${id_1c}",
-  "insuranceTypesInterceptRegex": "insurance-type-products\\?insurance_type_id=${typeId}"
+  "salesChannelsInterceptRegex": "channel-details\\?where\\[sales_channel_id_1c\\]\\[operator\\]==&where\\[sales_channel_id_1c\\]\\[value\\]=IDOnes",
+  "insuranceTypesInterceptRegex": "insurance-type-products\\?insurance_type_id=typeID"
 }

@@ -126,9 +126,10 @@ class Randomizer {
   }
 
   static getRandomElementByText(baseElements, exceptionsList) {
+    const exceptions = exceptionsList ?? [];
     const baseElementsList = baseElements.slice(0, baseElements.length);
     let element;
-    if (exceptionsList.length > 0) {
+    if (exceptions.length > 0) {
       while (true) { // eslint-disable-line no-constant-condition
         element = baseElementsList[Math.floor(Math.random() * baseElementsList.length)];
         if (!exceptionsList.includes(element) && (element !== '')) break;
