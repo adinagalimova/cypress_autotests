@@ -99,7 +99,7 @@ class MSTStep1 extends BaseForm {
     this.#countriesDropdownButton.chooseRandomElementsFromDropdownByText(
       this.#countriesDropdown,
       {
-        valuesListPromise: countries,
+        valuesList: countries,
         count,
         typeAndEnter: true,
       },

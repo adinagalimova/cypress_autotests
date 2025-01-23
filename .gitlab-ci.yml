@@ -41,7 +41,7 @@
 #   script:
 #     - |
 #       info=$(curl --silent --header "PRIVATE-TOKEN: $TOKEN" "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/pipelines?ref=$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" | jq '.[0]')
-      
+
 #       if [ "$info" = "null" ]; then
 #           echo "Previous pipeline not found"
 #           exit 0

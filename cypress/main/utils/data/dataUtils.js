@@ -10,16 +10,15 @@ class DataUtils {
     return (await parseStringPromise(xml)).response;
   }
 
-  static getCountriesFromRequest(excludedCountriesArr) {
-    const countries = [];
-    cy.intercept(
-      'countries*',
-      (request) => request.continue((response) => response.body.forEach((country) => {
-        if (!excludedCountriesArr.includes(country.title)) countries.push(country.title);
-      })),
-    );
+  static getFromRequests(url1, alias1, url2, alias2) {
+    cy.intercept(url1).as(alias1);
+    cy.intercept(url2).as(alias2);
+    return cy.wait([`@${alias1}`, `@${alias2}`]).then(([interception1, interception2]) => [interception1.response.body, interception2.response.body]);
+  }
 
-    return cy.wrap(countries);
+  static getFromRequest(url, alias) {
+    cy.intercept(url).as(alias);
+    return cy.wait(`@${alias}`).then((interception) => interception.response.body);
   }
 
   /**
@@ -61,7 +60,7 @@ class DataUtils {
 
     filteredClients = filteredClients.filter((client) => {
       if (hasPassport !== undefined) {
-        return hasPassport ? client.document_type_id === 2 : client.document_type_id !== 2;
+        return hasPassport ? client.document_type_id === 11 : client.document_type_id !== 11;
       }
 
       return true;
@@ -112,37 +111,49 @@ class DataUtils {
     return resultCar;
   }
 
-  static createRandomHolderAndInsuredStructures(clientsArr) {
+  static createRandomClientsStructures(clientsArr) {
     const randomHolderIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
     let randomInsuredIndex;
+    let randomBeneficiaryIndex;
+
     do {
       randomInsuredIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
     } while (randomInsuredIndex === randomHolderIndex);
+
+    do {
+      randomBeneficiaryIndex = Randomizer.getRandomInteger(clientsArr.length - 1);
+    } while (randomBeneficiaryIndex === randomHolderIndex
+    || randomBeneficiaryIndex === randomInsuredIndex);
+
     const tempHolder = clientsArr[randomHolderIndex];
     const tempInsured = clientsArr[randomInsuredIndex];
+    const tempBeneficiary = clientsArr[randomBeneficiaryIndex];
+
     const resultHolder = { ...tempHolder };
     const resultInsured = { ...tempInsured };
+    const resultBeneficiary = { ...tempBeneficiary };
 
     resultHolder.document_gived_date = {};
     resultHolder.document_gived_date.YMD = tempHolder.document_gived_date;
     resultHolder.document_gived_date.DMY = TimeUtils
-      .reformatDateFromYMDToDMY(tempHolder.document_gived_date);
+        .reformatDateFromYMDToDMY(tempHolder.document_gived_date);
     resultHolder.born = {};
     resultHolder.born.YMD = tempHolder.born;
     resultHolder.born.DMY = TimeUtils.reformatDateFromYMDToDMY(tempHolder.born);
     resultHolder.date_issue_license = {};
     resultHolder.date_issue_license.YMD = tempHolder.date_issue_license;
     resultHolder.date_issue_license.DMY = TimeUtils
-      .reformatDateFromYMDToDMY(tempHolder.date_issue_license);
+        .reformatDateFromYMDToDMY(tempHolder.date_issue_license);
 
     resultHolder.iin = tempHolder.iin.toString();
     resultHolder.document_type = JSONLoader
-      .dictDocumentType[tempHolder.document_type_id.toString()];
+        .dictDocumentType[tempHolder.document_type_id.toString()];
 
     resultHolder.sex = JSONLoader.dictSexID[tempHolder.sex_id];
     resultHolder.address = JSONLoader.testData.holderAddress;
     resultHolder.email = JSONLoader.testData.holderEmail;
     resultHolder.document_gived_by = JSONLoader.testData.holderDocumentGivedBy;
+    resultHolder.document_gived_by_quote = JSONLoader.testData.holderDocumentGivedByQuote;
     resultHolder.pdl = JSONLoader.testData.holderIsPDL;
     resultHolder.driver_certificate_type_id = JSONLoader.testData.holderDriverLicenceType;
     resultHolder.invalid_bool = JSONLoader.testData.holderIsInvalid;
@@ -156,18 +167,18 @@ class DataUtils {
     resultInsured.document_gived_date = {};
     resultInsured.document_gived_date.YMD = tempInsured.document_gived_date;
     resultInsured.document_gived_date.DMY = TimeUtils
-      .reformatDateFromYMDToDMY(tempInsured.document_gived_date);
+        .reformatDateFromYMDToDMY(tempInsured.document_gived_date);
     resultInsured.born = {};
     resultInsured.born.YMD = tempInsured.born;
     resultInsured.born.DMY = TimeUtils.reformatDateFromYMDToDMY(tempInsured.born);
     resultInsured.date_issue_license = {};
     resultInsured.date_issue_license.YMD = tempInsured.date_issue_license;
     resultInsured.date_issue_license.DMY = TimeUtils
-      .reformatDateFromYMDToDMY(tempInsured.date_issue_license);
+        .reformatDateFromYMDToDMY(tempInsured.date_issue_license);
 
     resultInsured.iin = tempInsured.iin.toString();
     resultInsured.document_type = JSONLoader
-      .dictDocumentType[tempInsured.document_type_id.toString()];
+        .dictDocumentType[tempInsured.document_type_id.toString()];
 
     resultInsured.sex = JSONLoader.dictSexID[tempInsured.sex_id];
     resultInsured.address = JSONLoader.testData.insuredAddress;
@@ -178,7 +189,32 @@ class DataUtils {
     resultInsured.invalid_bool = JSONLoader.testData.insuredIsInvalid;
     resultInsured.pensioner_bool = JSONLoader.testData.insuredIsPensioner;
 
-    return { holder: resultHolder, insured: resultInsured };
+    resultBeneficiary.document_gived_date = {};
+    resultBeneficiary.document_gived_date.YMD = tempBeneficiary.document_gived_date;
+    resultBeneficiary.document_gived_date.DMY = TimeUtils
+        .reformatDateFromYMDToDMY(tempBeneficiary.document_gived_date);
+    resultBeneficiary.born = {};
+    resultBeneficiary.born.YMD = tempBeneficiary.born;
+    resultBeneficiary.born.DMY = TimeUtils.reformatDateFromYMDToDMY(tempBeneficiary.born);
+    resultBeneficiary.date_issue_license = {};
+    resultBeneficiary.date_issue_license.YMD = tempBeneficiary.date_issue_license;
+    resultBeneficiary.date_issue_license.DMY = TimeUtils
+        .reformatDateFromYMDToDMY(tempBeneficiary.date_issue_license);
+
+    resultBeneficiary.iin = tempBeneficiary.iin.toString();
+    resultBeneficiary.document_type = JSONLoader
+        .dictDocumentType[tempBeneficiary.document_type_id.toString()];
+    resultBeneficiary.sex = JSONLoader.dictSexID[tempBeneficiary.sex_id];
+    resultBeneficiary.address = JSONLoader.testData.beneficiaryAddress;
+    resultBeneficiary.email = JSONLoader.testData.beneficiaryEmail;
+    resultBeneficiary.document_gived_by = JSONLoader.testData.beneficiaryDocumentGivedBy;
+    resultBeneficiary.document_gived_by_quote = JSONLoader.testData.beneficiaryDocumentGivedByQuote;
+    resultBeneficiary.pdl = JSONLoader.testData.beneficiaryIsPDL;
+    resultBeneficiary.driver_certificate_type_id = JSONLoader.testData.beneficiaryDriverLicenceType;
+    resultBeneficiary.invalid_bool = JSONLoader.testData.beneficiaryIsInvalid;
+    resultBeneficiary.pensioner_bool = JSONLoader.testData.beneficiaryIsPensioner;
+
+    return { holder: resultHolder, insured: resultInsured, beneficiary: resultBeneficiary };
   }
 
   static prepareSetClientRequestBody(getClientResponse, client) {

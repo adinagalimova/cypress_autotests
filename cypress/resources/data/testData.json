@@ -1,9 +1,9 @@
 {
-  "pathToTestPicture": "./resources/testPicture.jpg",
   "timeIncrement": [2, "months"],
   "timeIncrementOneYear": [1, "year"],
   "timeIncrement180Days": [180, "days"],
   "timeIncrementForKaskoInstallmentPaymentFirstDate": [1, "months"],
+  "timeIncrementForEstateInstallmentPaymentFirstDate": [1, "months"],
   "datesFormatYMD": "YYYY-MM-DD",
   "datesFormatDMY": "DD.MM.YYYY",
   "responsePaid": "оплачен",
@@ -14,10 +14,12 @@
   "mutualPremium": "14999",
   "MSTExcludedCountries": ["Казахстан"],
   "MSTCountriesCount": 3,
+  "QuoteRisksCount": 3,
   "OGPOPolicyCodeNumber": "901-",
   "MSTPolicyCodeNumber": "802-",
   "mutualPolicyCodeNumber": "219-",
   "agentLoginKASKO": "Samat.kussainov@csu.org.kz",
+  "agentLoginESTATE": "Samat.kussainov@csu.org.kz",
 
   "carRegion": "Алматы",
   "carType": "Легковые",
@@ -25,6 +27,7 @@
   "holderCountry": "Казахстан",
   "holderRegion": "Алматинская область",
   "holderDocumentGivedBy": "МЮ РК",
+  "holderDocumentGivedByQuote": " Министерство юстиции Республики Казахстан ",
   "holderAddress": "Ул. Есенина, д. 10, кв. 3 Толя тест",
   "holderEmail": "a.anisimov@a-i.kz",
   "holderPhone": "77066682051",
@@ -40,5 +43,22 @@
   "insuredDriverLicenceType": "Права РК",
   "insuredIsInvalid": "Нет",
   "insuredIsPensioner": "Нет",
-  "insuredIsPDL": "Нет"
+  "insuredIsPDL": "Нет",
+
+  "beneficiaryDocumentGivedBy": "МВД РК",
+  "beneficiaryDocumentGivedByQuote": " Министерство внутренних дел Республики Казахстан ",
+  "beneficiaryAddress": "Ул. Достык 232, кв. 7",
+  "beneficiaryEmail": "a.galimova@a-i.kz",
+  "beneficiaryPhone": "77066682051",
+  "pathToTestPicture": "./resources/testPicture.jpg",
+
+  "additionalInformationForFranchise": "Франшиза применяется только в случае частичного ущерба (например, повреждение кузова, стекол, фар и т.д.).",
+  "insuranceObjectsInformation": "Автомобиль 1:\nМарка/модель: Toyota Camry\nГод выпуска: 2022\nVIN: XXXXXXXXXXXXXX\nРыночная стоимость: 10 500 000 тг.",
+  "managerComment": "Особые условия:\nВключить покрытие на территории стран СНГ.\nУчет износа запчастей при расчете возмещения не требуется.",
+  "underwriterComment": "Изменены значения в полях франшизы по повреждению, франшизы по утрате, а также добавлены риски и значение РВД.",
+  "managerCommentAfterRevision": "Внесенные изменения приняты. Прошу принять заявку на рассмотрение",
+  "underwriterName": "Уланов Евгений Николаевич",
+
+  "salesChannelsInterceptRegex": "channel-details\\?where\\[sales_channel_id_1c\\]\\[operator\\]==&where\\[sales_channel_id_1c\\]\\[value\\]=IDOnes",
+  "insuranceTypesInterceptRegex": "insurance-type-products\\?insurance_type_id=typeID"
 }
