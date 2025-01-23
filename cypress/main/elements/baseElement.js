@@ -220,8 +220,6 @@ class BaseElement {
 
     const processValuesList = (listOfValues) => {
       for (let counter = 0; counter < count; counter += 1) {
-        cy.logger(`[inf] ▶ click ${listOfValues}`);
-        cy.logger(`[inf] ▶ get random element from ${listOfValues}`);
         const randomElementText = Randomizer.getRandomElementByText(
             listOfValues,
             exceptionsTextList,
