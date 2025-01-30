@@ -85,11 +85,6 @@ class BaseElement {
     this.getElement().scrollIntoView({ offset: { top: -150, left: 0 } });
   }
 
-  scrollToBottom() { // eslint-disable-line class-methods-use-this
-    cy.logger('[inf] ▶ scroll to bottom');
-    cy.scrollTo('bottom');
-  }
-
   clearData() {
     cy.logger(`[inf] ▶ clear ${this.#elementName}`);
     this.getElement().clear();
@@ -120,28 +115,21 @@ class BaseElement {
     this.getElement().type(`${data}{enter}`);
   }
 
+  uploadFile(path) {
+    cy.logger(`[inf] ▶ upload file with ${this.#elementName}`);
+    this.getElement().selectFile(path, { force: true });
+  }
+
   elementIsVisible() {
     return this.getElement().isVisible();
   }
 
-  waitElementIsExisting() {
-    return cy.waitIsExisting(this.#elementLocator.value);
-  }
-
-  waitElementIsEnabled() {
-    cy.logger(`[inf] ▶️ wait ${this.#elementName} is enabled:`);
-    return this.getElement().waitIsEnabled().then((isEnabled) => {
-      cy.logger(
-        isEnabled
-          ? `[inf]   ${this.#elementName} is enabled`
-          : `[inf]   ${this.#elementName} is not enabled`,
-      );
-      return cy.wrap(isEnabled);
-    });
-  }
-
   elementIsExisting() {
     return cy.isExisting(this.#elementLocator.value);
+  }
+
+  waitElementIsExisting() {
+    return cy.waitIsExisting(this.#elementLocator.value);
   }
 
   elementIsDisplayed() {
@@ -160,9 +148,37 @@ class BaseElement {
     });
   }
 
+  waitElementIsDisplayed() {
+    cy.logger(`[inf] ▶ wait ${this.#elementName} is displayed:`);
+    return this.waitElementIsExisting().then((isExisting) => {
+      const notDisplayedLog = `[inf]   ${this.#elementName} is not displayed`;
+      if (isExisting) {
+        return this.elementIsVisible().then((isVisible) => {
+          cy.logger(isVisible ? `[inf]   ${this.#elementName} is displayed` : notDisplayedLog);
+          return cy.wrap(isVisible);
+        });
+      }
+
+      cy.logger(notDisplayedLog);
+      return cy.wrap(isExisting);
+    });
+  }
+
   elementIsEnabled() {
     cy.logger(`[inf] ▶ check ${this.#elementName} is enabled:`);
     return this.getElement().isEnabled().then((isEnabled) => {
+      cy.logger(
+        isEnabled
+          ? `[inf]   ${this.#elementName} is enabled`
+          : `[inf]   ${this.#elementName} is not enabled`,
+      );
+      return cy.wrap(isEnabled);
+    });
+  }
+
+  waitElementIsEnabled() {
+    cy.logger(`[inf] ▶ wait ${this.#elementName} is enabled:`);
+    return this.getElement().waitIsEnabled().then((isEnabled) => {
       cy.logger(
         isEnabled
           ? `[inf]   ${this.#elementName} is enabled`
@@ -199,16 +215,14 @@ class BaseElement {
 
     if (exceptionElementsList.length !== 0) {
       exceptionElementsList.forEach((element) => this.getElement(element.#elementLocator)
-        .then(($el) => exceptionsTextList.push($el.text())));
+          .then(($el) => exceptionsTextList.push($el.text())));
     }
 
     const processValuesList = (listOfValues) => {
       for (let counter = 0; counter < count; counter += 1) {
-        cy.logger(`[inf] ▶ click ${listOfValues}`);
-        cy.logger(`[inf] ▶ get random element from ${listOfValues}`);
         const randomElementText = Randomizer.getRandomElementByText(
-          listOfValues,
-          exceptionsTextList,
+            listOfValues,
+            exceptionsTextList,
         );
         exceptionsTextList.push(randomElementText);
         selectedElements.push(randomElementText);
@@ -275,11 +289,13 @@ class BaseElement {
   }
 
   // lazy method for new calendar component that doesn't open calendar at the start
-  flipMonthsMST(rightArrowElement, monthIncrement) {
-    const monthIncrementMST = monthIncrement - 1;
-    for (let i = 0; i < monthIncrementMST; i += 1) {
-      cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
-      this.getElement(rightArrowElement.#elementLocator).click();
+  flipMonthsMST(rightArrowElement, startMonthDifference, finishMonthDifference) {
+    if (startMonthDifference < finishMonthDifference) {
+      const startToFinishMonthDifference = finishMonthDifference - startMonthDifference;
+      for (let i = 0; i < startToFinishMonthDifference; i += 1) {
+        cy.logger(`[inf] ▶ click ${rightArrowElement.#elementName}`);
+        this.getElement(rightArrowElement.#elementLocator).click();
+      }
     }
   }
 
@@ -332,11 +348,6 @@ class BaseElement {
       cy.logger(`[inf] ▶ click ${text}`);
       this.getElements().contains(new RegExp(`${text}`, 'g')).click({ force: true });
     }
-  }
-
-  uploadFile(path) {
-    cy.logger(`[inf] ▶️ upload file with ${this.#elementName}`);
-    this.getElement().selectFile(path, { force: true });
   }
 }
 

@@ -3,6 +3,7 @@ const XPATH = require('../../main/locators/baseLocatorChildren/XPATH');
 const Button = require('../../main/elements/baseElementChildren/button');
 const JSONLoader = require('../../main/utils/data/JSONLoader');
 
+
 class MainPage extends BaseForm {
   #OGPOButton;
 
@@ -12,9 +13,7 @@ class MainPage extends BaseForm {
 
   #MSTButton;
 
-  #estateButton;
-
-  #logoutButton;
+  #VMSButton;
 
   constructor() {
     super(new XPATH('//div[@class="ant-card-body"]'), 'main page');
@@ -22,9 +21,8 @@ class MainPage extends BaseForm {
     this.#mutualButton = new Button(new XPATH('//a[@href="/mutual"]'), 'Mutual button');
     this.#MSTButton = new Button(new XPATH('//a[@href="/mst/create"]'), 'MST button');
     this.#kaskoButton = new Button(new XPATH('//a[@href="/kasko/create"]'), 'kasko button');
-    this.#estateButton = new Button(new XPATH('//a[@href="/estate/create"]'), 'estate button');
+    this.#VMSButton = new Button(new XPATH('//a[@href="/vms/create"]'), 'VMS button');
     // this.#quoteButton = new Button(new XPATH('//a[@href="/quotes/create"]'), 'Quote button');
-    this.#logoutButton = new Button(new XPATH('//span[@aria-label="logout"]'), 'logout button');
   }
 
   clickOGPOButton() {
@@ -43,21 +41,18 @@ class MainPage extends BaseForm {
     this.#MSTButton.clickElement();
   }
 
-  clickEstateButton() {
-    this.#estateButton.clickElement();
+  clickVMSButton() {
+    this.#VMSButton.clickElement();
   }
 
   clickQuoteButton() { // eslint-disable-line class-methods-use-this
     // this.#quoteButton.clickElement();
+    this.#kaskoButton.waitElementIsExisting();
     if (JSONLoader.configData.environment === 'localhost') {
       cy.open('http://localhost:3000/quotes', { failOnStatusCode: false });
     } else if (JSONLoader.configData.environment === 'dev') {
       cy.open('https://adp-dev.amanat.systems/quotes', { failOnStatusCode: false });
     }
-  }
-
-  clickLogoutButton() {
-    this.#logoutButton.clickElement();
   }
 }
 
